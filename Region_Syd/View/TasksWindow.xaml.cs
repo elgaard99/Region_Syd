@@ -61,6 +61,10 @@ namespace Region_Syd.View
                 ToRegion = Region.RegionN,
             });
             lvTasks.ItemsSource = tasks;
+
+            CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvTasks.ItemsSource);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("FromRegion");
+            view.GroupDescriptions.Add(groupDescription);
         }
     }
 

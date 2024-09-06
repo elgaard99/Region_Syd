@@ -5,8 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Region_Syd.View"
         mc:Ignorable="d"
-        Title="TasksView" Height="450" Width="800">
+        Title="TasksView" Height="800" Width="1600" WindowState="Maximized">
+
+    <Window.Resources>
+        <DataTemplate x:Key="headerTemplate">
+            <TextBlock FontSize="16" Foreground="DarkBlue">
+                <TextBlock.Text>
+                    <Binding/>
+                </TextBlock.Text>
+            </TextBlock>
+        </DataTemplate>
+
+        <DataTemplate x:Key="cellTemplate" >
+            <DockPanel>
+                <TextBlock Foreground="Gold" HorizontalAlignment="Center">
+                    <TextBlock.Text>
+                        <Binding/>
+                    </TextBlock.Text>
+                </TextBlock>
+            </DockPanel>
+        </DataTemplate>
+
+        <Style TargetType="TextBlock" x:Key="columnStyle">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="Gold"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+
+
+    </Window.Resources>
+    
     <Grid>
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="20*" />
             <RowDefinition Height="60*"/>
@@ -18,10 +48,11 @@
 
 
         <!-- Row 0 -->
-        <ListView Grid.Row="1" x:Name="lvTasks" Margin="25,0,25,0" >
+        <!--
+        <ListView Grid.Row="1" x:Name="lvTasks" Margin="40,0,40,0">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Opgave ID" DisplayMemberBinding="{Binding TaskID}" />
+                    <GridViewColumn Header="Opgave ID" HeaderTemplate="{StaticResource headerTemplate}" CellTemplate="{StaticResource cellTemplate}" />
                     <GridViewColumn Header="Fra add." DisplayMemberBinding="{Binding FromAddress}" />
                     <GridViewColumn Header="Til add." DisplayMemberBinding="{Binding ToAddress}" />
                     <GridViewColumn Header="Afhentningstidspunkt" DisplayMemberBinding="{Binding PickUpTime}"/>
@@ -30,11 +61,33 @@
                     <GridViewColumn Header="Type" DisplayMemberBinding="{Binding _ClassOfTask}" />
                     <GridViewColumn Header="Fra Region" DisplayMemberBinding="{Binding FromRegion}" />
                     <GridViewColumn Header="Til Region" DisplayMemberBinding="{Binding ToRegion}" />
-            </GridView>
+                </GridView>
             </ListView.View>
-            
-        </ListView>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate>
+                                        <Expander IsExpanded="True">
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
 
+        </ListView>
+        -->
 
         <!-- Row 2 -->
         <Rectangle Grid.Row="2" Fill="DarkRed" />
@@ -42,5 +95,5 @@
         
         <TextBlock Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0" Text="Region Syd" FontSize="40"/>
     </Grid>
-
 </Window>
+
