@@ -16,23 +16,14 @@
             </TextBlock>
         </DataTemplate>
 
-        <DataTemplate x:Key="cellTemplate" >
-            <DockPanel>
-                <TextBlock Foreground="Gold" HorizontalAlignment="Center">
-                    <TextBlock.Text>
-                        <Binding/>
-                    </TextBlock.Text>
-                </TextBlock>
-            </DockPanel>
-        </DataTemplate>
+        
 
         <Style TargetType="TextBlock" x:Key="columnStyle">
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Foreground" Value="Gold"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
-
-
+        
     </Window.Resources>
     
     <Grid>
@@ -48,18 +39,28 @@
 
 
         <!-- Row 0 -->
-        <!--
+        
         <ListView Grid.Row="1" x:Name="lvTasks" Margin="40,0,40,0">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Opgave ID" HeaderTemplate="{StaticResource headerTemplate}" CellTemplate="{StaticResource cellTemplate}" />
+                    <GridViewColumn Header="Opgave ID" HeaderTemplate="{StaticResource headerTemplate}" >
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Style="{StaticResource columnStyle}">
+                                    <TextBlock.Text>
+                                        <Binding/>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <GridViewColumn Header="Fra add." DisplayMemberBinding="{Binding FromAddress}" />
                     <GridViewColumn Header="Til add." DisplayMemberBinding="{Binding ToAddress}" />
                     <GridViewColumn Header="Afhentningstidspunkt" DisplayMemberBinding="{Binding PickUpTime}"/>
                     <GridViewColumn Header="Ankomst" DisplayMemberBinding="{Binding TimeOfArrival}" />
                     <GridViewColumn Header="Opg. Beskrivelse" DisplayMemberBinding="{Binding Description}" />
                     <GridViewColumn Header="Type" DisplayMemberBinding="{Binding _ClassOfTask}" />
-                    <GridViewColumn Header="Fra Region" DisplayMemberBinding="{Binding FromRegion}" />
+                    <!--<GridViewColumn Header="Fra Region" DisplayMemberBinding="{Binding FromRegion}" />-->
                     <GridViewColumn Header="Til Region" DisplayMemberBinding="{Binding ToRegion}" />
                 </GridView>
             </ListView.View>
@@ -85,10 +86,9 @@
                     </GroupStyle.ContainerStyle>
                 </GroupStyle>
             </ListView.GroupStyle>
-
         </ListView>
-        -->
 
+            
         <!-- Row 2 -->
         <Rectangle Grid.Row="2" Fill="DarkRed" />
         
