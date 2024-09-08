@@ -14,6 +14,7 @@ namespace Region_Syd
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// Test Commit Fra Daniel
     public partial class MainWindow : Window
     {
         public MainWindow()
