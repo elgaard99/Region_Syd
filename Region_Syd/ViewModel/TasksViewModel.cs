@@ -39,10 +39,12 @@ namespace Region_Syd.ViewModel
 
         public ObservableCollection<Task> GetTasksFromRepo(DateTime? pickUpTime = null, ClassOfTask? classOfTask = null, Region? fromRegion = null, /*Region? toRegion = null*/ bool isMatched = false)
         {
-            List<Task> worklist = taskRepo.Tasks;
+            List<Task> worklist = taskRepo.Tasks.FindAll(t => t.Equals(isMatched = false));
 
 
-            return new ObservableCollection <Task> (worklist);
+
+
+            return new ObservableCollection<Task>(worklist);
         }
 
         public ObservableCollection<Ambulance> GetAmbulancesFromRepo()
