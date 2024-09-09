@@ -1,4 +1,5 @@
-﻿using Region_Syd.View;
+﻿using Region_Syd.Model;
+using Region_Syd.View;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -42,27 +43,14 @@ namespace Region_Syd.ViewModel
         public ObservableCollection<Task> GetTasksFromRepo(/*DateTime? pickUpTime = null, ClassOfTask? classOfTask = null, Region? fromRegion = null, Region? toRegion = null  bool isMatched = false*/)
         {
             TaskRepoTest taskRepo = new TaskRepoTest();
-            List<Task> worklist = taskRepo.Tasks.FindAll(FindUnmatched); //Finder alle med False i Tasks og putter dem i worklist via 
+            
+            var worklist = new ObservableCollection<Task>(taskRepo.Tasks.Where(task => !task.IsMatched).OrderBy(task => task.PickUpTime)); // !task betyder er false, uden ! finder den true. 
+            
 
-            worklist.Sort((a, b) => a.PickUpTime.CompareTo(b.PickUpTime)); //Sorterer worklist efter PickUpTime
-
-
-            return new ObservableCollection<Task>(worklist);
+            return worklist;
         }
 
-        // Explicit predicate delegate til at bruge i min lambda statement
-        private static bool FindUnmatched (Task t)
-        {
-
-            if (t.IsMatched == false)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        
 
 
 
