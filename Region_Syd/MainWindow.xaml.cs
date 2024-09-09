@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Region_Syd.View;
 
 namespace Region_Syd
 {
@@ -21,5 +24,15 @@ namespace Region_Syd
         {
             InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            TasksWindow tasksWindow = new TasksWindow();
+            tasksWindow.Show();
+            this.Close();
+
+        }
     }
+
+    
 }
