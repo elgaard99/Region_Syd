@@ -8,22 +8,88 @@
         Title="TasksView" Height="800" Width="1600" WindowState="Maximized">
 
     <Window.Resources>
-        <DataTemplate x:Key="headerTemplate">
-            <TextBlock FontSize="16" Foreground="DarkBlue">
-                <TextBlock.Text>
-                    <Binding/>
-                </TextBlock.Text>
-            </TextBlock>
-        </DataTemplate>
 
-        
-
-        <Style TargetType="TextBlock" x:Key="columnStyle">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="Foreground" Value="Gold"/>
-            <Setter Property="FontSize" Value="14"/>
+        <!-- Column Header i ListView -->
+        <Style x:Key="myControlTemplateStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Grid>
+                            <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <TextBlock Text="{TemplateBinding Content}" FontSize="18" Foreground="DarkBlue" TextAlignment="Center"/>
+                            </DockPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Margin" Value="100,0,0,0"/>
         </Style>
-        
+
+        <!-- Items i ListView -->
+        <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
+        <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
+
+        <Style TargetType="ListViewItem">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="100,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Border" Padding="2" SnapsToDevicePixels="true" Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="MouseOver" />
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected" />
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource SelectedBackgroundColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedUnfocused">
+                                        <Storyboard>
+                                            <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                                <EasingColorKeyFrame KeyTime="0" Value="{StaticResource SelectedUnfocusedColor}" />
+                                            </ColorAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <!-- Item Groups i ListView -->
+        <Style x:Key="GroupFormatting" TargetType="{x:Type GroupItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Expander IsExpanded="True">
+                            <Expander.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                </StackPanel>
+                            </Expander.Header>
+                            <ItemsPresenter />
+                        </Expander>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+        </Style>
+
     </Window.Resources>
     
     <Grid>
@@ -36,55 +102,25 @@
 
         <!-- Row 0 -->
         <Rectangle Grid.Row="0" Fill="DarkRed" />
+        <TextBlock Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0" Text="Region Syd" FontSize="40"/>
 
 
-        <!-- Row 0 -->
-        
+        <!-- Row 1 -->
         <ListView Grid.Row="1" x:Name="lvTasks" Margin="40,0,40,0">
             <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Opgave ID" HeaderTemplate="{StaticResource headerTemplate}" >
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Style="{StaticResource columnStyle}">
-                                    <TextBlock.Text>
-                                        <Binding/>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
+                <GridView ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}" AllowsColumnReorder="False">
+                    <GridViewColumn Header="Opgave ID" DisplayMemberBinding="{Binding TaskID}"/>
                     <GridViewColumn Header="Fra add." DisplayMemberBinding="{Binding FromAddress}" />
                     <GridViewColumn Header="Til add." DisplayMemberBinding="{Binding ToAddress}" />
                     <GridViewColumn Header="Afhentningstidspunkt" DisplayMemberBinding="{Binding PickUpTime}"/>
                     <GridViewColumn Header="Ankomst" DisplayMemberBinding="{Binding TimeOfArrival}" />
                     <GridViewColumn Header="Opg. Beskrivelse" DisplayMemberBinding="{Binding Description}" />
                     <GridViewColumn Header="Type" DisplayMemberBinding="{Binding _ClassOfTask}" />
-                    <!--<GridViewColumn Header="Fra Region" DisplayMemberBinding="{Binding FromRegion}" />-->
                     <GridViewColumn Header="Til Region" DisplayMemberBinding="{Binding ToRegion}" />
                 </GridView>
             </ListView.View>
             <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.ContainerStyle>
-                        <Style TargetType="{x:Type GroupItem}">
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate>
-                                        <Expander IsExpanded="True">
-                                            <Expander.Header>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
-                                                </StackPanel>
-                                            </Expander.Header>
-                                            <ItemsPresenter />
-                                        </Expander>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GroupStyle.ContainerStyle>
-                </GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource GroupFormatting}"/>
             </ListView.GroupStyle>
         </ListView>
 
@@ -92,8 +128,6 @@
         <!-- Row 2 -->
         <Rectangle Grid.Row="2" Fill="DarkRed" />
         
-        
-        <TextBlock Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0" Text="Region Syd" FontSize="40"/>
     </Grid>
 </Window>
 
