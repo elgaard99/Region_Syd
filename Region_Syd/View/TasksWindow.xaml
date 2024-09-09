@@ -40,7 +40,7 @@
 
         <!-- Row 0 -->
         
-        <ListView Grid.Row="1" x:Name="lvTasks" Margin="40,0,40,0">
+        <ListView Grid.Row="1" x:Name="lvTasks" Margin="40,0,40,0" ItemsSource="{Binding AllTasksVM}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Opgave ID" HeaderTemplate="{StaticResource headerTemplate}" >

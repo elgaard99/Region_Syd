@@ -10,10 +10,10 @@ namespace Region_Syd.ViewModel
 {
     public class TasksViewModel
     {
-        TaskRepo taskRepo;
+        TaskRepoTest taskRepo;
         AmbulanceRepo abulanceRepo;
 
-        public ObservableCollection<Task> AllTasks 
+        public ObservableCollection<Task> AllTasksVM 
         { 
             get; 
             
@@ -26,10 +26,12 @@ namespace Region_Syd.ViewModel
 
         public TasksViewModel() 
         {
-            TaskRepo taskRepo = new TaskRepo();
-            AmbulanceRepo ambulanceRepo = new AmbulanceRepo();
+            
 
-            taskRepo = new TaskRepo();
+            TaskRepoTest taskRepo = new TaskRepoTest();
+            AmbulanceRepo ambulanceRepo = new AmbulanceRepo();
+            AllTasksVM = GetTasksFromRepo();
+            
             //AllTasks = //Skal vise en sorteret ObservableCollection 
             //AllAmbulances = new ObservableCollection<Ambulance>();
 
@@ -37,8 +39,9 @@ namespace Region_Syd.ViewModel
         }
 
 
-        public ObservableCollection<Task> GetTasksFromRepo(DateTime? pickUpTime = null, ClassOfTask? classOfTask = null, Region? fromRegion = null, /*Region? toRegion = null*/ bool isMatched = false)
+        public ObservableCollection<Task> GetTasksFromRepo(/*DateTime? pickUpTime = null, ClassOfTask? classOfTask = null, Region? fromRegion = null, Region? toRegion = null */ bool isMatched = false)
         {
+            TaskRepoTest taskRepo = new TaskRepoTest();
             List<Task> worklist = taskRepo.Tasks.FindAll(t => t.Equals(isMatched = false)); //Finder alle med False i Tasks og putter dem i worklist
 
             worklist.Sort((a, b) => a.PickUpTime.CompareTo(b.PickUpTime)); //Sorterer worklist efter PickUpTime
@@ -93,11 +96,11 @@ namespace Region_Syd.ViewModel
 
     }
 
-    public class TaskRepo
+    public class TaskRepoTest
     { 
         public List<Task> Tasks;
 
-        public TaskRepo()
+        public TaskRepoTest()
         {
             Tasks = new List<Task>();
             Tasks.Add(new Task()
