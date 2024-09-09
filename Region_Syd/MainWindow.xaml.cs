@@ -30,7 +30,7 @@ namespace Region_Syd
             TasksWindow tasksWindow = new TasksWindow();
             tasksWindow.Show();
             this.Close();
-
+            
         }
     }
 
