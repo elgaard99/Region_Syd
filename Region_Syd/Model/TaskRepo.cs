@@ -8,7 +8,7 @@ namespace Region_Syd.Model
 {
     public class TaskRepo
     {
-        List<Task> AllTasks;
+        public List<Task> AllTasks;
         public TaskRepo()
         {
             AllTasks = new List<Task>();

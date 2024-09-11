@@ -29,8 +29,8 @@ namespace Region_Syd.ViewModel
         {
             TaskRepo taskRepo = new TaskRepo();
             AmbulanceRepo ambulanceRepo = new AmbulanceRepo();
-
-            taskRepo = new TaskRepo();
+            AllTasks = GetTasksFromRepo();
+            
             //AllTasks = //Skal vise en sorteret ObservableCollection 
             //AllAmbulances = new ObservableCollection<Ambulance>();
 
@@ -38,12 +38,14 @@ namespace Region_Syd.ViewModel
         }
 
 
-        public ObservableCollection<Region_Syd.Model.Task> GetTasksFromRepo(DateTime? pickUpTime = null, ClassOfTask? classOfTask = null, Region? fromRegion = null, /*Region? toRegion = null*/ bool isMatched = false)
+        public ObservableCollection<Region_Syd.Model.Task> GetTasksFromRepo(/*DateTime? pickUpTime = null, ClassOfTask? classOfTask = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
         {
-            List<Region_Syd.Model.Task> worklist = taskRepo.GetAllTasks();
+            TaskRepo taskRepo = new TaskRepo();
+            
+            var worklist = new ObservableCollection<Region_Syd.Model.Task>(taskRepo.AllTasks.Where(task => !task.IsMatched).OrderBy(task => task.Start)); // !task betyder er false, uden ! finder den true. 
+            
 
-
-            return new ObservableCollection <Region_Syd.Model.Task> (worklist);
+            return worklist;
         }
 
         public ObservableCollection<Ambulance> GetAmbulancesFromRepo()

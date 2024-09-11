@@ -42,6 +42,7 @@ namespace Test
             Assert.AreEqual(tvm.AllTasks[0], testTask[1]);
             Assert.AreEqual(tvm.AllTasks[0], testTask[2]);
         }
+        [TestMethod]
         public void TasksViewModelAllTasksIsSortedByDate()
         {
             //Assert

@@ -66,17 +66,17 @@
 
 
         <!-- Row 1 -->
-        <ListView Grid.Row="1" x:Name="lvTasks" Margin="40,0,40,0">
+        <ListView Grid.Row="1" x:Name="lvTasks" Margin="40,0,40,0" ItemsSource="{Binding AllTasks}">
             <ListView.View>
                 <GridView ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}" AllowsColumnReorder="False">
-                    <GridViewColumn Header="Opgave ID" DisplayMemberBinding="{Binding TaskID}"/>
-                    <GridViewColumn Header="Fra add." DisplayMemberBinding="{Binding FromAddress}" />
-                    <GridViewColumn Header="Til add." DisplayMemberBinding="{Binding ToAddress}" />
-                    <GridViewColumn Header="Afhentningstidspunkt" DisplayMemberBinding="{Binding PickUpTime}"/>
-                    <GridViewColumn Header="Ankomst" DisplayMemberBinding="{Binding TimeOfArrival}" />
+                    <GridViewColumn Header="Opgave ID" DisplayMemberBinding="{Binding RegionTaskId}"/>
+                    <GridViewColumn Header="Fra add." DisplayMemberBinding="{Binding StartAddress}" />
+                    <GridViewColumn Header="Til add." DisplayMemberBinding="{Binding EndAddress}" />
+                    <GridViewColumn Header="Afhentningstidspunkt" DisplayMemberBinding="{Binding Start}"/>
+                    <GridViewColumn Header="Ankomst" DisplayMemberBinding="{Binding Finish}" />
                     <GridViewColumn Header="Opg. Beskrivelse" DisplayMemberBinding="{Binding Description}" />
-                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding _ClassOfTask}" />
-                    <GridViewColumn Header="Til Region" DisplayMemberBinding="{Binding ToRegion}" />
+                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding TaskType}" />
+                    <GridViewColumn Header="Til Region" DisplayMemberBinding="{Binding EndRegion}" />
                 </GridView>
             </ListView.View>
             <ListView.GroupStyle>
