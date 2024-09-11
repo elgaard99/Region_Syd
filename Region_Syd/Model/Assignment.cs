@@ -55,9 +55,9 @@ namespace Region_Syd.Model
 			set { _description = value; }
 		}
 
-		private AssignmentType _assignmentType;
+		private AssignmentTypeEnum _assignmentType;
 
-		public  AssignmentType AssignmentType
+		public  AssignmentTypeEnum AssignmentType
 		{
 			get { return _assignmentType; }
 			set { _assignmentType = value; }

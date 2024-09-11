@@ -10,7 +10,7 @@ namespace Region_Syd.ViewModel
 {
     public class AssignmentsViewModel
     {
-        public AssignmentRepo _assignmentRepo;
+        AssignmentRepo _assignmentRepo;
         AmbulanceRepo _ambulanceRepo;
 
         public ObservableCollection<Region_Syd.Model.Assignment> AllAssignments 
@@ -38,12 +38,15 @@ namespace Region_Syd.ViewModel
 
         public void SortAssignmentsByStart()
         {
-            throw new NotImplementedException();
+
+            AllAssignments.OrderBy(assignment => assignment.Start);
+
         }
+
         public ObservableCollection<Region_Syd.Model.Assignment> GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
         {
             List<Region_Syd.Model.Assignment> _listOfAssignments = _assignmentRepo.GetAllAssignments();
-            var worklist = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched).OrderBy(assignment => assignment.Start)); // !assignment betyder er false, uden ! finder den true. 
+            var worklist = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched)); // !assignment betyder er false, uden ! finder den true. 
             
 
             return worklist;
@@ -53,28 +56,6 @@ namespace Region_Syd.ViewModel
         {
             throw new NotImplementedException();
         }
-
-    }
-
-    public class Ambulance
-    {
-
-    }
-
-    public class AmbulanceRepo
-    {
-        //public List<Ambulance> Ambulances;
-
-        //public AmbulanceRepo()
-        //{
-        //    Ambulances = new List<Ambulace>();
-        //    Ambulances.Add(new Ambulance()
-        //    {
-        //        AmbulanceID = "Amb2",
-        //         = "Sygehus Syd",
-                
-
-        //    });
 
     }
 }

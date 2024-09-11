@@ -13,7 +13,7 @@ namespace Region_Syd.Model
             RM,
             RN
         }
-        public enum AssignmentType
+        public enum AssignmentTypeEnum
         {
             A,
             B, 
