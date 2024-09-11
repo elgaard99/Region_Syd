@@ -27,8 +27,8 @@ namespace Region_Syd
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            TasksWindow tasksWindow = new TasksWindow();
-            tasksWindow.Show();
+            AssignmentsWindow assignmentsWindow = new AssignmentsWindow();
+            assignmentsWindow.Show();
             this.Close();
             
         }

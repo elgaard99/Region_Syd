@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Region_Syd.Model
 {
-    public class Task
+    public class Assignment
     {
-		private string _regionTaskId;
+		private string _regionAssignmentId;
 
-		public string RegionTaskId
+		public string RegionAssignmentId
 		{
-			get { return _regionTaskId; }
-			set { _regionTaskId = value; }
+			get { return _regionAssignmentId; }
+			set { _regionAssignmentId = value; }
 		}
 
 		private string _startAddress;
@@ -56,12 +55,12 @@ namespace Region_Syd.Model
 			set { _description = value; }
 		}
 
-		private TaskType _taskType;
+		private AssignmentType _assignmentType;
 
-		public  TaskType TaskType
+		public  AssignmentType AssignmentType
 		{
-			get { return _taskType; }
-			set { _taskType = value; }
+			get { return _assignmentType; }
+			set { _assignmentType = value; }
 		}
 
 		private RegionEnum _startRegion;

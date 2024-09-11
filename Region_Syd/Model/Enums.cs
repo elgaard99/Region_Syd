@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Region_Syd.Model
 {
@@ -14,7 +13,7 @@ namespace Region_Syd.Model
             RM,
             RN
         }
-        public enum TaskType
+        public enum AssignmentType
         {
             A,
             B, 

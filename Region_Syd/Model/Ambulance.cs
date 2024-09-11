@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Region_Syd.Model
 {
@@ -22,19 +21,19 @@ namespace Region_Syd.Model
 			set { _ambulanceId = value; }
 		}
 
-		public List<Task> PlannedTasks = new List<Task>();
+		public List<Assignment> PlannedAssignments = new List<Assignment>();
 
-		public void AddToPlannedTasks(Task task)
+		public void AddToPlannedAssignments(Assignment assignment)
 		{
-			PlannedTasks.Add(task);
+			PlannedAssignments.Add(assignment);
 		}
-		public List<Task> GetPlannedTasks()
+		public List<Assignment> GetPlannedAssignments()
 		{
-			return PlannedTasks;
+			return PlannedAssignments;
 		}
-		public void RemovePlannedTask(Task task)
+		public void RemovePlannedAssignment(Assignment assignment)
 		{
-			PlannedTasks.Remove(task);
+			PlannedAssignments.Remove(assignment);
 		}
 	}
 }

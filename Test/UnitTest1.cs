@@ -1,55 +1,76 @@
 using Region_Syd.Model;
 using Region_Syd.ViewModel;
+using System.Collections.ObjectModel;
 
 namespace Test
 {
     [TestClass]
     public class UnitTest1
     {
-        Region_Syd.Model.Task TaskA, TaskB, TaskC;
+        Region_Syd.Model.Assignment AssignmentA, AssignmentB, AssignmentC;
         MainViewModel mvm;
-        TasksViewModel tvm;
+        AssignmentsViewModel tvm;
+        AssignmentRepo _assignmentRepo;
 
         [TestInitialize]
         public void Init()
         {
             //Arrange
             mvm = new MainViewModel();
-            tvm = new TasksViewModel();
-            TaskA = new Region_Syd.Model.Task(); //Der er ikke lavet en konstruktor så der kan være der skal sættes parameter ind her
-            TaskB = new Region_Syd.Model.Task(); //Der er ikke lavet en konstruktor så der kan være der skal sættes parameter ind her
-            TaskC = new Region_Syd.Model.Task(); //Der er ikke lavet en konstruktor så der kan være der skal sættes parameter ind her
-            tvm.taskRepo.AddToAllTasks(TaskA);
-            tvm.taskRepo.AddToAllTasks(TaskB);
-            tvm.taskRepo.AddToAllTasks(TaskC);
+            tvm = new AssignmentsViewModel();
+            AssignmentA = new Region_Syd.Model.Assignment() 
+            {
+                RegionAssignmentId = "A",
+                Start = DateTime.Now,
+                IsMatched = true,
+            };
+            AssignmentB = new Region_Syd.Model.Assignment()
+            {
+                RegionAssignmentId = "B",
+                Start = DateTime.Now.AddHours(1),
+                IsMatched = true,
+            };
+            AssignmentB = new Region_Syd.Model.Assignment()
+            {
+                RegionAssignmentId = "C",
+                Start = DateTime.Now.AddHours(5),
+                IsMatched = false,
+            };
+            AssignmentC = new Region_Syd.Model.Assignment();
+            _assignmentRepo = new AssignmentRepo();
+            _assignmentRepo.AddToAllAssignments(AssignmentA);
+            _assignmentRepo.AddToAllAssignments(AssignmentB);
+            _assignmentRepo.AddToAllAssignments(AssignmentC);
+
+            tvm._assignmentRepo.AddToAllAssignments(AssignmentA);
+            tvm._assignmentRepo.AddToAllAssignments(AssignmentB);
+            tvm._assignmentRepo.AddToAllAssignments(AssignmentC);
         }
         [TestMethod]
 
-        public void TasksAddedToRepo()
+        public void AssignmentsAddedToRepo()
         {
             //Assert
-            List<Region_Syd.Model.Task> testTask = tvm.taskRepo.GetAllTasks();
-            Assert.AreEqual(TaskA, testTask[0]);
-            Assert.AreEqual(TaskB, testTask[1]);
-            Assert.AreEqual(TaskC, testTask[2]);
+            List<Region_Syd.Model.Assignment> testAssignment = _assignmentRepo.GetAllAssignments();
+            Assert.AreEqual(AssignmentA, testAssignment[0]);
+            Assert.AreEqual(AssignmentB, testAssignment[1]);
+            Assert.AreEqual(AssignmentC, testAssignment[2]);
         }
         [TestMethod]
-        public void RepoTaskEqualsTasksViewModel()
+        public void GetFilteredAssignmentsFromRepoWhenAssignmentsAreUnmatchedReturnsObservableCollection()
         {
             //Assert
-            List<Region_Syd.Model.Task> testTask = tvm.taskRepo.GetAllTasks();
-            Assert.AreEqual(tvm.AllTasks[0], testTask[0]);
-            Assert.AreEqual(tvm.AllTasks[0], testTask[1]);
-            Assert.AreEqual(tvm.AllTasks[0], testTask[2]);
+            ObservableCollection<Region_Syd.Model.Assignment> testAssignment = tvm.GetFilteredAssignmentsFromRepo();
+            Assert.IsTrue(testAssignment.Count == 4);
         }
         [TestMethod]
-        public void TasksViewModelAllTasksIsSortedByDate()
+        public void AssignmentsViewModelAllAssignmentsIsSortedByDate()
         {
             //Assert
 
-            //Assert.IsTrue(tvm.AllTasks[0].PickUpTime.Date < tvm.AllTasks[1].PickUpTime.Date); //Ved ikke om man faktisk kan sige det således, men det var mit bedste bud.
-            DateTime dateTimeA = TaskA.Start;
-            DateTime dateTimeB = TaskB.Start;
+            //Assert.IsTrue(tvm.AllAssignments[0].PickUpTime.Date < tvm.AllAssignments[1].PickUpTime.Date); //Ved ikke om man faktisk kan sige det således, men det var mit bedste bud.
+            DateTime dateTimeA = AssignmentA.Start;
+            DateTime dateTimeB = AssignmentB.Start;
             Assert.IsTrue(0 > DateTime.Compare(dateTimeA, dateTimeB));
         }
     }
