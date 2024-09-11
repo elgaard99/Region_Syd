@@ -9,20 +9,25 @@
 
     <Window.Resources>
 
-        <!-- Column Header i ListView -->
+        <Style x:Key="ColumnHeaderTextStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+        </Style>
+
         <Style x:Key="myControlTemplateStyle" TargetType="{x:Type GridViewColumnHeader}">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
                         <Grid>
                             <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Text="{TemplateBinding Content}" FontSize="18" Foreground="DarkBlue" TextAlignment="Center"/>
+                                <TextBlock Text="{TemplateBinding Content}" Style="{StaticResource ColumnHeaderTextStyle}"/>
                             </DockPanel>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Margin" Value="100,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
         </Style>
 
         <!-- Items i ListView -->
