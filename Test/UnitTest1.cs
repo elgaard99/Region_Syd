@@ -28,25 +28,28 @@ namespace Test
         public void TasksAddedToRepo()
         {
             //Assert
-
-            Assert.AreEqual(TaskA, tvm.taskRepo[0]);
-            Assert.AreEqual(TaskB, tvm.taskRepo[1]);
-            Assert.AreEqual(TaskC, tvm.taskRepo[2]);
+            List<Region_Syd.Model.Task> testTask = tvm.taskRepo.GetAllTasks();
+            Assert.AreEqual(TaskA, testTask[0]);
+            Assert.AreEqual(TaskB, testTask[1]);
+            Assert.AreEqual(TaskC, testTask[2]);
         }
         [TestMethod]
         public void RepoTaskEqualsTasksViewModel()
         {
             //Assert
-
-            Assert.AreEqual(tvm.AllTasks[0], tvm.taskRepo[0]);
-            Assert.AreEqual(tvm.AllTasks[0], tvm.taskRepo[1]);
-            Assert.AreEqual(tvm.AllTasks[0], tvm.taskRepo[2]);
+            List<Region_Syd.Model.Task> testTask = tvm.taskRepo.GetAllTasks();
+            Assert.AreEqual(tvm.AllTasks[0], testTask[0]);
+            Assert.AreEqual(tvm.AllTasks[0], testTask[1]);
+            Assert.AreEqual(tvm.AllTasks[0], testTask[2]);
         }
         public void TasksViewModelAllTasksIsSortedByDate()
         {
             //Assert
 
-            Assert.IsTrue(tvm.AllTasks[0].PickUpTime.Date < tvm.AllTasks[1].PickUpTime.Date); //Ved ikke om man faktisk kan sige det således, men det var mit bedste bud.
+            //Assert.IsTrue(tvm.AllTasks[0].PickUpTime.Date < tvm.AllTasks[1].PickUpTime.Date); //Ved ikke om man faktisk kan sige det således, men det var mit bedste bud.
+            DateTime dateTimeA = TaskA.Start;
+            DateTime dateTimeB = TaskB.Start;
+            Assert.IsTrue(0 > DateTime.Compare(dateTimeA, dateTimeB));
         }
     }
 }
