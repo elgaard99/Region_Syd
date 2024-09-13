@@ -81,6 +81,7 @@
                     <GridViewColumn Header="Ankomst" DisplayMemberBinding="{Binding Finish}" />
                     <GridViewColumn Header="Opg. Beskrivelse" DisplayMemberBinding="{Binding Description}" />
                     <GridViewColumn Header="Type" DisplayMemberBinding="{Binding AssignmentType}" />
+                    <GridViewColumn Header="Fra Region" DisplayMemberBinding="{Binding StartRegion}" />
                     <GridViewColumn Header="Til Region" DisplayMemberBinding="{Binding EndRegion}" />
                 </GridView>
             </ListView.View>
