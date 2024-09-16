@@ -62,29 +62,19 @@ namespace Region_Syd.ViewModel
 
         public void CombineAssignments(Assignment assignment1, Assignment assignment2)
         {
-            if (DateTime.Compare(assignment1.Start, assignment2.Start) > 0) //assignment 1 skal have 2's ambulance
-            {
-                _assignmentRepo.ReassignAmbulance(assignment1, assignment2.Ambulance);
-                SetIsMatchedTrue(assignment1, assignment2);
+                _assignmentRepo.ReassignAmbulance(assignment1, assignment2);
+                _assignmentRepo.SetIsMatchedTrue(assignment1, assignment2);
                 UpdateAllAssignments();
                 SortAssignmentsByStart();
-            }
-            else if (DateTime.Compare(assignment1.Start, assignment2.Start) < 0) //assignment 2 skal have 1's ambulance
-            {
-                _assignmentRepo.ReassignAmbulance(assignment2, assignment1.Ambulance);
-                SetIsMatchedTrue(assignment1, assignment2);
-                UpdateAllAssignments();
-                SortAssignmentsByStart();
-            }
-            else { CantCombine(); }
         }
-
+        /*
         public void CantCombine()
         {
             MessageBox.Show("Denne kombination er ikke mulig.", "Kombinationsfejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+        */
 
-        public void UpdateAllAssignments() 
+        public void UpdateAllAssignments()
         {
             AllAssignments = GetFilteredAssignmentsFromRepo();
         }
