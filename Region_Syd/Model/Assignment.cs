@@ -85,5 +85,11 @@ namespace Region_Syd.Model
 			set { _isMatched = value; }
 		}
 
+		private Ambulance _ambulance; //lige tilføjet en ambulance
+		public Ambulance Ambulance
+		{
+			get { return _ambulance; }
+			set { _ambulance = value; }
+		}
 	}
 }

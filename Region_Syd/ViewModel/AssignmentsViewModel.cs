@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using Region_Syd.Model;
+using System.Windows;
 
 namespace Region_Syd.ViewModel
 {
@@ -28,12 +29,14 @@ namespace Region_Syd.ViewModel
         {
             _assignmentRepo = new AssignmentRepo();
             AmbulanceRepo ambulanceRepo = new AmbulanceRepo();
-            AllAssignments = GetFilteredAssignmentsFromRepo();
-            
+            UpdateAllAssignments();
+            SortAssignmentsByStart();
+
+
             //AllAssignments = //Skal vise en sorteret ObservableCollection 
             //AllAmbulances = new ObservableCollection<Ambulance>();
 
-            
+
         }
 
         public void SortAssignmentsByStart()
@@ -57,5 +60,33 @@ namespace Region_Syd.ViewModel
             throw new NotImplementedException();
         }
 
+        public void CombineAssignments(Assignment assignment1, Assignment assignment2)
+        {
+            if (DateTime.Compare(assignment1.Start, assignment2.Start) > 0) //assignment 1 skal have 2's ambulance
+            {
+                _assignmentRepo.ReassignAmbulance(assignment1, assignment2.Ambulance);
+                SetIsMatchedTrue(assignment1, assignment2);
+                UpdateAllAssignments();
+                SortAssignmentsByStart();
+            }
+            else if (DateTime.Compare(assignment1.Start, assignment2.Start) < 0) //assignment 2 skal have 1's ambulance
+            {
+                _assignmentRepo.ReassignAmbulance(assignment2, assignment1.Ambulance);
+                SetIsMatchedTrue(assignment1, assignment2);
+                UpdateAllAssignments();
+                SortAssignmentsByStart();
+            }
+            else { CantCombine(); }
+        }
+
+        public void CantCombine()
+        {
+            MessageBox.Show("Denne kombination er ikke mulig.", "Kombinationsfejl", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
+        public void UpdateAllAssignments() 
+        {
+            AllAssignments = GetFilteredAssignmentsFromRepo();
+        }
     }
 }
