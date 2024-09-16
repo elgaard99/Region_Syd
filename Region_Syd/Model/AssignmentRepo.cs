@@ -68,8 +68,15 @@ namespace Region_Syd.Model
 
         public void ReassignAmbulance(Assignment a1, Assignment a2)
         {
-            a2.AmbulanceId = a1.AmbulanceId;
-        }
+			if (DateTime.Compare(a1.Start, a2.Start) > 0) //assignment 1 skal have 2's ambulance
+			{
+                a1.AmbulanceId = a2.AmbulanceId;
+			}
+			else if (DateTime.Compare(a1.Start, a2.Start) < 0) //assignment 2 skal have 1's ambulance
+			{
+                a2.AmbulanceId = a1.AmbulanceId;
+			}
+		}
         
         public void SetIsMatchedTrue (Assignment a1, Assignment a2)
         {
