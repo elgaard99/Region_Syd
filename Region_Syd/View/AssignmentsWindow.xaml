@@ -95,9 +95,10 @@
 
 		<!-- Row 1 -->
 		<ListView Grid.Row="1"
-				  x:Name="lvAssignments"
+				  x:Name="lwAssignments"
 				  Margin="40,0,40,0"
-				  ItemsSource="{Binding AllAssignments}">
+				  ItemsSource="{Binding AllAssignments}"
+				  SelectedItem="lwSelectedItem">
 			<ListView.View>
 				<GridView ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}"
 						  AllowsColumnReorder="False">
