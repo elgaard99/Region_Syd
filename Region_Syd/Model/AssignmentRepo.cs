@@ -65,5 +65,16 @@ namespace Region_Syd.Model
         {
             _allAssignments.Remove(assignment);
         }
+
+        public void ReassignAmbulance(Assignment a1, Assignment a2)
+        {
+            a2.AmbulanceId = a1.AmbulanceId;
+        }
+        
+        public void SetIsMatchedTrue (Assignment a1, Assignment a2)
+        {
+            a1.IsMatched = true;
+            a2.IsMatched = true;
+        }
     }
 }

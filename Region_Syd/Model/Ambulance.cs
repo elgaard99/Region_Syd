@@ -21,19 +21,16 @@ namespace Region_Syd.Model
 			set { _ambulanceId = value; }
 		}
 
-		public List<Assignment> PlannedAssignments = new List<Assignment>();
+		public Ambulance()
+		{
 
-		public void AddToPlannedAssignments(Assignment assignment)
-		{
-			PlannedAssignments.Add(assignment);
 		}
-		public List<Assignment> GetPlannedAssignments()
+		
+		public Ambulance(RegionEnum region, string id)
 		{
-			return PlannedAssignments;
+			RegionId = region;
+			AmbulanceId = id;
 		}
-		public void RemovePlannedAssignment(Assignment assignment)
-		{
-			PlannedAssignments.Remove(assignment);
-		}
+
 	}
 }
