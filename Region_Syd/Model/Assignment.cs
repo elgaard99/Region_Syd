@@ -15,6 +15,16 @@ namespace Region_Syd.Model
 			set { _regionAssignmentId = value; }
 		}
 
+		private string _ambulanceId;
+
+		public string AmbulanceId
+		{
+			get { return _ambulanceId; }
+			set { _ambulanceId = value; }
+		}
+
+
+
 		private string _startAddress;
 
 		public string StartAddress
@@ -84,5 +94,23 @@ namespace Region_Syd.Model
 			get { return _isMatched; }
 			set { _isMatched = value; }
 		}
+
+		public Assignment() { }
+
+		public Assignment (string id, string startAddress, string endAddress, DateTime start, DateTime finish, string description, AssignmentTypeEnum type, RegionEnum startRegion, RegionEnum endRegion, bool isMatched, string ambulanceId)
+		{
+			RegionAssignmentId = id;
+			StartAddress = startAddress;
+			EndAddress = endAddress;
+			Start = start;
+			Finish = finish;
+			Description = description;
+			AssignmentType = type;
+			StartRegion = startRegion;
+			EndRegion = endRegion;
+			IsMatched = isMatched;
+			AmbulanceId = ambulanceId;
+		}
+
 	}
 }
