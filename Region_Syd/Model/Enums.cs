@@ -20,5 +20,17 @@ namespace Region_Syd.Model
             C,
             D
         }
+        
+        public enum RegionBorderCross
+        {
+            NorMid,
+            MidNor,
+            MidSyd,
+            SydMid,
+            SydSjl,
+            SjlSyd,
+            SjlHov,
+            HovSjl,
+        }
    
 }

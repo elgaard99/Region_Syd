@@ -85,5 +85,19 @@ namespace Region_Syd.Model
 			set { _isMatched = value; }
 		}
 
+		
+		
+		
+		private bool[] _regionsPassed; // En assignmentment fra Nord til Syd vil være True på 0 og 2 (Se Enum RegionBorderCross)
+
+        public  bool[] RegionsPassed
+		{
+			get { return _regionsPassed; }
+			set { _regionsPassed = value; }
+		}
+
+
+
+
 	}
 }
