@@ -18,6 +18,7 @@ namespace Region_Syd.Model
                 EndAddress = "Riget",
                 Start = new DateTime(2024, 09, 06, 10, 40, 00),
                 Finish = new DateTime(2024, 09, 06, 13, 40, 00),
+                // Description er maks 31 chars for at vises korrekt i view
                 Description = "PAtienten er PsyKOtisK",
                 AssignmentType = AssignmentTypeEnum.C,
                 StartRegion = RegionEnum.RSj,
@@ -33,7 +34,8 @@ namespace Region_Syd.Model
                 EndAddress = "Sygehus Syd",
                 Start = new DateTime(2024, 09, 06, 14, 00, 00),
                 Finish = new DateTime(2024, 09, 06, 17, 30, 00),
-                Description = "Kræver forsigtig kørsel",
+				// Description er maks 31 chars for at vises korrekt i view
+				Description = "Kræver forsigtig kørsel",
                 AssignmentType = AssignmentTypeEnum.D,
                 StartRegion = RegionEnum.RH,
                 EndRegion = RegionEnum.RSj,
@@ -46,7 +48,8 @@ namespace Region_Syd.Model
                 EndAddress = "Kongensgade 118, 9320 Hjallerup",
                 Start = new DateTime(2024, 09, 05, 15, 00, 00),
                 Finish = new DateTime(2024, 09, 06, 13, 00, 00),
-                Description = "Kræver ilt i ambulancen",
+				// Description er maks 31 chars for at vises korrekt i view
+				Description = "Kræver ilt i ambulancen",
                 AssignmentType = AssignmentTypeEnum.D,
                 StartRegion = RegionEnum.RSj,
                 EndRegion = RegionEnum.RN,

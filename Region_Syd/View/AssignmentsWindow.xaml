@@ -47,6 +47,14 @@
 					Value="30" />
 		</Style>
 
+		<Style TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment"
+					Value="Center" />
+			<Setter Property="BorderBrush"
+					Value="Black" />
+			<Setter Property="BorderThickness"
+					Value="1,1,1,1" />
+		</Style>
 
 		<!-- Item Groups i ListView -->
 		<Style x:Key="GroupFormatting"
@@ -103,23 +111,32 @@
 				<GridView ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}"
 						  AllowsColumnReorder="False">
 					<GridViewColumn Header="Opgave ID"
-									DisplayMemberBinding="{Binding RegionAssignmentId}" />
+									DisplayMemberBinding="{Binding RegionAssignmentId}" 
+									Width="90"/>
 					<GridViewColumn Header="Fra add."
-									DisplayMemberBinding="{Binding StartAddress}" />
+									DisplayMemberBinding="{Binding StartAddress}"
+									Width="300" />
 					<GridViewColumn Header="Til add."
-									DisplayMemberBinding="{Binding EndAddress}" />
+									DisplayMemberBinding="{Binding EndAddress}"
+									Width="300" />
 					<GridViewColumn Header="Afhentningstidspunkt"
-									DisplayMemberBinding="{Binding Start}" />
+									DisplayMemberBinding="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}"
+									Width="210" />
 					<GridViewColumn Header="Ankomst"
-									DisplayMemberBinding="{Binding Finish}" />
-					<GridViewColumn Header="Opg. Beskrivelse"
-									DisplayMemberBinding="{Binding Description}" />
+									DisplayMemberBinding="{Binding Finish, StringFormat={}{0:dd/MM/yy HH:mm}}"
+									Width="210" />
 					<GridViewColumn Header="Type"
-									DisplayMemberBinding="{Binding AssignmentType}" />
+									DisplayMemberBinding="{Binding AssignmentType}"
+									Width="50" />
 					<GridViewColumn Header="Fra Region"
-									DisplayMemberBinding="{Binding StartRegion}" />
+									DisplayMemberBinding="{Binding StartRegion}"
+									Width="100" />
 					<GridViewColumn Header="Til Region"
-									DisplayMemberBinding="{Binding EndRegion}" />
+									DisplayMemberBinding="{Binding EndRegion}"
+									Width="100" />
+					<GridViewColumn Header="Opg. Beskrivelse"
+									DisplayMemberBinding="{Binding Description}"
+									Width="450" />
 				</GridView>
 			</ListView.View>
 			<ListView.GroupStyle>
