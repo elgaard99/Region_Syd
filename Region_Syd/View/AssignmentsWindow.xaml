@@ -7,8 +7,8 @@
 		mc:Ignorable="d"
 		Title="AssignmentsView"
 		Height="800"
-		Width="1600"
-		WindowState="Maximized">
+		Width="1600">
+    <!-- WindowState="Maximized"> -->
 
 	<Window.Resources>
 
@@ -103,10 +103,10 @@
 
 		<!-- Row 1 -->
 		<ListView Grid.Row="1"
-				  x:Name="lwAssignments"
+				  x:Name="lvAssignments"
 				  Margin="40,0,40,0"
-				  ItemsSource="{Binding AllAssignments}"
-				  SelectedItem="lwSelectedItem">
+				  ItemsSource="{ Binding AllAssignments }"
+				  SelectedItem="{ Binding SelectedAssignment }">
 			<ListView.View>
 				<GridView ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}"
 						  AllowsColumnReorder="False">
@@ -149,18 +149,25 @@
 		<Rectangle Grid.Row="2"
 				   Fill="DarkRed" />
 
-		<TextBlock HorizontalAlignment="Left"
+        <TextBlock HorizontalAlignment="Left"
 				   Margin="248,27,0,0"
 				   Grid.Row="2"
 				   TextWrapping="Wrap"
 				   Name="tbPick1"
-				   Text="{Binding ElementName=lwAssignments, Path=SelectedItem}"
 				   VerticalAlignment="Top"
 				   Height="52"
 				   Width="856"
 				   Background="White"
-				   FontSize="24" />
-		<Label Content="1"
+				   FontSize="24">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="Assignment1.RegionAssignmentId" />
+                    <Binding Path="Assignment1.Start" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        
+        <Label Content="1"
 			   HorizontalAlignment="Left"
 			   Margin="138,27,0,0"
 			   Grid.Row="2"
@@ -169,38 +176,50 @@
 			   Width="84"
 			   Background="White"
 			   FontSize="24"
-			   HorizontalContentAlignment="Center" />
+			   HorizontalContentAlignment="Center" 
+               />
 		<Button Content="Tilføj markeret"
-				Name="btAdd1"
+				Name="btnAdd1"
 				HorizontalAlignment="Left"
 				Margin="1179,27,0,0"
 				Grid.Row="2"
 				VerticalAlignment="Top"
 				Height="52"
 				Width="83"
-				Background="#FF65FF00" />
+				Background="#FF65FF00" 
+                Command="{ Binding AddAssignment1Command }"
+                />
 		<Button Content="Fjern"
-				Name="btRemove1"
+				Name="btnRemove1"
 				HorizontalAlignment="Left"
 				Margin="1276,27,0,0"
 				Grid.Row="2"
 				VerticalAlignment="Top"
 				Height="52"
 				Width="82"
-				Background="#FFFF2F00" />
+				Background="#FFFF2F00" 
+                Command="{ Binding RemoveAssignment1Command }"
+                />
 
 		<TextBlock HorizontalAlignment="Left"
 				   Margin="248,95,0,0"
 				   Grid.Row="2"
 				   TextWrapping="Wrap"
 				   Name="tbPick2"
-				   Text="Pick 2"
 				   VerticalAlignment="Top"
 				   Height="52"
 				   Width="856"
 				   Background="White"
-				   FontSize="24" />
-		<Label Content="2"
+				   FontSize="24">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="Assignment2.RegionAssignmentId" />
+                    <Binding Path="Assignment2.Start" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        
+        <Label Content="2"
 			   HorizontalAlignment="Left"
 			   Margin="138,95,0,0"
 			   Grid.Row="2"
@@ -209,33 +228,41 @@
 			   Width="84"
 			   Background="White"
 			   FontSize="24"
-			   HorizontalContentAlignment="Center" />
+			   HorizontalContentAlignment="Center" 
+               />
 		<Button Content="Tilføj markeret"
-				Name="btAdd2"
+				Name="btnAdd2"
 				HorizontalAlignment="Left"
 				Margin="1179,95,0,0"
 				Grid.Row="2"
 				VerticalAlignment="Top"
 				Height="52"
 				Width="83"
-				Background="#FF65FF00" />
+				Background="#FF65FF00" 
+                Command="{ Binding AddAssignment2Command }"
+                />
 		<Button Content="Fjern"
-				Name="btRemove2"
+				Name="btnRemove2"
 				HorizontalAlignment="Left"
 				Margin="1276,95,0,0"
 				Grid.Row="2"
 				VerticalAlignment="Top"
 				Height="52"
 				Width="82"
-				Background="Red" />
+				Background="Red"
+                Command="{ Binding RemoveAssignment2Command }"
+                />
 		<Button Content="Kombiner"
-				Name="btCombine"
+				Name="btnCombine"
 				HorizontalAlignment="Left"
 				Margin="1405,53,0,0"
 				Grid.Row="2"
 				VerticalAlignment="Top"
 				Height="68"
-				Width="155" />
+				Width="155"
+                Background="BurlyWood"
+                Command="{Binding CombineAssignmentsCommand }"
+                />
 
 
 	</Grid>

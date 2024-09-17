@@ -22,6 +22,7 @@ namespace Region_Syd.View
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("StartRegion");
             view.GroupDescriptions.Add(groupDescription);
         }
+
         public void CantCombine()
         {
             MessageBox.Show("Denne kombination er ikke mulig.", "Kombinationsfejl", MessageBoxButton.OK, MessageBoxImage.Error);

@@ -6,24 +6,27 @@ using System.Linq;
 using System.Text;
 using Region_Syd.Model;
 using System.Windows;
+using System.ComponentModel;
 
 namespace Region_Syd.ViewModel
 {
-    public class AssignmentsViewModel
+    public class AssignmentsViewModel : ViewModelBase // skal den ikke være internal eller private??
     {
         AssignmentRepo _assignmentRepo;
         AmbulanceRepo _ambulanceRepo;
 
-        public ObservableCollection<Region_Syd.Model.Assignment> AllAssignments 
+        public ObservableCollection<Assignment> AllAssignments 
         { 
             get; 
             
             set;
         }
 
-
         public ObservableCollection <Ambulance> AllAmbulances {  get; }
 
+        private Assignment _selectedAssignment;
+        private Assignment _assignment1;
+        private Assignment _assignment2;
 
         public AssignmentsViewModel() 
         {
@@ -37,6 +40,89 @@ namespace Region_Syd.ViewModel
             //AllAmbulances = new ObservableCollection<Ambulance>();
 
 
+        }
+
+        public bool CanAddAssignment(Assignment a)
+        {
+            if (a == null && SelectedAssignment != null) return true;
+            
+            return false;
+        }
+
+        public RelayCommand AddAssignment1Command => 
+            new RelayCommand (
+                execute => Assignment1 = SelectedAssignment, 
+                canExecute => CanAddAssignment(Assignment1)
+                );
+
+        public RelayCommand AddAssignment2Command =>
+            new RelayCommand(
+                execute => Assignment2 = SelectedAssignment,
+                canExecute => CanAddAssignment(Assignment2)
+                );
+
+        public RelayCommand RemoveAssignment1Command =>
+           new RelayCommand(
+               execute => Assignment1 = null,
+               canExecute => Assignment1 != null
+               );
+
+        public RelayCommand RemoveAssignment2Command =>
+           new RelayCommand(
+               execute => Assignment2 = null,
+               canExecute => Assignment2 != null
+               );
+
+        public void CombineAssignments()
+        {
+            throw new NotImplementedException();
+        }
+
+        public RelayCommand CombineAssignmentsCommand =>
+           new RelayCommand(
+               execute => CombineAssignments(),
+               canExecute => Assignment1 != null && Assignment2 != null
+               );
+
+        public Assignment SelectedAssignment
+        {
+            get { return _selectedAssignment; }
+            set
+            {
+                _selectedAssignment = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void CheckIfAssigned(Assignment a, Assignment? newAssignment)
+        {
+            if (a == null) // hvis en opgave vælges, fjernes den fra listview
+            { AllAssignments.Remove(newAssignment); }
+            else { AllAssignments.Add(a); } // hvis den slettes, tilføjes den til listview
+        }
+
+        public Assignment Assignment1
+        {
+            get { return _assignment1; }
+            set
+            {
+                CheckIfAssigned(_assignment1, value);
+
+                _assignment1 = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Assignment Assignment2
+        {
+            get { return _assignment2; }
+            set
+            {
+                CheckIfAssigned(_assignment2, value);
+
+                _assignment2 = value;
+                OnPropertyChanged();
+            }
         }
 
         public void SortAssignmentsByStart()
