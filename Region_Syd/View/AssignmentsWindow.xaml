@@ -7,8 +7,8 @@
 		mc:Ignorable="d"
 		Title="AssignmentsView"
 		Height="800"
-		Width="1600">
-    <!-- WindowState="Maximized"> -->
+		Width="1600"
+		WindowState="Maximized">
 
 	<Window.Resources>
 
@@ -123,7 +123,7 @@
 									DisplayMemberBinding="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}"
 									Width="210" />
 					<GridViewColumn Header="Ankomst"
-									DisplayMemberBinding="{Binding Finish, StringFormat={}{0:dd/MM/yy HH:mm}}"
+									DisplayMemberBinding="{Binding Finish, StringFormat={}{0: HH:mm}}"
 									Width="210" />
 					<GridViewColumn Header="Type"
 									DisplayMemberBinding="{Binding AssignmentType}"

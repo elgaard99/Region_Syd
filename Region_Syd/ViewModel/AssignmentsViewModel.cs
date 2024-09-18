@@ -34,7 +34,7 @@ namespace Region_Syd.ViewModel
         {
             _assignmentRepo = new AssignmentRepo();
             AmbulanceRepo ambulanceRepo = new AmbulanceRepo();
-            UpdateAllAssignments();
+            GetFilteredAssignmentsFromRepo();
             SortAssignmentsByStart();
 
 
@@ -74,11 +74,6 @@ namespace Region_Syd.ViewModel
                execute => Assignment2 = null,
                canExecute => Assignment2 != null
                );
-
-        public void CombineAssignments()
-        {
-            throw new NotImplementedException();
-        }
 
         public RelayCommand CombineAssignmentsCommand =>
            new RelayCommand(
@@ -134,13 +129,11 @@ namespace Region_Syd.ViewModel
 
         }
 
-        public ObservableCollection<Region_Syd.Model.Assignment> GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
+        public void GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
         {
             List<Region_Syd.Model.Assignment> _listOfAssignments = _assignmentRepo.GetAllAssignments();
-            var worklist = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched)); // !assignment betyder er false, uden ! finder den true. 
+			AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched)); // !assignment betyder er false, uden ! finder den true. 
             
-
-            return worklist;
         }
 
         public ObservableCollection<Ambulance> GetAmbulancesFromRepo()
@@ -148,12 +141,13 @@ namespace Region_Syd.ViewModel
             throw new NotImplementedException();
         }
 
-        public void CombineAssignments(Assignment assignment1, Assignment assignment2)
+        public void CombineAssignments()
         {
-                _assignmentRepo.ReassignAmbulance(assignment1, assignment2);
-                _assignmentRepo.SetIsMatchedTrue(assignment1, assignment2);
-                UpdateAllAssignments();
-                SortAssignmentsByStart();
+                _assignmentRepo.ReassignAmbulance(Assignment1, Assignment2);
+			    GetFilteredAssignmentsFromRepo();
+			    SortAssignmentsByStart();
+            Assignment1 = null;
+            Assignment2 = null;
         }
         /*
         public void CantCombine()
@@ -162,9 +156,5 @@ namespace Region_Syd.ViewModel
         }
         */
 
-        public void UpdateAllAssignments() //Skulle denne ikke indeholde både GetFiltered og SortBy?
-        {
-            AllAssignments = GetFilteredAssignmentsFromRepo();
-        }
     }
 }
