@@ -73,11 +73,6 @@ namespace Region_Syd.ViewModel
                canExecute => Assignment2 != null
                );
 
-        public void CombineAssignments()
-        {
-            throw new NotImplementedException();
-        }
-
         public RelayCommand CombineAssignmentsCommand =>
            new RelayCommand(
                execute => CombineAssignments(),
@@ -146,11 +141,13 @@ namespace Region_Syd.ViewModel
             throw new NotImplementedException();
         }
 
-        public void CombineAssignments(Assignment assignment1, Assignment assignment2)
+        public void CombineAssignments()
         {
-                _assignmentRepo.ReassignAmbulance(assignment1, assignment2);
+                _assignmentRepo.ReassignAmbulance(Assignment1, Assignment2);
                 UpdateAllAssignments();
                 SortAssignmentsByStart();
+            Assignment1 = null;
+            Assignment2 = null;
         }
         /*
         public void CantCombine()
