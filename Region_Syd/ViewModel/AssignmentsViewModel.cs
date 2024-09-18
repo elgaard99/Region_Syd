@@ -149,7 +149,6 @@ namespace Region_Syd.ViewModel
         public void CombineAssignments(Assignment assignment1, Assignment assignment2)
         {
                 _assignmentRepo.ReassignAmbulance(assignment1, assignment2);
-                _assignmentRepo.SetIsMatchedTrue(assignment1, assignment2);
                 UpdateAllAssignments();
                 SortAssignmentsByStart();
         }
