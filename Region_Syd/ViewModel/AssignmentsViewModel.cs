@@ -83,7 +83,7 @@ namespace Region_Syd.ViewModel
         public RelayCommand CombineAssignmentsCommand =>
            new RelayCommand(
                execute => CombineAssignments(),
-               canExecute => Assignment1 != null && Assignment2 != null
+               canExecute => Assignment1 != null && Assignment2 != null 
                );
 
         public Assignment SelectedAssignment

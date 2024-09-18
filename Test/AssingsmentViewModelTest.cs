@@ -47,8 +47,8 @@ namespace Test
         public void GetFilteredAssignmentsFromRepoWhenAssignmentsAreUnmatchedReturnsObservableCollection()
         {
             //Assert
-            ObservableCollection<Region_Syd.Model.Assignment> testAssignment = avm.GetFilteredAssignmentsFromRepo();
-            Assert.IsTrue(testAssignment.Count == 4);
+            avm.GetFilteredAssignmentsFromRepo();
+            Assert.IsTrue(avm.AllAssignments.Count == 4);
         }
         [TestMethod]
         public void AssignmentsViewModelAllAssignmentsIsSortedByDate()
@@ -66,9 +66,9 @@ namespace Test
         [TestMethod]
         public void CombineAssignmentsTest()
         {
-            avm.UpdateAllAssignments();
+            avm.GetFilteredAssignmentsFromRepo();
             int CountBefore = avm.AllAssignments.Count;
-            avm.CombineAssignments(AssignmentB, AssignmentC);
+            avm.CombineAssignments();
             //Assert
             Assert.IsTrue(CountBefore > avm.AllAssignments.Count);
         }
