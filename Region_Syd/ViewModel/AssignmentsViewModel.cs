@@ -91,11 +91,12 @@ namespace Region_Syd.ViewModel
             }
         }
 
-        public void CheckIfAssigned(Assignment a, Assignment? newAssignment)
+        public void CheckIfAssigned(Assignment assignment, Assignment? newAssignment)
         {
-            if (a == null) // hvis en opgave vælges, fjernes den fra listview
+            if (assignment == null) // hvis en opgave vælges, fjernes den fra listview
             { AllAssignments.Remove(newAssignment); }
-            else { AllAssignments.Add(a); } // hvis den slettes, tilføjes den til listview
+            
+            else { AllAssignments.Add(assignment); } // hvis den slettes, tilføjes den til listview
         }
 
         public Assignment Assignment1
@@ -129,10 +130,10 @@ namespace Region_Syd.ViewModel
 
         }
 
-        public ObservableCollection<Region_Syd.Model.Assignment> GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
+        public ObservableCollection<Assignment> GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
         {
             List<Region_Syd.Model.Assignment> _listOfAssignments = _assignmentRepo.GetAllAssignments();
-            var worklist = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched)); // !assignment betyder er false, uden ! finder den true. 
+            var worklist = new ObservableCollection<Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched)); // !assignment betyder er false, uden ! finder den true. 
             
 
             return worklist;
@@ -145,11 +146,16 @@ namespace Region_Syd.ViewModel
 
         public void CombineAssignments()
         {
-                _assignmentRepo.ReassignAmbulance(Assignment1, Assignment2);
-                UpdateAllAssignments();
-                SortAssignmentsByStart();
+            Assignment a1, a2;
+            a1 = Assignment1;
+            a2 = Assignment2;
+
             Assignment1 = null;
             Assignment2 = null;
+
+            _assignmentRepo.ReassignAmbulance(a1, a2);
+            UpdateAllAssignments();
+            SortAssignmentsByStart();
         }
         /*
         public void CantCombine()
