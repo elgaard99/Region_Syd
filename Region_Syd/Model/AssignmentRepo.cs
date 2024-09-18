@@ -43,6 +43,20 @@ namespace Region_Syd.Model
             });
             _allAssignments.Add(new Assignment()
             {
+                RegionAssignmentId = "22-BA",
+                StartAddress = "Riget",
+                EndAddress = "Sygehus Syd",
+                Start = new DateTime(2024, 09, 06, 12, 00, 00),
+                Finish = new DateTime(2024, 09, 06, 14, 30, 00),
+                // Description er maks 31 chars for at vises korrekt i view
+                Description = "Kræver forsigtig kørsel",
+                AssignmentType = AssignmentTypeEnum.D,
+                StartRegion = RegionEnum.RH,
+                EndRegion = RegionEnum.RSj,
+                IsMatched = false,
+            });
+            _allAssignments.Add(new Assignment()
+            {
                 RegionAssignmentId = "33-CD",
                 StartAddress = "Roskilde Hos.",
                 EndAddress = "Kongensgade 118, 9320 Hjallerup",
