@@ -13,6 +13,8 @@ namespace Region_Syd.ViewModel
     public class AssignmentsViewModel : ViewModelBase // skal den ikke være internal eller private??
     {
         AssignmentRepo _assignmentRepo;
+        public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } set { _assignmentRepo = value; } }
+
         AmbulanceRepo _ambulanceRepo;
 
         public ObservableCollection<Assignment> AllAssignments 
@@ -156,7 +158,7 @@ namespace Region_Syd.ViewModel
         }
         */
 
-        public void UpdateAllAssignments()
+        public void UpdateAllAssignments() //Skulle denne ikke indeholde både GetFiltered og SortBy?
         {
             AllAssignments = GetFilteredAssignmentsFromRepo();
         }
