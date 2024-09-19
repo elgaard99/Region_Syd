@@ -24,6 +24,7 @@ namespace Region_Syd.Model
                 StartRegion = RegionEnum.RSj,
                 EndRegion = RegionEnum.RH,
                 IsMatched = false,
+                AmbulanceId = "1",
 
 
             });
@@ -40,6 +41,7 @@ namespace Region_Syd.Model
                 StartRegion = RegionEnum.RH,
                 EndRegion = RegionEnum.RSj,
                 IsMatched = false,
+                AmbulanceId = "2",
             });
             _allAssignments.Add(new Assignment()
             {
@@ -54,6 +56,7 @@ namespace Region_Syd.Model
                 StartRegion = RegionEnum.RSj,
                 EndRegion = RegionEnum.RN,
                 IsMatched = true,
+                AmbulanceId = "3",
             });
         }
         public void AddToAllAssignments(Assignment assignment)

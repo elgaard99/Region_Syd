@@ -130,10 +130,11 @@ namespace Region_Syd.ViewModel
 
         }
 
-        public void GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
+        public ObservableCollection<Assignment> GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
         {
             List<Region_Syd.Model.Assignment> _listOfAssignments = _assignmentRepo.GetAllAssignments();
 			AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched)); // !assignment betyder er false, uden ! finder den true. 
+            return AllAssignments;
             
         }
 
@@ -151,7 +152,7 @@ namespace Region_Syd.ViewModel
             Assignment1 = null;
             Assignment2 = null;
 
-            _assignmentRepo.ReassignAmbulance(a1, a2);
+            _assignmentRepo.ReassignAmbulance(a1, a2);            
             GetFilteredAssignmentsFromRepo();
             SortAssignmentsByStart();
         }
