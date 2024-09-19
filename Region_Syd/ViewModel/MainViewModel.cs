@@ -46,10 +46,10 @@ namespace Region_Syd.ViewModel
                 canExecute => CanLogin()
                 );
 
-        public bool Login(string username)
+        public bool Login()
         {
 
-            if (usernames.Exists(u => u == username))
+            if (usernames.Exists(u => u == EnteredUsername))
             { return true; }
 
             return false;

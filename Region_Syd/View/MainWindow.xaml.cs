@@ -33,7 +33,17 @@ namespace Region_Syd
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (vm.Login(txtUsername.Texttext)
+            if (vm.Login())
+            {
+                AssignmentsWindow assignmentsWindow = new AssignmentsWindow();
+                assignmentsWindow.Show();
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Du er ikke oprettet som bruger!", "Fejl", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
     }
 }
