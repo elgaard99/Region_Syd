@@ -16,12 +16,16 @@ namespace Region_Syd.ViewModel
         public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } set { _assignmentRepo = value; } }
 
         AmbulanceRepo _ambulanceRepo;
-
+        private ObservableCollection<Assignment> _allAssignments;
         public ObservableCollection<Assignment> AllAssignments 
-        { 
-            get; 
+        {
+            get { return _allAssignments; } 
             
-            set;
+            set 
+            { 
+                _allAssignments = value; 
+                OnPropertyChanged(nameof(AllAssignments));
+            }
         }
 
         public ObservableCollection <Ambulance> AllAmbulances {  get; }
