@@ -13,7 +13,6 @@ namespace Region_Syd.View
     {
         public AssignmentsWindow()
         {
-            InitializeComponent();
 
             AssignmentsViewModel tvm = new AssignmentsViewModel();
             DataContext = tvm;
@@ -21,6 +20,8 @@ namespace Region_Syd.View
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(tvm.AllAssignments);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("StartRegion");
             view.GroupDescriptions.Add(groupDescription);
+
+            InitializeComponent();
         }
 
         public void CantCombine()
