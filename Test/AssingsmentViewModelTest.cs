@@ -110,9 +110,14 @@ namespace Test
         [TestMethod]
         public void CombineAssignmentsTest()
         {
-            //avm.UpdateAllAssignments();
             int CountBefore = avm.AllAssignments.Count;
+            //arrange
+            avm.Assignment1 = AssignmentA;
+            avm.Assignment2 = AssignmentB;
+            //avm.UpdateAllAssignments();
+            
             avm.CombineAssignments();
+            //avm.GetFilteredAssignmentsFromRepo();
             //Assert
             Assert.IsTrue(CountBefore > avm.AllAssignments.Count);
         }
