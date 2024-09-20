@@ -53,14 +53,14 @@ namespace Test
 
             AssignmentD = new Assignment()
             {
-                RegionAssignmentId = "34-CD",
-                AmbulanceId = "3344",
+                RegionAssignmentId = "33-CD",
+                AmbulanceId = "AMCReg3",
                 StartAddress = "startTES",
                 EndAddress = "endTEST",
-                Start = new DateTime(2012, 06, 18, 15, 34, 09),
-                Finish = new DateTime(2012, 06, 18, 18, 34, 09),
+                Start = new DateTime(2024, 09, 05, 11, 30, 00),
+                Finish = new DateTime(2012, 09, 18, 18, 34, 00),
                 Description = "MIG",
-                AssignmentType = (AssignmentTypeEnum)0,
+                AssignmentType = AssignmentTypeEnum.C,
                 StartRegion = (RegionEnum)1,
                 EndRegion = (RegionEnum)2,
                 IsMatched = true

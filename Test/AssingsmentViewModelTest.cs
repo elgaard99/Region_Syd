@@ -47,7 +47,7 @@ namespace Test
         public void GetFilteredAssignmentsFromRepoWhenAssignmentsAreUnmatchedReturnsObservableCollection()
         {
             //Assert
-            ObservableCollection<Region_Syd.Model.Assignment> testAssignment = avm.GetFilteredAssignmentsFromRepo();
+            ObservableCollection<Assignment> testAssignment = avm.GetFilteredAssignmentsFromRepo();
             Assert.IsTrue(testAssignment.Count == 4);
         }
         [TestMethod]

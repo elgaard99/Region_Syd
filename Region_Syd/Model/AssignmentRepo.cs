@@ -143,6 +143,9 @@ namespace Region_Syd.Model
 
         public Assignment GetById(string regionalAssignmentId)
         {
+
+            
+
             Assignment assignment = null;
             string query = @"SELECT * FROM 
                                 (SELECT ASSIGNMENTS.RegionAssignmentId, AssignmentTypeId, _Start, Finish, _Description, IsMatched, AmbulanceId, StartAdress, EndAdress
@@ -159,17 +162,28 @@ namespace Region_Syd.Model
                 {
                     if (reader.Read())
                     {
+
+                        Func<string, string, string, string> Address = (street, zip, town) => $"{street}, {zip} {town}";
+                        string StartStreet = (string)reader["StartAddress"];
+                        string StartZip = (string)reader["StartZip"];
+                        string StartTown = (string)reader["StartTown"];
+
+                        string EndStreet = (string)reader["StartAddress"];
+                        string EndZip = (string)reader["StartZip"];
+                        string EndTown = (string)reader["StartTown"];
+
+
                         assignment = new Assignment
                         {
                             RegionAssignmentId = (string)reader["RegionAssignmentId"],
                             AmbulanceId = (string)reader["AmbulanceId"],
-                            StartAddress = (int)reader["StartAdress"] == 2 ? "startTEST" : null,
-                            EndAddress = (int)reader["EndAdress"] == 3 ? "endTEST" : null,
-                            Start = (DateTime)reader["_Start"],
+                            StartAddress = Address,
+                            EndAddress = (string)reader["EndAddress"],
+                            Start = (DateTime)reader["Start"],
                             Finish = (DateTime)reader["Finish"],
-                            Description = (string)reader["_Description"],
-                            AssignmentType = (AssignmentTypeEnum)0,
-                            StartRegion = (RegionEnum)1,
+                            Description = (string)reader["Description"],
+                            AssignmentType = (AssignmentTypeEnum)reader["AssignmentTupeId"],
+                            StartRegion = (RegionEnum)reader[""],
                             EndRegion = (RegionEnum)2,
                             IsMatched = true
                         };
