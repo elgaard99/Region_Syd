@@ -12,6 +12,13 @@ namespace Region_Syd.ViewModel
 {
     public class AssignmentsViewModel : ViewModelBase // skal den ikke være internal eller private??
     {
+
+        string cs = @"Server=rene-server1.database.windows.net;
+                    Database=RegionSyd;
+                    Trusted_Connection=False;
+                    User Id=rene-server1Admin;
+                    Password=DatabaseEr1Fase!;";
+
         AssignmentRepo _assignmentRepo;
         public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } set { _assignmentRepo = value; } }
 
@@ -36,7 +43,7 @@ namespace Region_Syd.ViewModel
 
         public AssignmentsViewModel() 
         {
-            _assignmentRepo = new AssignmentRepo();
+            _assignmentRepo = new AssignmentRepo(cs);
             AmbulanceRepo ambulanceRepo = new AmbulanceRepo();
             GetFilteredAssignmentsFromRepo();
             SortAssignmentsByStart();

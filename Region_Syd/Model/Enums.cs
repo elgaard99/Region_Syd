@@ -5,20 +5,48 @@ using System.Text;
 
 namespace Region_Syd.Model
 {
-        public enum RegionEnum
+    public enum RegionEnum
+    {
+        RSj,
+        RSy,
+        RH,
+        RM,
+        RN
+    }
+
+    public enum AssignmentTypeEnum
+    {
+        A,
+        B, 
+        C,
+        D
+    }
+
+    public static class Extensions
+    {
+        public static AssignmentTypeEnum ToAssignmentTypeEnum(this string str)
         {
-            RSj,
-            RSy,
-            RH,
-            RM,
-            RN
+            AssignmentTypeEnum type;
+            switch (str)
+            {
+                case "A":
+                    type = AssignmentTypeEnum.A; break;
+                case "B":
+                    type = AssignmentTypeEnum.B; break;
+                case "C":
+                    type = AssignmentTypeEnum.C; break;
+                case "D":
+                    type = AssignmentTypeEnum.D; break;
+                default:
+                    throw new ArgumentException($"Your string: '{str}', is not a valid AssignmentType.");
+            }
+
+            return type;
         }
-        public enum AssignmentTypeEnum
+
+        public static AssignmentTypeEnum ToAssignmentTypeEnum(this char c)
         {
-            A,
-            B, 
-            C,
-            D
+            return (c.ToString()).ToAssignmentTypeEnum();
         }
-   
+    }
 }
