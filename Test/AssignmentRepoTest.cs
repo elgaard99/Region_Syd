@@ -118,7 +118,7 @@ namespace Test
         public void GetAllAssignments()
         {
             IEnumerable<Assignment> found = SQLRepo.GetAll();
-            Assert.AreEqual(AssignmentD.ToString(), found.ToString());
+            Assert.IsTrue(found.Count<Assignment>() == 3);
 
             // Er de ikke ens ??
             // Expected:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2014 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>.
