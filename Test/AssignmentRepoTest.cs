@@ -106,7 +106,8 @@ namespace Test
         public void shouldFindAssignment_WhenAssignmentExist()
         {
             Assignment found = SQLRepo.GetById(AssignmentD.RegionAssignmentId);
-            Assert.AreEqual(AssignmentD.ToString(), found.ToString());
+            StringAssert.Equals(AssignmentD.ToString(), found.ToString());
+            //Assert.AreEqual<string>(AssignmentD.ToString(), found.ToString());
 
             // Er de ikke ens ??
             // Expected:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2014 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>.
@@ -119,11 +120,7 @@ namespace Test
         {
             IEnumerable<Assignment> found = SQLRepo.GetAll();
             Assert.IsTrue(found.Count<Assignment>() == 3);
-
-            // Er de ikke ens ??
-            // Expected:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2014 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>.
-            //   Actual:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2024 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>. 
-
+                       
         }
     }
 }
