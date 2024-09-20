@@ -148,8 +148,12 @@ namespace Region_Syd.Model
 
             Assignment assignment = null;
             string query = @"SELECT * FROM 
-                                (SELECT ASSIGNMENTS.RegionAssignmentId, AssignmentTypeId, _Start, Finish, _Description, IsMatched, AmbulanceId, StartAdress, EndAdress
-                                FROM ASSIGNMENTS_ADDRESS FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId) AS A
+                                (SELECT ASSIGNMENTS.RegionAssignmentId, ASSIGNMENTS.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, E.RegionId AS EndRegionId, E.Road AS EndAddress
+	                            FROM (((ASSIGNMENTS_ADDRESS 
+	                            FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId) 
+	                            FULL OUTER JOIN ASSIGNMENT_TYPES ON ASSIGNMENT_TYPES.AssignmentTypeId=ASSIGNMENTS.AssignmentTypeId)
+	                            FULL OUTER JOIN ADDRESS AS S ON S.AddressId=ASSIGNMENTS_ADDRESS.StartAddress
+	                            FULL OUTER JOIN ADDRESS AS E ON E.AddressId=ASSIGNMENTS_ADDRESS.EndAddress)) AS A
                             WHERE A.RegionAssignmentId = @RegionAssignmentId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -163,29 +167,29 @@ namespace Region_Syd.Model
                     if (reader.Read())
                     {
 
-                        Func<string, string, string, string> Address = (street, zip, town) => $"{street}, {zip} {town}";
+                        Func<string, int, string, string> Address = (street, zip, town) => $"{street}, {zip} {town}";
                         string StartStreet = (string)reader["StartAddress"];
-                        string StartZip = (string)reader["StartZip"];
-                        string StartTown = (string)reader["StartTown"];
+                        int StartZip = Convert.ToInt16( reader["StartZip"] );
+                        string StartTown = "Roskilde"; // (string)reader["StartTown"];
 
                         string EndStreet = (string)reader["StartAddress"];
-                        string EndZip = (string)reader["StartZip"];
-                        string EndTown = (string)reader["StartTown"];
+                        int EndZip = Convert.ToInt16( reader["StartZip"]);
+                        string EndTown = "Måslet"; // (string)reader["StartTown"];
 
 
                         assignment = new Assignment
                         {
                             RegionAssignmentId = (string)reader["RegionAssignmentId"],
                             AmbulanceId = (string)reader["AmbulanceId"],
-                            StartAddress = Address,
-                            EndAddress = (string)reader["EndAddress"],
+                            StartAddress = Address(StartStreet, StartZip, StartTown),
+                            EndAddress = Address(EndStreet, EndZip, EndTown),
                             Start = (DateTime)reader["Start"],
                             Finish = (DateTime)reader["Finish"],
                             Description = (string)reader["Description"],
-                            AssignmentType = (AssignmentTypeEnum)reader["AssignmentTupeId"],
-                            StartRegion = (RegionEnum)reader[""],
-                            EndRegion = (RegionEnum)2,
-                            IsMatched = true
+                            AssignmentType = (AssignmentTypeEnum)reader["AssignmentTypeId"],
+                            StartRegion = (RegionEnum)reader["StartRegionId"],
+                            EndRegion = (RegionEnum)reader["EndRegionId"],
+                            IsMatched = (bool)reader["IsMatched"]
                         };
                     }
                 }

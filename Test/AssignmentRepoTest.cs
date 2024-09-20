@@ -8,7 +8,7 @@ namespace Test
     public class AssignmentRepoTest
     {
         string cs = @"Server=rene-server1.database.windows.net;
-                    Database=test;
+                    Database=Sander;
                     Trusted_Connection=False;
                     User Id=rene-server1Admin;
                     Password=DatabaseEr1Fase!;";
