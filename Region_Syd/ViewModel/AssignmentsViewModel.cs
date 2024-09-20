@@ -161,7 +161,7 @@ namespace Region_Syd.ViewModel
             sortedByDateTime.Add(Assignment1);
             sortedByDateTime.Add(Assignment2);
             sortedByDateTime.OrderBy(assignment => assignment.Start);
-            /*hvis den tidligste er færdig før den sidste kan den tage tureb,*/
+            /*hvis den tidligste er færdig før den sidste kan den tage turen,*/
             if (DateTime.Compare(sortedByDateTime[0].Finish, sortedByDateTime[1].Start) > 0) {  return false; }
             else { return true; }
         }
