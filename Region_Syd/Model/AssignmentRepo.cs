@@ -1,16 +1,24 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace Region_Syd.Model
 {
-    public class AssignmentRepo
+    public class AssignmentRepo : IRepository<Assignment>
     {
+
+        private readonly string _connectionString;
         private List<Assignment> _allAssignments;
-        public AssignmentRepo()
+
+        public AssignmentRepo(string connectionString)
         {
+
+            _connectionString = connectionString;
+
             _allAssignments = new List<Assignment>();
+            /*
             _allAssignments.Add(new Assignment()
             {
                 RegionAssignmentId = "12-AB",
@@ -55,6 +63,7 @@ namespace Region_Syd.Model
                 EndRegion = RegionEnum.RN,
                 IsMatched = true,
             });
+            */
         }
         public void AddToAllAssignments(Assignment assignment)
         {
@@ -88,6 +97,96 @@ namespace Region_Syd.Model
         {
             a1.IsMatched = true;
             a2.IsMatched = true;
+        }
+
+        // implementation af IRepository
+
+        public IEnumerable<Assignment> GetAll()
+        {
+            var assignments = new List<Assignment>();
+
+            // vores prøve query, som mangler kolonner.
+            string query1 = @"SELECT ASSIGNMENTS_ADDRESS.AssignmentId, ASSIGNMENTS.AssignmentId, ASSIGNMENTS.IsMatched
+                            FROM ASSIGNMENTS LEFT JOIN ASSIGNMENTS_ADDRESS ON ASSIGNMENTS.AssignmentsId=ASSIGNMENTS_ADDRESS.AssignmentsId;";
+
+
+            string query = "SELECT * FROM ASSIGNMENTS_ADDRESS";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        assignments.Add(new Assignment
+                        {
+                            //RegionAssignmentId = 
+                            //StartAddress =
+                            //EndAddress = 
+                            //Start = 
+                            //Finish = 
+                            //AssignmentType = 
+                            //StartRegion = 
+                            //EndRegion = 
+                            //IsMatched = 
+                        });
+                    }
+                }
+            }
+
+            return assignments;
+        }
+
+        public Assignment GetById(string regionalAssignmentId)
+        {
+            Assignment assignment = null;
+            string query = "SELECT * FROM ASSIGNMENTS_ADDRESS WHERE RegionAssignmentId = @RegionAssignmentId";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@RegionAssignmentId", regionalAssignmentId);
+                connection.Open();
+
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        assignment = new Assignment
+                        {
+                            // Kopier fra GetAll()
+                        };
+                    }
+                }
+            }
+
+            return assignment;
+        }
+
+        public void Add(Assignment entity)
+        {
+            //string query = "INSERT INTO ASSIGNMENTS_ADDRESS (Number) VALUES (@Number)";
+
+            //using (SqlConnection connection = new SqlConnection(_connectionString))
+            //{
+            //    SqlCommand command = new SqlCommand(query, connection);
+            //    command.Parameters.AddWithValue("@Number", semester.Number);
+            //    connection.Open();
+            //    command.ExecuteNonQuery();
+            //}
+        }
+
+        public void Update(Assignment entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

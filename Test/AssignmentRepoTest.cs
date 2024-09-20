@@ -7,13 +7,20 @@ namespace Test
     [TestClass]
     public class AssignmentRepoTest
     {
-        Region_Syd.Model.Assignment AssignmentA, AssignmentB, AssignmentC;
-        AssignmentRepo _assignmentRepo;
+        string cs = @"Server=rene-server1.database.windows.net;
+                    Database=test;
+                    Trusted_Connection=False;
+                    User Id=rene-server1Admin;
+                    Password=DatabaseEr1Fase!;";
+
+
+        Assignment AssignmentA, AssignmentB, AssignmentC, AssignmentD;
+        AssignmentRepo _assignmentRepo, SQLRepo;
 
         [TestInitialize]
         public void Init()
         {
-            AssignmentA = new Region_Syd.Model.Assignment() 
+            AssignmentA = new Region_Syd.Model.Assignment()
             {
                 RegionAssignmentId = "A",
                 Start = DateTime.Now,
@@ -33,7 +40,7 @@ namespace Test
                 IsMatched = false,
                 AmbulanceId = "C",
             };
-            _assignmentRepo = new AssignmentRepo();
+            _assignmentRepo = new AssignmentRepo(cs);
             _assignmentRepo.AddToAllAssignments(AssignmentA);
             _assignmentRepo.AddToAllAssignments(AssignmentB);
             _assignmentRepo.AddToAllAssignments(AssignmentC);
@@ -41,6 +48,18 @@ namespace Test
             _assignmentRepo.AddToAllAssignments(AssignmentA);
             _assignmentRepo.AddToAllAssignments(AssignmentB);
             _assignmentRepo.AddToAllAssignments(AssignmentC);
+
+            SQLRepo = new AssignmentRepo(cs);
+
+            AssignmentD = new Assignment()
+            {
+                RegionAssignmentId = "34-CD",
+                Start = new DateTime(2012, 06, 15, 10, 34, 09),
+                Finish = new DateTime(2012, 06, 18, 10, 34, 09),
+                Description = "MIG",
+                IsMatched = true,
+                AmbulanceId = "3344"
+            };
         }
         [TestMethod]
 
@@ -66,6 +85,21 @@ namespace Test
             _assignmentRepo.SetIsMatchedTrue(AssignmentC, AssignmentB);
             Assert.IsTrue(AssignmentB.IsMatched == true);
             Assert.IsTrue(AssignmentC.IsMatched == true);
+        }
+
+        [TestMethod]
+        public void shouldFindNothing_WhenAssignmentDoesNotExist()
+        {
+            Assignment nonExistingAssignment = new Assignment() { RegionAssignmentId = "-1" };
+            var found = SQLRepo.GetById(nonExistingAssignment.RegionAssignmentId);
+            Assert.IsNull(found);
+        }
+
+        [TestMethod]
+        public void shouldFindAssignment_WhenAssignmentExist()
+        {
+            var found = SQLRepo.GetById(AssignmentD.RegionAssignmentId);
+            Assert.AreEqual<Assignment>(AssignmentD, found);
         }
     }
 }
