@@ -82,7 +82,7 @@ namespace Region_Syd.ViewModel
         public RelayCommand CombineAssignmentsCommand =>
            new RelayCommand(
                execute => CombineAssignments(),
-               canExecute => Assignment1 != null && Assignment2 != null
+               canExecute => Assignment1 != null && Assignment2 != null && DoAssignmentsOverlap() == true
                );
 
         public Assignment SelectedAssignment
@@ -165,6 +165,15 @@ namespace Region_Syd.ViewModel
             MessageBox.Show("Denne kombination er ikke mulig.", "Kombinationsfejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         */
-
+        private bool DoAssignmentsOverlap()
+        {
+            List<Assignment> sortedByDateTime = new List<Assignment>();
+            sortedByDateTime.Add(Assignment1);
+            sortedByDateTime.Add(Assignment2);
+            sortedByDateTime.OrderBy(assignment => assignment.Start);
+            /*hvis den tidligste er færdig før den sidste kan den tage turen,*/
+            if (DateTime.Compare(sortedByDateTime[0].Finish, sortedByDateTime[1].Start) > 0) {  return false; }
+            else { return true; }
+        }
     }
 }
