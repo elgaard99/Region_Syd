@@ -1,6 +1,6 @@
 INSERT INTO REGIONS VALUES
-('RS', 'Region Syd'),
-('RN', 'Region Nord'),
-('RSj', 'Region Sjælland'),
-('RH', 'Region Hovedstaden'),
-('RM', 'Region Midtjylland');
+(1, 'Region Syd'),
+(4, 'Region Nord'),
+(0, 'Region Sjælland'),
+(2, 'Region Hovedstaden'),
+(3, 'Region Midtjylland');
