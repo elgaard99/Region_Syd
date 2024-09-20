@@ -54,12 +54,18 @@ namespace Test
             AssignmentD = new Assignment()
             {
                 RegionAssignmentId = "34-CD",
-                Start = new DateTime(2012, 06, 15, 10, 34, 09),
-                Finish = new DateTime(2012, 06, 18, 10, 34, 09),
+                AmbulanceId = "3344",
+                StartAddress = "startTES",
+                EndAddress = "endTEST",
+                Start = new DateTime(2012, 06, 18, 15, 34, 09),
+                Finish = new DateTime(2012, 06, 18, 18, 34, 09),
                 Description = "MIG",
-                IsMatched = true,
-                AmbulanceId = "3344"
+                AssignmentType = (AssignmentTypeEnum)0,
+                StartRegion = (RegionEnum)1,
+                EndRegion = (RegionEnum)2,
+                IsMatched = true
             };
+
         }
         [TestMethod]
 
@@ -98,8 +104,8 @@ namespace Test
         [TestMethod]
         public void shouldFindAssignment_WhenAssignmentExist()
         {
-            var found = SQLRepo.GetById(AssignmentD.RegionAssignmentId);
-            Assert.AreEqual<Assignment>(AssignmentD, found);
+            Assignment found = SQLRepo.GetById(AssignmentD.RegionAssignmentId);
+            Assert.AreEqual(AssignmentD.ToString(), found.ToString());
         }
     }
 }

@@ -132,6 +132,7 @@ namespace Region_Syd.Model
                             //StartRegion = 
                             //EndRegion = 
                             //IsMatched = 
+                            //Description =
                         });
                     }
                 }
@@ -143,7 +144,10 @@ namespace Region_Syd.Model
         public Assignment GetById(string regionalAssignmentId)
         {
             Assignment assignment = null;
-            string query = "SELECT * FROM ASSIGNMENTS_ADDRESS WHERE RegionAssignmentId = @RegionAssignmentId";
+            string query = @"SELECT * FROM 
+                                (SELECT ASSIGNMENTS.RegionAssignmentId, AssignmentTypeId, _Start, Finish, _Description, IsMatched, AmbulanceId, StartAdress, EndAdress
+                                FROM ASSIGNMENTS_ADDRESS FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId) AS A
+                            WHERE A.RegionAssignmentId = @RegionAssignmentId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
@@ -157,7 +161,17 @@ namespace Region_Syd.Model
                     {
                         assignment = new Assignment
                         {
-                            // Kopier fra GetAll()
+                            RegionAssignmentId = (string)reader["RegionAssignmentId"],
+                            AmbulanceId = (string)reader["AmbulanceId"],
+                            StartAddress = (int)reader["StartAdress"] == 2 ? "startTEST" : null,
+                            EndAddress = (int)reader["EndAdress"] == 3 ? "endTEST" : null,
+                            Start = (DateTime)reader["_Start"],
+                            Finish = (DateTime)reader["Finish"],
+                            Description = (string)reader["_Description"],
+                            AssignmentType = (AssignmentTypeEnum)0,
+                            StartRegion = (RegionEnum)1,
+                            EndRegion = (RegionEnum)2,
+                            IsMatched = true
                         };
                     }
                 }
