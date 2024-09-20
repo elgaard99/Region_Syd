@@ -18,52 +18,7 @@ namespace Region_Syd.Model
             _connectionString = connectionString;
 
             _allAssignments = new List<Assignment>();
-            /*
-            _allAssignments.Add(new Assignment()
-            {
-                RegionAssignmentId = "12-AB",
-                StartAddress = "Sygehus Syd",
-                EndAddress = "Riget",
-                Start = new DateTime(2024, 09, 06, 10, 40, 00),
-                Finish = new DateTime(2024, 09, 06, 13, 40, 00),
-                // Description er maks 31 chars for at vises korrekt i view
-                Description = "PAtienten er PsyKOtisK",
-                AssignmentType = AssignmentTypeEnum.C,
-                StartRegion = RegionEnum.RSj,
-                EndRegion = RegionEnum.RH,
-                IsMatched = false,
-
-
-            });
-            _allAssignments.Add(new Assignment()
-            {
-                RegionAssignmentId = "21-BA",
-                StartAddress = "Riget",
-                EndAddress = "Sygehus Syd",
-                Start = new DateTime(2024, 09, 06, 14, 00, 00),
-                Finish = new DateTime(2024, 09, 06, 17, 30, 00),
-				// Description er maks 31 chars for at vises korrekt i view
-				Description = "Kræver forsigtig kørsel",
-                AssignmentType = AssignmentTypeEnum.D,
-                StartRegion = RegionEnum.RH,
-                EndRegion = RegionEnum.RSj,
-                IsMatched = false,
-            });
-            _allAssignments.Add(new Assignment()
-            {
-                RegionAssignmentId = "33-CD",
-                StartAddress = "Roskilde Hos.",
-                EndAddress = "Kongensgade 118, 9320 Hjallerup",
-                Start = new DateTime(2024, 09, 05, 15, 00, 00),
-                Finish = new DateTime(2024, 09, 06, 13, 00, 00),
-				// Description er maks 31 chars for at vises korrekt i view
-				Description = "Kræver ilt i ambulancen",
-                AssignmentType = AssignmentTypeEnum.D,
-                StartRegion = RegionEnum.RSj,
-                EndRegion = RegionEnum.RN,
-                IsMatched = true,
-            });
-            */
+            
         }
         public void AddToAllAssignments(Assignment assignment)
         {
@@ -121,19 +76,11 @@ namespace Region_Syd.Model
                 {
                     while (reader.Read())
                     {
-                        assignments.Add(new Assignment
-                        {
-                            //RegionAssignmentId = 
-                            //StartAddress =
-                            //EndAddress = 
-                            //Start = 
-                            //Finish = 
-                            //AssignmentType = 
-                            //StartRegion = 
-                            //EndRegion = 
-                            //IsMatched = 
-                            //Description =
-                        });
+                        
+                        assignments.Add(
+                            ReadAssignment(reader)
+                            );
+
                     }
                 }
             }
@@ -148,12 +95,14 @@ namespace Region_Syd.Model
 
             Assignment assignment = null;
             string query = @"SELECT * FROM 
-                                (SELECT ASSIGNMENTS.RegionAssignmentId, ASSIGNMENTS.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, E.RegionId AS EndRegionId, E.Road AS EndAddress
-	                            FROM (((ASSIGNMENTS_ADDRESS 
-	                            FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId) 
-	                            FULL OUTER JOIN ASSIGNMENT_TYPES ON ASSIGNMENT_TYPES.AssignmentTypeId=ASSIGNMENTS.AssignmentTypeId)
+                                (SELECT ASSIGNMENTS.RegionAssignmentId, ASSIGNMENTS.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
+	                            FROM ASSIGNMENTS_ADDRESS 
+	                            FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId
+	                            FULL OUTER JOIN ASSIGNMENT_TYPES ON ASSIGNMENT_TYPES.AssignmentTypeId=ASSIGNMENTS.AssignmentTypeId
 	                            FULL OUTER JOIN ADDRESS AS S ON S.AddressId=ASSIGNMENTS_ADDRESS.StartAddress
-	                            FULL OUTER JOIN ADDRESS AS E ON E.AddressId=ASSIGNMENTS_ADDRESS.EndAddress)) AS A
+	                            FULL OUTER JOIN ADDRESS AS E ON E.AddressId=ASSIGNMENTS_ADDRESS.EndAddress
+	                            FULL OUTER JOIN ZIPTOWNS AS SZT ON SZT.Zip=S.Zip
+	                            FULL OUTER JOIN ZIPTOWNS AS EZT ON EZT.Zip=E.Zip) AS A
                             WHERE A.RegionAssignmentId = @RegionAssignmentId";
 
             using (SqlConnection connection = new SqlConnection(_connectionString))
@@ -166,31 +115,7 @@ namespace Region_Syd.Model
                 {
                     if (reader.Read())
                     {
-
-                        Func<string, int, string, string> Address = (street, zip, town) => $"{street}, {zip} {town}";
-                        string StartStreet = (string)reader["StartAddress"];
-                        int StartZip = Convert.ToInt16( reader["StartZip"] );
-                        string StartTown = "Roskilde"; // (string)reader["StartTown"];
-
-                        string EndStreet = (string)reader["StartAddress"];
-                        int EndZip = Convert.ToInt16( reader["StartZip"]);
-                        string EndTown = "Måslet"; // (string)reader["StartTown"];
-
-
-                        assignment = new Assignment
-                        {
-                            RegionAssignmentId = (string)reader["RegionAssignmentId"],
-                            AmbulanceId = (string)reader["AmbulanceId"],
-                            StartAddress = Address(StartStreet, StartZip, StartTown),
-                            EndAddress = Address(EndStreet, EndZip, EndTown),
-                            Start = (DateTime)reader["Start"],
-                            Finish = (DateTime)reader["Finish"],
-                            Description = (string)reader["Description"],
-                            AssignmentType = (AssignmentTypeEnum)reader["AssignmentTypeId"],
-                            StartRegion = (RegionEnum)reader["StartRegionId"],
-                            EndRegion = (RegionEnum)reader["EndRegionId"],
-                            IsMatched = (bool)reader["IsMatched"]
-                        };
+                        assignment = ReadAssignment(reader);                        
                     }
                 }
             }
@@ -219,6 +144,37 @@ namespace Region_Syd.Model
         public void Delete(int id)
         {
             throw new NotImplementedException();
+        }
+
+        private Assignment ReadAssignment(SqlDataReader reader)
+        {
+
+            Func<string, int, string, string> Address = (street, zip, town) => $"{street}, {zip} {town}";
+            string StartStreet = (string)reader["StartAddress"];
+            int StartZip = Convert.ToInt16(reader["StartZip"]);
+            string StartTown = (string)reader["StartTown"];
+
+            string EndStreet = (string)reader["EndAddress"];
+            int EndZip = Convert.ToInt16(reader["EndZip"]);
+            string EndTown = (string)reader["EndTown"];
+
+            Assignment assignment = new Assignment
+            {
+                RegionAssignmentId = (string)reader["RegionAssignmentId"],
+                AmbulanceId = (string)reader["AmbulanceId"],
+                StartAddress = Address(StartStreet, StartZip, StartTown),
+                EndAddress = Address(EndStreet, EndZip, EndTown),
+                Start = (DateTime)reader["Start"],
+                Finish = (DateTime)reader["Finish"],
+                Description = (string)reader["Description"],
+                AssignmentType = reader["AssignmentTypeId"].ToString().ToAssignmentTypeEnum(),
+                StartRegion = (RegionEnum)Convert.ToInt32(reader["StartRegionId"]),
+                EndRegion = (RegionEnum)Convert.ToInt32(reader["EndRegionId"]),
+                IsMatched = (bool)reader["IsMatched"]
+            };
+
+            return assignment;
+
         }
     }
 }

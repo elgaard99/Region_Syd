@@ -54,17 +54,18 @@ namespace Test
             AssignmentD = new Assignment()
             {
                 RegionAssignmentId = "33-CD",
-                AmbulanceId = "AMCReg3",
-                StartAddress = "startTES",
-                EndAddress = "endTEST",
-                Start = new DateTime(2024, 09, 05, 11, 30, 00),
-                Finish = new DateTime(2012, 09, 18, 18, 34, 00),
-                Description = "MIG",
+                AmbulanceId = "AmCReg2",
+                StartAddress = "Sygehusvej 10, 4000 Roskilde",
+                EndAddress = "Testrupvej 56, 8320 Mårslet",
+                Start = new DateTime(2024, 09, 05, 11, 00, 00),
+                Finish = new DateTime(2014, 09, 05, 13, 30, 00),
+                Description = "Kræver ilt i ambulancen",
                 AssignmentType = AssignmentTypeEnum.C,
-                StartRegion = (RegionEnum)1,
-                EndRegion = (RegionEnum)2,
+                StartRegion = RegionEnum.RSj,
+                EndRegion = RegionEnum.RM,
                 IsMatched = true
             };
+            
 
         }
         [TestMethod]
@@ -106,6 +107,23 @@ namespace Test
         {
             Assignment found = SQLRepo.GetById(AssignmentD.RegionAssignmentId);
             Assert.AreEqual(AssignmentD.ToString(), found.ToString());
+
+            // Er de ikke ens ??
+            // Expected:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2014 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>.
+            //   Actual:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2024 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>. 
+
+        }
+
+        [TestMethod]
+        public void GetAllAssignments()
+        {
+            IEnumerable<Assignment> found = SQLRepo.GetAll();
+            Assert.AreEqual(AssignmentD.ToString(), found.ToString());
+
+            // Er de ikke ens ??
+            // Expected:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2014 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>.
+            //   Actual:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2024 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>. 
+
         }
     }
 }
