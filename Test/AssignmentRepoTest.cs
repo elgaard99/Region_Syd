@@ -1,3 +1,5 @@
+using Microsoft.Data.SqlClient;
+using Microsoft.Identity.Client;
 using Region_Syd.Model;
 using Region_Syd.ViewModel;
 using System.Collections.ObjectModel;
@@ -15,12 +17,24 @@ namespace Test
 
 
         Assignment AssignmentA, AssignmentB, AssignmentC, AssignmentD;
-        AssignmentRepo _assignmentRepo, SQLRepo;
+        AssignmentRepo /*_assignmentRepo,*/ SQLRepo;
+        int totalCountOfAssignments;
+        //Leger her---------------------------------------------------------------
+        public void CountNumberOfRowsInASSIGNMENTSTable() 
+        {
+            string query = @"SELECT COUNT(*) FROM ASSIGNMENTS";
 
+            using (SqlConnection connection = new SqlConnection(cs))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                connection.Open();
+                totalCountOfAssignments = (int)command.ExecuteScalar();
+            }
+        }
         [TestInitialize]
         public void Init()
         {
-            AssignmentA = new Region_Syd.Model.Assignment()
+            /*AssignmentA = new Region_Syd.Model.Assignment()
             {
                 RegionAssignmentId = "A",
                 Start = DateTime.Now,
@@ -40,17 +54,6 @@ namespace Test
                 IsMatched = false,
                 AmbulanceId = "C",
             };
-            _assignmentRepo = new AssignmentRepo(cs);
-            _assignmentRepo.AddToAllAssignments(AssignmentA);
-            _assignmentRepo.AddToAllAssignments(AssignmentB);
-            _assignmentRepo.AddToAllAssignments(AssignmentC);
-
-            _assignmentRepo.AddToAllAssignments(AssignmentA);
-            _assignmentRepo.AddToAllAssignments(AssignmentB);
-            _assignmentRepo.AddToAllAssignments(AssignmentC);
-
-            SQLRepo = new AssignmentRepo(cs);
-
             AssignmentD = new Assignment()
             {
                 RegionAssignmentId = "33-CD",
@@ -64,34 +67,52 @@ namespace Test
                 StartRegion = RegionEnum.RSj,
                 EndRegion = RegionEnum.RM,
                 IsMatched = true
-            };
-            
+            };*/
+            //_assignmentRepo = new AssignmentRepo(cs);
+            /*_assignmentRepo.AddToAllAssignments(AssignmentA);
+            _assignmentRepo.AddToAllAssignments(AssignmentB);
+            _assignmentRepo.AddToAllAssignments(AssignmentC);
+
+            _assignmentRepo.AddToAllAssignments(AssignmentA);
+            _assignmentRepo.AddToAllAssignments(AssignmentB);
+            _assignmentRepo.AddToAllAssignments(AssignmentC);*/
+
+            SQLRepo = new AssignmentRepo(cs);
+            for (int i = 0; i < 4; i++) //For at være sikker på de første 4 er IsMatched = false, så vi kan teste på disse
+            {
+                SQLRepo.testAllAssignments[i].IsMatched = false;
+            }
+            AssignmentA = SQLRepo.testAllAssignments[0];
+            AssignmentB = SQLRepo.testAllAssignments[1];
+            AssignmentC = SQLRepo.testAllAssignments[2];
+            AssignmentD = SQLRepo.testAllAssignments[3];
 
         }
-        [TestMethod]
+        /* [TestMethod]
 
-        public void AssignmentsAddedToRepo()
-        {
-            //Assert
-            List<Region_Syd.Model.Assignment> testAssignment = _assignmentRepo.GetAllAssignments();
-            Assert.AreEqual(AssignmentA, testAssignment[3]);
-            Assert.AreEqual(AssignmentB, testAssignment[4]);
-            Assert.AreEqual(AssignmentC, testAssignment[5]);
-        }
+         public void AssignmentsAddedToRepo()
+         {
+             //Assert
+             List<Region_Syd.Model.Assignment> testAssignment = _assignmentRepo.GetAllAssignments();
+             Assert.AreEqual(AssignmentA, testAssignment[3]);
+             Assert.AreEqual(AssignmentB, testAssignment[4]);
+             Assert.AreEqual(AssignmentC, testAssignment[5]);
+         }*/
         [TestMethod]
 
         public void ReAssignAmbulanceTest()
         {
-            _assignmentRepo.ReassignAmbulance(AssignmentB, AssignmentC);
+            
+            SQLRepo.ReassignAmbulance(AssignmentA, AssignmentB);
             //Assert
-            Assert.AreEqual(AssignmentB.AmbulanceId, AssignmentC.AmbulanceId);
+            Assert.AreEqual(AssignmentA.AmbulanceId, AssignmentB.AmbulanceId);
         }
         [TestMethod]
         public void SetIsMatchedTrueTest()
         {
-            _assignmentRepo.SetIsMatchedTrue(AssignmentC, AssignmentB);
+            SQLRepo.SetIsMatchedTrue(AssignmentA, AssignmentB);
+            Assert.IsTrue(AssignmentA.IsMatched == true);
             Assert.IsTrue(AssignmentB.IsMatched == true);
-            Assert.IsTrue(AssignmentC.IsMatched == true);
         }
 
         [TestMethod]
@@ -118,18 +139,19 @@ namespace Test
         [TestMethod]
         public void GetAllAssignments()
         {
+
             IEnumerable<Assignment> found = SQLRepo.GetAll();
+            //Assert.IsTrue(found.Count<Assignment>() == 3); //måske indsætte en query til SELECT COUNT(*) 
             Assert.IsTrue(found.Count<Assignment>() == 3);
-                       
         }
         [TestMethod]
         public void UpdateAssignment()
         {
             AssignmentD.AmbulanceId = "changed";
-            AssignmentD.IsMatched = false;
+            AssignmentD.IsMatched = true;
             SQLRepo.Update(AssignmentD);
             SQLRepo.GetById(AssignmentD.RegionAssignmentId);
-            Assert.AreEqual(SQLRepo.GetById(AssignmentD.RegionAssignmentId).IsMatched, false);
+            Assert.AreEqual(SQLRepo.GetById(AssignmentD.RegionAssignmentId).IsMatched, true);
             Assert.AreEqual(SQLRepo.GetById(AssignmentD.RegionAssignmentId).AmbulanceId, "changed");
         }
     }

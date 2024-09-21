@@ -12,12 +12,14 @@ namespace Region_Syd.Model
         private readonly string _connectionString;
         private List<Assignment> _allAssignments;
 
+        public List<Assignment> testAllAssignments { get { return _allAssignments; } }
+
         public AssignmentRepo(string connectionString)
         {
 
             _connectionString = connectionString;
 
-            _allAssignments = new List<Assignment>();
+            _allAssignments = (List<Assignment>)GetAll();
             
         }
         public void AddToAllAssignments(Assignment assignment)
@@ -39,12 +41,16 @@ namespace Region_Syd.Model
 			{
                 a1.AmbulanceId = a2.AmbulanceId;
 				SetIsMatchedTrue(a1, a2);
+                Update(a1);
+                Update(a2);
 
 			}
 			else if (DateTime.Compare(a1.Start, a2.Start) < 0) //assignment 2 skal have 1's ambulance
 			{
                 a2.AmbulanceId = a1.AmbulanceId;
                 SetIsMatchedTrue(a1, a2);
+                Update(a1);
+                Update(a2);
 			}
 		}
         
@@ -60,7 +66,7 @@ namespace Region_Syd.Model
         {
             var assignments = new List<Assignment>();
 
-            string query = @"SELECT * FROM	
+            /*string query = @"SELECT * FROM	
                             (SELECT ASSIGNMENTS.RegionAssignmentId, ASSIGNMENTS.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
 	                            FROM ASSIGNMENTS_ADDRESS 
 	                            FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId
@@ -87,7 +93,7 @@ namespace Region_Syd.Model
 
                     }
                 }
-            }
+            }*/
 
             return assignments;
         }
