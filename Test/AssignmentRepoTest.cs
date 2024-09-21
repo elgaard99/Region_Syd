@@ -76,8 +76,8 @@ namespace Test
         [TestMethod]
         public void shouldFindAssignment_WhenAssignmentExist()
         {
-            Assignment found = SQLRepo.GetById(AssignmentD.RegionAssignmentId);
-            StringAssert.Equals(AssignmentD.ToString(), found.ToString());
+            Assignment found = SQLRepo.GetById(AssignmentC.RegionAssignmentId);
+            StringAssert.Equals(AssignmentC.ToString(), found.ToString());
             //Assert.AreEqual<string>(AssignmentD.ToString(), found.ToString());
 
             // Er de ikke ens ??
@@ -96,12 +96,12 @@ namespace Test
         [TestMethod]
         public void UpdateAssignment()
         {
-            AssignmentD.AmbulanceId = "changed";
-            AssignmentD.IsMatched = true;
-            SQLRepo.Update(AssignmentD);
-            SQLRepo.GetById(AssignmentD.RegionAssignmentId);
-            Assert.AreEqual(SQLRepo.GetById(AssignmentD.RegionAssignmentId).IsMatched, true);
-            Assert.AreEqual(SQLRepo.GetById(AssignmentD.RegionAssignmentId).AmbulanceId, "changed");
+            AssignmentC.AmbulanceId = "changed";
+            AssignmentC.IsMatched = true;
+            SQLRepo.Update(AssignmentC);
+            SQLRepo.GetById(AssignmentC.RegionAssignmentId);
+            Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).IsMatched, true);
+            Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).AmbulanceId, "changed");
         }
     }
 }
