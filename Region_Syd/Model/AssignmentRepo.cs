@@ -12,7 +12,7 @@ namespace Region_Syd.Model
         private readonly string _connectionString;
         private List<Assignment> _allAssignments;
 
-        public List<Assignment> testAllAssignments { get { return _allAssignments; } }
+        public List<Assignment> testAllAssignments { get { return _allAssignments; } set { _allAssignments = value; } }
 
         public AssignmentRepo(string connectionString)
         {
