@@ -11,7 +11,7 @@ namespace Test
         Region_Syd.Model.Assignment AssignmentA, AssignmentB, AssignmentC;
         MainViewModel mvm;
         AssignmentsViewModel avm;
-
+        
         [TestInitialize]
         public void Init()
         {
@@ -20,7 +20,7 @@ namespace Test
             avm = new AssignmentsViewModel();
             AssignmentA = new Region_Syd.Model.Assignment() 
             {
-                RegionAssignmentId = "33-CD",
+                RegionAssignmentId = "C1",
                 StartAddress = "Roskilde Hos.",
                 EndAddress = "Kongensgade 118, 9320 Hjallerup",
                 Start = new DateTime(2024, 09, 05, 15, 00, 00),
@@ -40,7 +40,7 @@ namespace Test
             };
             AssignmentB = new Region_Syd.Model.Assignment()
             {
-                RegionAssignmentId = "12-AB",
+                RegionAssignmentId = "C2",
                 StartAddress = "Sygehus Syd",
                 EndAddress = "Riget",
                 Start = new DateTime(2024, 09, 06, 10, 40, 00),
@@ -61,7 +61,7 @@ namespace Test
             };
             AssignmentC = new Region_Syd.Model.Assignment()
             {
-                RegionAssignmentId = "21-BA",
+                RegionAssignmentId = "C3",
                 StartAddress = "Riget",
                 EndAddress = "Sygehus Syd",
                 Start = new DateTime(2024, 09, 06, 14, 00, 00),
@@ -86,6 +86,9 @@ namespace Test
             avm.TestAssignmentRepo.AddToAllAssignments(AssignmentA);
             avm.TestAssignmentRepo.AddToAllAssignments(AssignmentB);
             avm.TestAssignmentRepo.AddToAllAssignments(AssignmentC);
+
+            avm.GetFilteredAssignmentsFromRepo();
+            //sørger for at assignment A, B og C kommer videre fra _allAssignments i AssignmentRepo til AllAssignments i AssignmentsViewModel så countBefore bliver korrekt i test af CombineAssignmentsTest /cla
         }
         [TestMethod]
         public void GetFilteredAssignmentsFromRepoWhenAssignmentsAreUnmatchedReturnsObservableCollection()
@@ -112,12 +115,11 @@ namespace Test
         {
             int CountBefore = avm.AllAssignments.Count;
             //arrange
-            avm.Assignment1 = AssignmentA;
+            avm.Assignment1 = AssignmentC;
             avm.Assignment2 = AssignmentB;
             //avm.UpdateAllAssignments();
             
-            avm.CombineAssignments();
-            //avm.GetFilteredAssignmentsFromRepo();
+            avm.CombineAssignments();            
             //Assert
             Assert.IsTrue(CountBefore > avm.AllAssignments.Count);
         }
