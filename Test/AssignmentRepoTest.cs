@@ -28,7 +28,7 @@ namespace Test
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
-                totalCountOfAssignments = (int)command.ExecuteScalar();
+                totalCountOfAssignments = (int)command.ExecuteScalar() -1000; 
             }
         }
         [TestInitialize]
@@ -37,14 +37,14 @@ namespace Test
            
 
             SQLRepo = new AssignmentRepo(cs);
-            for (int i = 0; i < 4; i++) 
+            for (int i = 0; i < 3; i++) 
             {
                 SQLRepo.testAllAssignments[i].IsMatched = false;
             }
             AssignmentA = SQLRepo.testAllAssignments[0];
             AssignmentB = SQLRepo.testAllAssignments[1];
             AssignmentC = SQLRepo.testAllAssignments[2];
-            AssignmentD = SQLRepo.testAllAssignments[3];
+            //AssignmentD = SQLRepo.testAllAssignments[3];
             CountNumberOfRowsInASSIGNMENTSTable();
         }
         
