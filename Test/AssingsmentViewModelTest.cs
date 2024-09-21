@@ -19,66 +19,25 @@ namespace Test
             mvm = new MainViewModel();
             avm = new AssignmentsViewModel();
             AssignmentA = new Region_Syd.Model.Assignment() 
-            {
-                RegionAssignmentId = "C1",
-                StartAddress = "Roskilde Hos.",
-                EndAddress = "Kongensgade 118, 9320 Hjallerup",
-                Start = new DateTime(2024, 09, 05, 15, 00, 00),
-                Finish = new DateTime(2024, 09, 06, 13, 00, 00),
-                // Description er maks 31 chars for at vises korrekt i view
-                Description = "Kræver ilt i ambulancen",
-                AssignmentType = AssignmentTypeEnum.D,
-                StartRegion = RegionEnum.RSj,
-                EndRegion = RegionEnum.RN,
-                IsMatched = true,
-                AmbulanceId = "3",
-
-                /*RegionAssignmentId = "A",
+            {                
+                RegionAssignmentId = "A",
                 Start = DateTime.Now,
                 IsMatched = true,
-                AmbulanceId = "4",*/
+                AmbulanceId = "4",
             };
             AssignmentB = new Region_Syd.Model.Assignment()
             {
-                RegionAssignmentId = "C2",
-                StartAddress = "Sygehus Syd",
-                EndAddress = "Riget",
-                Start = new DateTime(2024, 09, 06, 10, 40, 00),
-                Finish = new DateTime(2024, 09, 06, 13, 40, 00),
-                // Description er maks 31 chars for at vises korrekt i view
-                Description = "PAtienten er PsyKOtisK",
-                AssignmentType = AssignmentTypeEnum.C,
-                StartRegion = RegionEnum.RSj,
-                EndRegion = RegionEnum.RH,
-                IsMatched = false,
-                AmbulanceId = "1",
-
-
-                /*RegionAssignmentId = "B",
+                RegionAssignmentId = "B",
                 Start = DateTime.Now.AddHours(1),
                 IsMatched = false,
-                AmbulanceId = "5",*/
+                AmbulanceId = "5",
             };
             AssignmentC = new Region_Syd.Model.Assignment()
             {
-                RegionAssignmentId = "C3",
-                StartAddress = "Riget",
-                EndAddress = "Sygehus Syd",
-                Start = new DateTime(2024, 09, 06, 14, 00, 00),
-                Finish = new DateTime(2024, 09, 06, 17, 30, 00),
-                // Description er maks 31 chars for at vises korrekt i view
-                Description = "Kræver forsigtig kørsel",
-                AssignmentType = AssignmentTypeEnum.D,
-                StartRegion = RegionEnum.RH,
-                EndRegion = RegionEnum.RSj,
-                IsMatched = false,
-                AmbulanceId = "2",
-
-
-                /*RegionAssignmentId = "C",
+                RegionAssignmentId = "C",
                 Start = DateTime.Now.AddHours(5),
                 IsMatched = false,
-                AmbulanceId = "6",*/
+                AmbulanceId = "6",
             };
             
             //tror vi er nødt til enten at lave det public eller lave en setter. Alternativt lave et test objekt der er public eller har setter (fx. testAssignemntRepo)
@@ -88,7 +47,8 @@ namespace Test
             avm.TestAssignmentRepo.AddToAllAssignments(AssignmentC);
 
             avm.GetFilteredAssignmentsFromRepo();
-            //sørger for at assignment A, B og C kommer videre fra _allAssignments i AssignmentRepo til AllAssignments i AssignmentsViewModel så countBefore bliver korrekt i test af CombineAssignmentsTest /cla
+            //sørger for at assignment A, B og C kommer videre fra _allAssignments i AssignmentRepo til
+            //AllAssignments i AssignmentsViewModel så countBefore bliver korrekt i CombineAssignmentsTest /cla
         }
         [TestMethod]
         public void GetFilteredAssignmentsFromRepoWhenAssignmentsAreUnmatchedReturnsObservableCollection()
@@ -113,12 +73,12 @@ namespace Test
         [TestMethod]
         public void CombineAssignmentsTest()
         {
-            int CountBefore = avm.AllAssignments.Count;
             //arrange
+            int CountBefore = avm.AllAssignments.Count;
+            
             avm.Assignment1 = AssignmentC;
             avm.Assignment2 = AssignmentB;
-            //avm.UpdateAllAssignments();
-            
+                        
             avm.CombineAssignments();            
             //Assert
             Assert.IsTrue(CountBefore > avm.AllAssignments.Count);
