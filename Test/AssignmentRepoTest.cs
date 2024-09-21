@@ -122,5 +122,15 @@ namespace Test
             Assert.IsTrue(found.Count<Assignment>() == 3);
                        
         }
+        [TestMethod]
+        public void UpdateAssignment()
+        {
+            AssignmentD.AmbulanceId = "changed";
+            AssignmentD.IsMatched = false;
+            SQLRepo.Update(AssignmentD);
+            SQLRepo.GetById(AssignmentD.RegionAssignmentId);
+            Assert.AreEqual(SQLRepo.GetById(AssignmentD.RegionAssignmentId).IsMatched, false);
+            Assert.AreEqual(SQLRepo.GetById(AssignmentD.RegionAssignmentId).AmbulanceId, "changed");
+        }
     }
 }

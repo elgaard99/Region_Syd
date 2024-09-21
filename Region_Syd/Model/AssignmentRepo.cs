@@ -142,7 +142,18 @@ namespace Region_Syd.Model
 
         public void Update(Assignment entity)
         {
-            throw new NotImplementedException();
+            string query = "UPDATE ASSIGNMENTS SET IsMatched = @IsMatched, AmbulanceID = @AmbulanceId WHERE RegionAssignmentId = @RegionAssignmentId";
+
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@RegionAssignmentId", entity.RegionAssignmentId);
+                command.Parameters.AddWithValue("@IsMatched", entity.IsMatched);
+                command.Parameters.AddWithValue("@AmbulanceId", entity.AmbulanceId);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+
         }
 
         public void Delete(int id)
