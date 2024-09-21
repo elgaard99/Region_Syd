@@ -86,7 +86,7 @@ namespace Test
             AssignmentB = SQLRepo.testAllAssignments[1];
             AssignmentC = SQLRepo.testAllAssignments[2];
             AssignmentD = SQLRepo.testAllAssignments[3];
-
+            CountNumberOfRowsInASSIGNMENTSTable();
         }
         /* [TestMethod]
 
@@ -141,8 +141,7 @@ namespace Test
         {
 
             IEnumerable<Assignment> found = SQLRepo.GetAll();
-            //Assert.IsTrue(found.Count<Assignment>() == 3); //måske indsætte en query til SELECT COUNT(*) 
-            Assert.IsTrue(found.Count<Assignment>() == 3);
+            Assert.IsTrue(found.Count<Assignment>() == totalCountOfAssignments);
         }
         [TestMethod]
         public void UpdateAssignment()
