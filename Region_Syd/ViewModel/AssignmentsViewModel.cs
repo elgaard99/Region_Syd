@@ -13,11 +13,11 @@ namespace Region_Syd.ViewModel
     public class AssignmentsViewModel : ViewModelBase // skal den ikke være internal eller private??
     {
 
-        string cs = @"Server=rene-server1.database.windows.net;
-                    Database=RegionSyd;
+        string cs = @"Server=****;
+                    Database=****;
                     Trusted_Connection=False;
-                    User Id=rene-server1Admin;
-                    Password=DatabaseEr1Fase!;";
+                    User Id=****;
+                    Password=****;";
 
         AssignmentRepo _assignmentRepo;
         public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } set { _assignmentRepo = value; } }
@@ -137,9 +137,16 @@ namespace Region_Syd.ViewModel
         public void SortAssignmentsByStart()
         {
 
-            AllAssignments.OrderBy(assignment => assignment.Start);
+			var sortedAssignments = AllAssignments
+                    .OrderBy(assignment => assignment.StartRegion)
+                    .ThenBy(assignment => assignment.Start)
+                    .ToList();
+			if (!AllAssignments.SequenceEqual(sortedAssignments))
+			{
+				AllAssignments = new ObservableCollection<Assignment>(sortedAssignments); 
+			}
 
-        }
+		}
 
         public ObservableCollection<Assignment> GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
         {

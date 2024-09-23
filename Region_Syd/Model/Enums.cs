@@ -7,11 +7,11 @@ namespace Region_Syd.Model
 {
     public enum RegionEnum
     {
-        RSj,
+		RH,
+		RM,
+		RN,
+		RSj,
         RSy,
-        RH,
-        RM,
-        RN
     }
 
     public enum AssignmentTypeEnum

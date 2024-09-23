@@ -110,6 +110,12 @@
 			<ListView.View>
 				<GridView ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}"
 						  AllowsColumnReorder="False">
+					<GridViewColumn Header="Fra Region"
+									DisplayMemberBinding="{Binding StartRegion}"
+									Width="100" />
+					<GridViewColumn Header="Til Region"
+									DisplayMemberBinding="{Binding EndRegion}"
+									Width="100" />
 					<GridViewColumn Header="Opgave ID"
 									DisplayMemberBinding="{Binding RegionAssignmentId}" 
 									Width="90"/>
@@ -128,20 +134,14 @@
 					<GridViewColumn Header="Type"
 									DisplayMemberBinding="{Binding AssignmentType}"
 									Width="50" />
-					<GridViewColumn Header="Fra Region"
-									DisplayMemberBinding="{Binding StartRegion}"
-									Width="100" />
-					<GridViewColumn Header="Til Region"
-									DisplayMemberBinding="{Binding EndRegion}"
-									Width="100" />
 					<GridViewColumn Header="Opg. Beskrivelse"
 									DisplayMemberBinding="{Binding Description}"
 									Width="450" />
 				</GridView>
 			</ListView.View>
-			<ListView.GroupStyle>
+			<!--<ListView.GroupStyle>
 				<GroupStyle ContainerStyle="{StaticResource GroupFormatting}" />
-			</ListView.GroupStyle>
+			</ListView.GroupStyle>-->
 		</ListView>
 
 
