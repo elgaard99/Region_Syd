@@ -11,7 +11,7 @@ namespace Test
         Region_Syd.Model.Assignment AssignmentA, AssignmentB, AssignmentC;
         MainViewModel mvm;
         AssignmentsViewModel avm;
-
+        
         [TestInitialize]
         public void Init()
         {
@@ -19,22 +19,25 @@ namespace Test
             mvm = new MainViewModel();
             avm = new AssignmentsViewModel();
             AssignmentA = new Region_Syd.Model.Assignment() 
-            {
+            {                
                 RegionAssignmentId = "A",
                 Start = DateTime.Now,
                 IsMatched = true,
+                AmbulanceId = "4",
             };
             AssignmentB = new Region_Syd.Model.Assignment()
             {
                 RegionAssignmentId = "B",
                 Start = DateTime.Now.AddHours(1),
                 IsMatched = false,
+                AmbulanceId = "5",
             };
             AssignmentC = new Region_Syd.Model.Assignment()
             {
                 RegionAssignmentId = "C",
                 Start = DateTime.Now.AddHours(5),
                 IsMatched = false,
+                AmbulanceId = "6",
             };
             
             //tror vi er nødt til enten at lave det public eller lave en setter. Alternativt lave et test objekt der er public eller har setter (fx. testAssignemntRepo)
@@ -42,6 +45,10 @@ namespace Test
             avm.TestAssignmentRepo.AddToAllAssignments(AssignmentA);
             avm.TestAssignmentRepo.AddToAllAssignments(AssignmentB);
             avm.TestAssignmentRepo.AddToAllAssignments(AssignmentC);
+
+            avm.GetFilteredAssignmentsFromRepo();
+            //sørger for at assignment A, B og C kommer videre fra _allAssignments i AssignmentRepo til
+            //AllAssignments i AssignmentsViewModel så countBefore bliver korrekt i CombineAssignmentsTest /cla
         }
         [TestMethod]
         public void GetFilteredAssignmentsFromRepoWhenAssignmentsAreUnmatchedReturnsObservableCollection()
@@ -66,11 +73,15 @@ namespace Test
         [TestMethod]
         public void CombineAssignmentsTest()
         {
-            //avm.UpdateAllAssignments();
-            //int CountBefore = avm.AllAssignments.Count;
-            //avm.CombineAssignments(AssignmentB, AssignmentC);
+            //arrange
+            int CountBefore = avm.AllAssignments.Count;
+            
+            avm.Assignment1 = AssignmentC;
+            avm.Assignment2 = AssignmentB;
+                        
+            avm.CombineAssignments();            
             //Assert
-            //Assert.IsTrue(CountBefore > avm.AllAssignments.Count);
+            Assert.IsTrue(CountBefore > avm.AllAssignments.Count);
         }
     }
 }
