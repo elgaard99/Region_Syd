@@ -20,14 +20,14 @@ CONSTRAINT FK_Assignments_AssignmentTypes FOREIGN KEY (AssignmentTypeId) REFEREN
 
 CREATE TABLE ZIPTOWNS (
 Zip SMALLINT,
-Town NVarChar(50),	
+Town NVarChar(50) NOT NULL,	
 
 CONSTRAINT PK_ZipTowns PRIMARY KEY (Zip),
 )
 
 CREATE TABLE REGIONS (
 RegionId TINYINT,
-Region NVarChar(20),	
+Region NVarChar(20) NOT NULL,	
 
 CONSTRAINT PK_Regions PRIMARY KEY (RegionId)
 )
@@ -36,7 +36,7 @@ CREATE TABLE ADDRESS (
 AddressId INT,
 Zip SMALLINT,
 RegionId TINYINT,
-Road NVarChar(50),	
+Road NVarChar(50) NOT NULL,	
 
 CONSTRAINT PK_Address PRIMARY KEY (AddressId),
 CONSTRAINT FK1_Address_ZipTowns FOREIGN KEY (Zip) REFERENCES ZIPTOWNS(Zip), 
