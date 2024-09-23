@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 
 namespace Region_Syd.Model
 {
@@ -11,8 +12,7 @@ namespace Region_Syd.Model
 
         private readonly string _connectionString;
         private List<Assignment> _allAssignments;
-
-        public List<Assignment> testAllAssignments { get { return _allAssignments; } set { _allAssignments = value; } }
+        public List<Assignment> testAllAssignments { get {return _allAssignments; } set {_allAssignments=value; } }
 
         public AssignmentRepo(string connectionString)
         {
