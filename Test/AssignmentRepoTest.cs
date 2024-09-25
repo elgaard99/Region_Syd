@@ -98,6 +98,15 @@ namespace Test
 
         }
 
+        [TestMethod]
+        public void GetRegion()
+        {
+
+            string found = SQLRepo.GetRegion();
+            StringAssert.Equals(found, "Hovedsatden");
+
+        }
+
         //[TestMethod]
         //public void UpdateAssignment()
         //{

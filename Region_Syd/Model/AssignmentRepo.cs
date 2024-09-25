@@ -167,5 +167,22 @@ namespace Region_Syd.Model
             return assignment;
 
         }
+
+        public string GetRegion()
+        {
+            string query = @"SELECT region FROM regions WHERE regionId = 1;";
+
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand sqlite_cmd = new SQLiteCommand(query, connection);
+                connection.Open();
+
+                using (SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader())
+                {
+                    return sqlite_datareader.GetString(0);
+                }
+            }
+
+        }
     }
 }
