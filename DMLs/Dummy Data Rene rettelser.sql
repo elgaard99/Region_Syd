@@ -1,8 +1,8 @@
 INSERT INTO AssignmentTypes (AssignmentTypeId, Type)
 VALUES 
-('A', 'Akut'),
+('A', 'ALvorlig'),
 ('B', 'Alvorlig'),
-('C', 'Ikke-hastende'),
+('C', 'Ikke-Akut'),
 ('D', 'Rutine');
 
 INSERT INTO Assignments (RegionAssignmentId, AssignmentTypeId, Start, Finish, Description, IsMatched, AmbulanceID)
@@ -33,7 +33,9 @@ VALUES
 (2000, 'Frederiksberg'),
 (3000, 'Helsingør'),
 (4000, 'Roskilde'),
-(5000, 'Odense');
+(5000, 'Odense'),
+(8000, 'Aarhus'),
+(9000, 'Aalborg');
 
 INSERT INTO Regions (RegionId, Region)
 VALUES 
@@ -45,11 +47,15 @@ VALUES
 
 INSERT INTO Addresses (AddressId, Zip, RegionId, Road)
 VALUES 
-(1, 1000, 1, 'Amagerbrogade 12'),
-(2, 2000, 1, 'Frederiksberg Allé 22'),
-(3, 3000, 4, 'Strandvejen 45'),
-(4, 4000, 4, 'Algade 33'),
-(5, 5000, 5, 'Vesterbro 67');
+(1, 1000, 1, 'Amagerbrogade 12'),    -- Capital Region
+(2, 2000, 1, 'Frederiksberg Allé 22'), -- Capital Region
+(3, 3000, 4, 'Strandvejen 45'),      -- Zealand
+(4, 4000, 4, 'Algade 33'),           -- Zealand
+(5, 5000, 5, 'Vesterbro 67'),        -- Southern Denmark
+(6, 9000, 3, 'Østre Alle 15'),       -- North Denmark
+(7, 8000, 2, 'Skejbyvej 50'),        -- Central Denmark
+(8, 8000, 2, 'Søndergade 20'),       -- Central Denmark
+(9, 9000, 3, 'Vesterbro 2');         -- North Denmark
 
 INSERT INTO Assignments_Addresses (RegionAssignmentId, StartAddress, EndAddress)
 VALUES 
