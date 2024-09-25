@@ -151,7 +151,7 @@ namespace Region_Syd.ViewModel
         public ObservableCollection<Assignment> GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
         {
             List<Region_Syd.Model.Assignment> _listOfAssignments = _assignmentRepo.GetAllAssignments();
-            AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched && (assignment.AssignmentType == (AssignmentTypeEnum)3 || assignment.AssignmentType == (AssignmentTypeEnum)3))); // !assignment betyder er false, uden ! finder den true. 
+            AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched && (assignment.AssignmentType == (AssignmentTypeEnum)3 || assignment.AssignmentType == (AssignmentTypeEnum)4))); // !assignment betyder er false, uden ! finder den true. 
             return AllAssignments;
             
         }
