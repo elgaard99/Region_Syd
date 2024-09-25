@@ -171,6 +171,7 @@ namespace Region_Syd.Model
         public string GetRegion()
         {
             string query = @"SELECT region FROM regions WHERE regionId = 1;";
+            string? region = null;
 
             using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
@@ -179,8 +180,13 @@ namespace Region_Syd.Model
 
                 using (SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader())
                 {
-                    return sqlite_datareader.GetString(0);
+                    if (sqlite_datareader.Read())
+                    {
+                        region = (string)sqlite_datareader["region"];
+                    }
                 }
+
+                return region;
             }
 
         }

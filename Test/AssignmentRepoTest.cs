@@ -9,8 +9,11 @@ namespace Test
     [TestClass]
     public class AssignmentRepoTest
     {
+
+        static string projectDirectory = Path.Combine(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName, @"Region_Syd"), "testDB.db");
+
         static string pathToDB = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), "testDB.db");
-        string cs = $"Data Source={ pathToDB }";
+        string cs = $"Data Source={ projectDirectory }";
 
         AssignmentRepo SQLRepo;
 
