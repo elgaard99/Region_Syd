@@ -25,6 +25,11 @@ namespace Region_Syd.Model
                 IsMatched = false,
 
 
+                RegionsPassed = new[] { 0, 2, 4, 6 } // This will set _regionsPassed[0], [2], [4], and [6] to true
+                                                     // som altså vil svare til en tur fra region nord til region H
+                                                     // (NorMid + MidSyd + SydSjl + SjlHov)
+,
+
             });
             _allAssignments.Add(new Assignment()
             {
@@ -38,6 +43,8 @@ namespace Region_Syd.Model
                 StartRegion = RegionEnum.RH,
                 EndRegion = RegionEnum.RSj,
                 IsMatched = false,
+
+                RegionsPassed = 0, //Hvis den bare køre fra Nord til Midt (NorMid)
             });
             _allAssignments.Add(new Assignment()
             {
@@ -51,6 +58,8 @@ namespace Region_Syd.Model
                 StartRegion = RegionEnum.RSj,
                 EndRegion = RegionEnum.RN,
                 IsMatched = true,
+
+                RegionsPassed = new[] { 0, 2 } // Hvis den kører fra Nord til Midt til Syd (NorMid + MidSyd)
             });
         }
         public void AddToAllAssignments(Assignment assignment)

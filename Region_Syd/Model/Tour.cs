@@ -30,6 +30,8 @@ namespace Region_Syd.Model
                 if (i == true)
                 { FreeRegionsPassed[count] = false; }
                 
+
+                
                 count++;
             }
         }

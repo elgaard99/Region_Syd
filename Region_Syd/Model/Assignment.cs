@@ -85,19 +85,55 @@ namespace Region_Syd.Model
 			set { _isMatched = value; }
 		}
 
-		
-		
-		
-		private bool[] _regionsPassed; // En assignmentment fra Nord til Syd vil være True på 0 og 2 (Se Enum RegionBorderCross)
-
-        public  bool[] RegionsPassed
-		{
-			get { return _regionsPassed; }
-			set { _regionsPassed = value; }
-		}
 
 
 
+        
 
-	}
+        private bool[] _regionsPassed = new bool[8]; // Initialized with 8 elements
+
+        public object RegionsPassed
+        {
+            get { return _regionsPassed; }
+            set
+            {
+                // Check if the value is a single integer
+                if (value is int singleIndex)
+                {
+                    SetIndexToTrue(singleIndex);
+                }
+                // Check if the value is an array or list of integers
+                else if (value is IEnumerable<int> indices)
+                {
+                    foreach (var index in indices)
+                    {
+                        SetIndexToTrue(index); // Set each index to true
+                    }
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid type. Only int or IEnumerable<int> are supported.");
+                }
+            }
+        }
+
+        // Helper method to check bounds and set index to true
+        private void SetIndexToTrue(int index)
+        {
+            if (index >= 0 && index < _regionsPassed.Length)
+            {
+                _regionsPassed[index] = true;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException($"Index {index} is out of bounds.");
+            }
+        }
+
+
+
+
+
+
+    }
 }
