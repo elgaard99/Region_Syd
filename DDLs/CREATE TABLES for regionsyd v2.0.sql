@@ -1,5 +1,31 @@
-
+DROP TABLE IF EXISTS assignments_addresses; 
+DROP TABLE IF EXISTS assignments;
 DROP TABLE IF EXISTS addresses;
+DROP TABLE IF EXISTS zipTowns;
+DROP TABLE IF EXISTS regions;
+DROP TABLE IF EXISTS assignmentTypes;
+
+CREATE TABLE IF NOT EXISTS assignmentTypes(
+	assignmentTypeId TEXT,
+	type TEXT,
+	
+	PRIMARY KEY (assignmentTypeId)
+);
+
+CREATE TABLE IF NOT EXISTS regions (
+	regionId INT,
+	region TEXT NOT NULL,	
+	
+	PRIMARY KEY(regionId)
+);
+
+CREATE TABLE IF NOT EXISTS zipTowns (
+	zip INT,
+	town TEXT NOT NULL,	
+
+	PRIMARY KEY(zip)
+);
+
 CREATE TABLE IF NOT EXISTS addresses (
 	addressId INT,
 	zip INT,
@@ -13,15 +39,6 @@ CREATE TABLE IF NOT EXISTS addresses (
       REFERENCES regions (regionId) 
 );
 
-DROP TABLE IF EXISTS assignmentTypes;
-CREATE TABLE IF NOT EXISTS assignmentTypes(
-	assignmentTypeId TEXT,
-	type TEXT,
-	
-	PRIMARY KEY (assignmentTypeId)
-);
-
-DROP TABLE IF EXISTS assignments;
 CREATE TABLE IF NOT EXISTS assignments (
 	regionAssignmentId TEXT,
 	assignmentTypeId TEXT,
@@ -36,7 +53,6 @@ CREATE TABLE IF NOT EXISTS assignments (
       REFERENCES assignmentTypes (assignmentTypeId) 
 );
 
-DROP TABLE IF EXISTS assignments_addresses; 
 CREATE TABLE IF NOT EXISTS assignments_addresses (
 	regionAssignmentId TEXT,
 	startAddress INT,
@@ -49,20 +65,4 @@ CREATE TABLE IF NOT EXISTS assignments_addresses (
       REFERENCES addresses (addressId),
 	FOREIGN KEY (endAddress) 
       REFERENCES addresses (addressId)
-);
-
-DROP TABLE IF EXISTS regions;
-CREATE TABLE IF NOT EXISTS regions (
-	regionId INT,
-	region TEXT NOT NULL,	
-	
-	PRIMARY KEY(regionId)
-);
-
-DROP TABLE IF EXISTS zipTowns;
-CREATE TABLE IF NOT EXISTS zipTowns (
-	zip INT,
-	town TEXT NOT NULL,	
-
-	PRIMARY KEY(zip)
 );
