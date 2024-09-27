@@ -1,5 +1,9 @@
 ﻿using Microsoft.Data.SqlClient;
-using System.Data.SQLite;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Controls;
 
 namespace Region_Syd.Model
 {
@@ -11,6 +15,9 @@ namespace Region_Syd.Model
         public AssignmentRepo(string connectionString)
         {
             _connectionString = connectionString;
+
+            //_allAssignments = (List<Assignment>)GetAll();
+            
         }
         
         public void ReassignAmbulance(Assignment a1, Assignment a2)
@@ -166,6 +173,48 @@ namespace Region_Syd.Model
 
             return assignment;
 
+        }
+
+        SQLiteConnection CreateConnection()
+        {
+            SQLiteConnection sqlite_conn;
+
+            // Create a new database connection:
+            sqlite_conn = new SQLiteConnection(@"Data Source= C:\Visual Studio 2022\Source\Projekter\Region_Syd\Region_Syd\testDB.db;");
+            
+            // Open the connection:
+            try
+            {
+                sqlite_conn.Open();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Can't connect to database: \"{_connectionString}\", Exception: {ex}");
+            }
+
+            return sqlite_conn;
+
+        }
+
+        public List<int> ReadData()
+        {
+            SQLiteConnection conn = CreateConnection();
+            SQLiteDataReader sqlite_datareader;
+            SQLiteCommand sqlite_cmd;
+            sqlite_cmd = conn.CreateCommand();
+            sqlite_cmd.CommandText = "SELECT * FROM myTable;";
+
+            List<int> list = new List<int>();
+
+            sqlite_datareader = sqlite_cmd.ExecuteReader();
+            while (sqlite_datareader.Read())
+            {
+                int myreader = sqlite_datareader.GetInt32(0);
+                list.Add(myreader);
+            }
+            conn.Close();
+
+            return list;
         }
 
         public string GetRegion()
