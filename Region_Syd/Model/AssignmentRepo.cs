@@ -1,10 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 
 namespace Region_Syd.Model
 {
@@ -12,30 +7,15 @@ namespace Region_Syd.Model
     {
 
         private readonly string _connectionString;
-        private List<Assignment> _allAssignments;
-        public List<Assignment> testAllAssignments { get {return _allAssignments; } set {_allAssignments=value; } }
 
         public AssignmentRepo(string connectionString)
         {
-
             _connectionString = connectionString;
 
             //_allAssignments = (List<Assignment>)GetAll();
             
         }
-        public void AddToAllAssignments(Assignment assignment)
-        {
-            _allAssignments.Add(assignment);
-        }
-        public List<Assignment> GetAllAssignments()
-        {
-            return _allAssignments;
-        }
-        public void RemoveAssignment(Assignment assignment)
-        {
-            _allAssignments.Remove(assignment);
-        }
-
+        
         public void ReassignAmbulance(Assignment a1, Assignment a2)
         {
 			if (DateTime.Compare(a1.Start, a2.Start) > 0) //assignment 1 skal have 2's ambulance
@@ -78,18 +58,18 @@ namespace Region_Syd.Model
 	                            FULL OUTER JOIN ZIPTOWNS AS EZT ON EZT.Zip=E.Zip) AS A
                             WHERE A.RegionAssignmentId IS NOT NULL";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
+                SQLiteCommand sqlite_cmd = new SQLiteCommand(query, connection);
                 connection.Open();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader())
                 {
-                    while (reader.Read())
+                    while (sqlite_datareader.Read())
                     {
                         
                         assignments.Add(
-                            ReadAssignment(reader)
+                            ReadAssignment(sqlite_datareader)
                             );
 
                     }
@@ -126,7 +106,7 @@ namespace Region_Syd.Model
                 {
                     if (reader.Read())
                     {
-                        assignment = ReadAssignment(reader);                        
+                        //assignment = ReadAssignment(reader);                        
                     }
                 }
             }
@@ -136,15 +116,7 @@ namespace Region_Syd.Model
 
         public void Add(Assignment entity)
         {
-            //string query = "INSERT INTO ASSIGNMENTS_ADDRESS (Number) VALUES (@Number)";
-
-            //using (SqlConnection connection = new SqlConnection(_connectionString))
-            //{
-            //    SqlCommand command = new SqlCommand(query, connection);
-            //    command.Parameters.AddWithValue("@Number", semester.Number);
-            //    connection.Open();
-            //    command.ExecuteNonQuery();
-            //}
+            throw new NotImplementedException();
         }
 
         public void Update(Assignment entity)
@@ -168,7 +140,7 @@ namespace Region_Syd.Model
             throw new NotImplementedException();
         }
 
-        private Assignment ReadAssignment(SqlDataReader reader)
+        private Assignment ReadAssignment(SQLiteDataReader reader)
         {
 
             Func<string, int, string, string> Address = (street, zip, town) => $"{street}, {zip} {town}";
@@ -239,6 +211,29 @@ namespace Region_Syd.Model
             conn.Close();
 
             return list;
+        }
+
+        public string GetRegion()
+        {
+            string query = @"SELECT region FROM regions WHERE regionId = 1;";
+            string? region = null;
+
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand sqlite_cmd = new SQLiteCommand(query, connection);
+                connection.Open();
+
+                using (SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader())
+                {
+                    if (sqlite_datareader.Read())
+                    {
+                        region = (string)sqlite_datareader["region"];
+                    }
+                }
+
+                return region;
+            }
+
         }
     }
 }
