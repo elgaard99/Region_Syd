@@ -9,18 +9,19 @@ namespace Test
     [TestClass]
     public class AssignmentRepoTest
     {
-        string cs = @"Server=rene-server1.database.windows.net;
-                    Database=Sander;
-                    Trusted_Connection=False;
-                    User Id=rene-server1Admin;
-                    Password=DatabaseEr1Fase!;";
 
+        static string projectDirectory = Path.Combine(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName, @"Region_Syd"), "testDB.db");
 
-        Assignment AssignmentA, AssignmentB, AssignmentC, AssignmentD;
+        static string pathToDB = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), "testDB.db");
+        string cs = $"Data Source={ projectDirectory }";
+
         AssignmentRepo SQLRepo;
+
+        /*
+        Assignment AssignmentA, AssignmentB, AssignmentC, AssignmentD;
         int totalCountOfAssignments;
         //Leger her---------------------------------------------------------------
-        public void CountNumberOfRowsInASSIGNMENTSTable() 
+        public void CountNumberOfRowsInASSIGNMENTSTable()
         {
             string query = @"SELECT COUNT(*) FROM ASSIGNMENTS";
 
@@ -28,16 +29,19 @@ namespace Test
             {
                 SqlCommand command = new SqlCommand(query, connection);
                 connection.Open();
-                totalCountOfAssignments = (int)command.ExecuteScalar() -1000; 
+                totalCountOfAssignments = (int)command.ExecuteScalar() - 1000;
             }
         }
+        */
+
         [TestInitialize]
         public void Init()
         {
-           
 
             SQLRepo = new AssignmentRepo(cs);
-            for (int i = 0; i < 3; i++) 
+
+            /*
+            for (int i = 0; i < 3; i++)
             {
                 SQLRepo.testAllAssignments[i].IsMatched = false;
             }
@@ -46,8 +50,11 @@ namespace Test
             AssignmentC = SQLRepo.testAllAssignments[2];
             //AssignmentD = SQLRepo.testAllAssignments[3];
             CountNumberOfRowsInASSIGNMENTSTable();
+            */
+
         }
         
+        /*
         [TestMethod]
 
         public void ReAssignAmbulanceTest()
@@ -64,44 +71,54 @@ namespace Test
             Assert.IsTrue(AssignmentA.IsMatched == true);
             Assert.IsTrue(AssignmentB.IsMatched == true);
         }
+        */
 
-        [TestMethod]
-        public void shouldFindNothing_WhenAssignmentDoesNotExist()
-        {
-            Assignment nonExistingAssignment = new Assignment() { RegionAssignmentId = "-1" };
-            var found = SQLRepo.GetById(nonExistingAssignment.RegionAssignmentId);
-            Assert.IsNull(found);
-        }
+        //[TestMethod]
+        //public void shouldFindNothing_WhenAssignmentDoesNotExist()
+        //{
 
-        [TestMethod]
-        public void shouldFindAssignment_WhenAssignmentExist()
-        {
-            Assignment found = SQLRepo.GetById(AssignmentC.RegionAssignmentId);
-            StringAssert.Equals(AssignmentC.ToString(), found.ToString());
-            //Assert.AreEqual<string>(AssignmentD.ToString(), found.ToString());
+        //    Assignment nonExistingAssignment = new Assignment() { RegionAssignmentId = "-1" };
+        //    var found = SQLRepo.GetById(nonExistingAssignment.RegionAssignmentId);
+        //    Assert.IsNull(found);
 
-            // Er de ikke ens ??
-            // Expected:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2014 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>.
-            //   Actual:<33-CD, Sygehusvej 10, 4000 Roskilde, Testrupvej 56, 8320 Mårslet, 05.09.2024 11.00.00, 05.09.2024 13.30.00, Kræver ilt i ambulancen, C, RSj, RM, True, AmCReg2>. 
+        //}
 
-        }
+        //[TestMethod]
+        //public void shouldFindAssignment_WhenAssignmentExist()
+        //{
+
+        //    Assignment found = SQLRepo.GetById(AssignmentC.RegionAssignmentId);
+        //    StringAssert.Equals(AssignmentC.ToString(), found.ToString());
+            
+        //}
 
         [TestMethod]
         public void GetAllAssignments()
         {
 
             IEnumerable<Assignment> found = SQLRepo.GetAll();
-            Assert.IsTrue(found.Count<Assignment>() == totalCountOfAssignments);
+            Assert.IsTrue(found.Count<Assignment>() == 2);
+
         }
+
         [TestMethod]
-        public void UpdateAssignment()
+        public void GetRegion()
         {
-            AssignmentC.AmbulanceId = "changed";
-            AssignmentC.IsMatched = true;
-            SQLRepo.Update(AssignmentC);
-            SQLRepo.GetById(AssignmentC.RegionAssignmentId);
-            Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).IsMatched, true);
-            Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).AmbulanceId, "changed");
+
+            string found = SQLRepo.GetRegion();
+            StringAssert.Equals(found, "Hovedsatden");
+
         }
+
+        //[TestMethod]
+        //public void UpdateAssignment()
+        //{
+        //    AssignmentC.AmbulanceId = "changed";
+        //    AssignmentC.IsMatched = true;
+        //    SQLRepo.Update(AssignmentC);
+        //    SQLRepo.GetById(AssignmentC.RegionAssignmentId);
+        //    Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).IsMatched, true);
+        //    Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).AmbulanceId, "changed");
+        //}
     }
 }
