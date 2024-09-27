@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS AssignmentTypes(
 CREATE TABLE IF NOT EXISTS Regions (
 	RegionId INT,
 	Region TEXT NOT NULL,
-	SavedHours REAL
+	SavedHours REAL,
 	SavedDistance REAL,
 	
 	PRIMARY KEY(RegionId)

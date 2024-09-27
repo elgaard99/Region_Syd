@@ -13,6 +13,11 @@ namespace Region_Syd.View
     {
         public AssignmentsWindow()
         {
+
+            var currentApp = Application.Current as App;
+            string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
+
+
             InitializeComponent();
 
             AssignmentsViewModel tvm = new AssignmentsViewModel();
