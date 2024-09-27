@@ -57,16 +57,16 @@ namespace Region_Syd.Model
 
             using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
-                SQLiteCommand sqlite_cmd = new SQLiteCommand(query, connection);
+                SQLiteCommand command = new SQLiteCommand(query, connection);
                 connection.Open();
 
-                using (SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader())
+                using (SQLiteDataReader reader = command.ExecuteReader())
                 {
-                    while (sqlite_datareader.Read())
+                    while (reader.Read())
                     {
                         
                         assignments.Add(
-                            ReadAssignment(sqlite_datareader)
+                            ReadAssignment(reader)
                             );
 
                     }
@@ -93,17 +93,17 @@ namespace Region_Syd.Model
 	                            FULL OUTER JOIN ZIPTOWNS AS EZT ON EZT.Zip=E.Zip) AS A
                             WHERE A.RegionAssignmentId = @RegionAssignmentId";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
+                SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.Parameters.AddWithValue("@RegionAssignmentId", regionalAssignmentId);
                 connection.Open();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        //assignment = ReadAssignment(reader);                        
+                        assignment = ReadAssignment(reader);                        
                     }
                 }
             }
@@ -117,12 +117,12 @@ namespace Region_Syd.Model
         }
 
         public void Update(Assignment entity)
-        {
+        {            
             string query = "UPDATE ASSIGNMENTS SET IsMatched = @IsMatched, AmbulanceID = @AmbulanceId WHERE RegionAssignmentId = @RegionAssignmentId";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
+                SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.Parameters.AddWithValue("@RegionAssignmentId", entity.RegionAssignmentId);
                 command.Parameters.AddWithValue("@IsMatched", entity.IsMatched);
                 command.Parameters.AddWithValue("@AmbulanceId", entity.AmbulanceId);
