@@ -1,56 +1,68 @@
-CREATE TABLE ASSIGNMENT_TYPES (
-AssignmentTypeId NChar(1),
-Type NvarChar(10),
+DROP TABLE IF EXISTS assignments_addresses; 
+DROP TABLE IF EXISTS assignments;
+DROP TABLE IF EXISTS addresses;
+DROP TABLE IF EXISTS zipTowns;
+DROP TABLE IF EXISTS regions;
+DROP TABLE IF EXISTS assignmentTypes;
 
-CONSTRAINT PK_Assignment_Types PRIMARY KEY (AssignmentTypeId),
-)
+CREATE TABLE IF NOT EXISTS assignmentTypes(
+	assignmentTypeId TEXT,
+	type TEXT,
+	
+	PRIMARY KEY (assignmentTypeId)
+);
 
-CREATE TABLE ASSIGNMENTS (
-RegionAssignmentId NvarChar(20),
-AssignmentTypeId NChar(1),
-Start DATETIME,
-Finish DATETIME,
-Description NVarChar(100),
-IsMatched BIT, 	
-AmbulanceID NvarChar(20),
+CREATE TABLE IF NOT EXISTS regions (
+	regionId INT,
+	region TEXT NOT NULL,	
+	
+	PRIMARY KEY(regionId)
+);
 
-CONSTRAINT PK_Assignments PRIMARY KEY (RegionAssignmentId),
-CONSTRAINT FK_Assignments_AssignmentTypes FOREIGN KEY (AssignmentTypeId) REFERENCES ASSIGNMENT_TYPES(AssignmentTypeId),
-)
+CREATE TABLE IF NOT EXISTS zipTowns (
+	zip INT,
+	town TEXT NOT NULL,	
 
-CREATE TABLE ZIPTOWNS (
-Zip SMALLINT,
-Town NVarChar(50) NOT NULL,	
+	PRIMARY KEY(zip)
+);
 
-CONSTRAINT PK_ZipTowns PRIMARY KEY (Zip),
-)
+CREATE TABLE IF NOT EXISTS addresses (
+	addressId INT,
+	zip INT,
+	regionId INT,
+	road TEXT NOT NULL,	
 
-CREATE TABLE REGIONS (
-RegionId TINYINT,
-Region NVarChar(20) NOT NULL,	
+	PRIMARY KEY (addressId),
+	FOREIGN KEY (zip) 
+      REFERENCES zipTowns (zip),
+	FOREIGN KEY (regionId) 
+      REFERENCES regions (regionId) 
+);
 
-CONSTRAINT PK_Regions PRIMARY KEY (RegionId)
-)
+CREATE TABLE IF NOT EXISTS assignments (
+	regionAssignmentId TEXT,
+	assignmentTypeId TEXT,
+	start TEXT,
+	finish TEXT,
+	description TEXT,
+	isMatched INT, 	
+	ambulanceID TEXT,
+	
+	PRIMARY KEY (regionAssignmentID),
+	FOREIGN KEY (assignmentTypeId) 
+      REFERENCES assignmentTypes (assignmentTypeId) 
+);
 
-CREATE TABLE ADDRESS (
-AddressId INT,
-Zip SMALLINT,
-RegionId TINYINT,
-Road NVarChar(50) NOT NULL,	
-
-CONSTRAINT PK_Address PRIMARY KEY (AddressId),
-CONSTRAINT FK1_Address_ZipTowns FOREIGN KEY (Zip) REFERENCES ZIPTOWNS(Zip), 
-CONSTRAINT FK2_Address_Regions FOREIGN KEY (RegionId) REFERENCES REGIONS(RegionId), 
-)
-
-CREATE TABLE ASSIGNMENTS_ADDRESS (
-RegionAssignmentId NVarChar(20),
-StartAddress INT,
-EndAddress INT,
+CREATE TABLE IF NOT EXISTS assignments_addresses (
+	regionAssignmentId TEXT,
+	startAddress INT,
+	endAddress INT,
  
-CONSTRAINT PK_Assignments_Address PRIMARY KEY (RegionAssignmentId),
-CONSTRAINT FK1_AssignmentsAddress_Assignments FOREIGN KEY (RegionAssignmentId) REFERENCES ASSIGNMENTS(RegionAssignmentid),
-CONSTRAINT FK2_AssignmentsAddress_Address FOREIGN KEY (StartAddress) REFERENCES ADDRESS(AddressId),
-CONSTRAINT FK3_AssignmentsAddress_Address FOREIGN KEY (EndAddress) REFERENCES ADDRESS(AddressId),
-)
-
+	PRIMARY KEY (regionAssignmentId),
+	FOREIGN KEY (regionAssignmentId) 
+      REFERENCES assignments(regionAssignmentId),
+	FOREIGN KEY (startAddress) 
+      REFERENCES addresses (addressId),
+	FOREIGN KEY (endAddress) 
+      REFERENCES addresses (addressId)
+);
