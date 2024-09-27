@@ -43,7 +43,7 @@ namespace Region_Syd.Model
 				SetIsMatchedTrue(a1, a2);
                 Update(a1);
                 Update(a2);
-
+                AssignmentSavings(a1);
 			}
 			else if (DateTime.Compare(a1.Start, a2.Start) < 0) //assignment 2 skal have 1's ambulance
 			{
@@ -51,6 +51,7 @@ namespace Region_Syd.Model
                 SetIsMatchedTrue(a1, a2);
                 Update(a1);
                 Update(a2);
+                AssignmentSavings(a2);
 			}
 		}
         
@@ -195,6 +196,23 @@ namespace Region_Syd.Model
             };
 
             return assignment;
+
+        }
+        public static void AssignmentSavings(Assignment secondAssignment)
+        {
+            // Beregner den sparede tid for den matchede opgave.
+            TimeSpan timeSaved = secondAssignment.Start - secondAssignment.Finish;
+            double hoursSaved = timeSaved.TotalHours * 2;
+
+            // Beregner distancen ud fra tid ganget med en gennemsnits hastighed på 90 km/t
+            double distanceSaved = hoursSaved * 90;
+
+            // Tanker til metoden står nedenunder her:
+
+            // Hvis det bruges i en stringInterpolation, så kan man bestemme hvor mange decimaler skal med 
+            // ved at bruge :F2 for at f.eks. få kun 2 decimaler med.
+
+            // Find ud af hvem der sparer, ellers er det tid og afstand som er vigtigst.
 
         }
     }
