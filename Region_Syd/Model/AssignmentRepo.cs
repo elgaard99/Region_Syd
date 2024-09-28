@@ -5,14 +5,6 @@ namespace Region_Syd.Model
 {
     public class AssignmentRepo : IRepository<Assignment>
     {
-
-        private readonly string _connectionString;
-
-        public AssignmentRepo(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
-        
         public void ReassignAmbulance(Assignment a1, Assignment a2)
         {
 			if (DateTime.Compare(a1.Start, a2.Start) > 0) //assignment 1 skal have 2's ambulance

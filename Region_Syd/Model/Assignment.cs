@@ -15,8 +15,8 @@ namespace Region_Syd.Model
         private DateTime _finish;
         private string _description;
         private AssignmentTypeEnum _assignmentType;
-        private RegionEnum _startRegion;
-        private RegionEnum _endRegion;
+        private Region _startRegion;
+        private Region _endRegion;
         private bool _isMatched;
 
 
@@ -69,13 +69,13 @@ namespace Region_Syd.Model
 			set { _assignmentType = value; }
 		}
 		
-		public RegionEnum StartRegion
+		public Region StartRegion
 		{
 			get { return _startRegion; }
 			set { _startRegion = value; }
 		}
 
-		public RegionEnum EndRegion
+		public Region EndRegion
 		{
 			get { return _endRegion; }
 			set { _endRegion = value; }

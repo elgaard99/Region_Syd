@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Region_Syd.Model
 {
-    class Region
+    public class Region
     {
 		private int _regionId;
 
@@ -15,7 +15,6 @@ namespace Region_Syd.Model
 			get { return _regionId; }
 			set { _regionId = value; }
 		}
-
 		private string _name;
 
 		public string Name
@@ -37,8 +36,9 @@ namespace Region_Syd.Model
 			get { return _distanceSaved; }
 			set { _distanceSaved = value; }
 		}
-		public Region (string name, double hoursSaved, double distanceSaved)
+		public Region (string name, double hoursSaved, double distanceSaved, int regionId)
 		{
+			RegionId = regionId;
 			Name = name;
 			HoursSaved = hoursSaved;
 			DistanceSaved = distanceSaved;
