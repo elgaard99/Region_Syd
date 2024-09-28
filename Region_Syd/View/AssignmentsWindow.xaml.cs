@@ -20,7 +20,7 @@ namespace Region_Syd.View
 
             InitializeComponent();
 
-            AssignmentsViewModel tvm = new AssignmentsViewModel();
+            AssignmentsViewModel tvm = new AssignmentsViewModel(connectionString);
             DataContext = tvm;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(tvm.AllAssignments);
