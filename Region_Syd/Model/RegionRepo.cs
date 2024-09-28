@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace Region_Syd.Model
 {
-    class RegionRepo : IRepository<Region>
+    public class RegionRepo : IRepository<Region>
     {
+        private readonly string _connectionString;
+
+        public RegionRepo(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
         public void Add(Region entity)
         {
             throw new NotImplementedException();

@@ -89,7 +89,7 @@ namespace Region_Syd.Model
 
 		public Assignment() { }
 
-		public Assignment (string id, string startAddress, string endAddress, DateTime start, DateTime finish, string description, AssignmentTypeEnum type, RegionEnum startRegion, RegionEnum endRegion, bool isMatched, string ambulanceId)
+		public Assignment (string id, string startAddress, string endAddress, DateTime start, DateTime finish, string description, AssignmentTypeEnum type, Region startRegion, Region endRegion, bool isMatched, string ambulanceId)
 		{
 			RegionAssignmentId = id;
 			StartAddress = startAddress;

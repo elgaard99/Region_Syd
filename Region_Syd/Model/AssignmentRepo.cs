@@ -5,6 +5,12 @@ namespace Region_Syd.Model
 {
     public class AssignmentRepo : IRepository<Assignment>
     {
+        private readonly string _connectionString;
+
+        public AssignmentRepo(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
         public void ReassignAmbulance(Assignment a1, Assignment a2)
         {
 			if (DateTime.Compare(a1.Start, a2.Start) > 0) //assignment 1 skal have 2's ambulance
@@ -151,8 +157,8 @@ namespace Region_Syd.Model
                 Finish = (DateTime)reader["Finish"],
                 Description = (string)reader["Description"],
                 AssignmentType = reader["AssignmentTypeId"].ToString().ToAssignmentTypeEnum(),
-                StartRegion = (RegionEnum)Convert.ToInt32(reader["StartRegionId"]),
-                EndRegion = (RegionEnum)Convert.ToInt32(reader["EndRegionId"]),
+                //StartRegion = (RegionEnum)Convert.ToInt32(reader["StartRegionId"]),
+                //EndRegion = (RegionEnum)Convert.ToInt32(reader["EndRegionId"]),
                 IsMatched = (bool)reader["IsMatched"]
             };
 

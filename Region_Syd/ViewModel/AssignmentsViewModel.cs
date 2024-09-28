@@ -13,11 +13,11 @@ namespace Region_Syd.ViewModel
     public class AssignmentsViewModel : ViewModelBase // skal den ikke være internal eller private??
     {
 
-        string cs = @"Server=****;
+       /*string cs = @"Server=****;
                     Database=****;
                     Trusted_Connection=False;
                     User Id=****;
-                    Password=****;";
+                    Password=****;";*/
 
         AssignmentRepo _assignmentRepo;
         public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } set { _assignmentRepo = value; } }
@@ -41,9 +41,9 @@ namespace Region_Syd.ViewModel
         private Assignment _assignment1;
         private Assignment _assignment2;
 
-        public AssignmentsViewModel() 
+        public AssignmentsViewModel(string connectionString = null) 
         {
-            _assignmentRepo = new AssignmentRepo(cs);
+            _assignmentRepo = new AssignmentRepo(connectionString);
             AmbulanceRepo ambulanceRepo = new AmbulanceRepo();
             GetFilteredAssignmentsFromRepo();
             SortAssignmentsByStart();
