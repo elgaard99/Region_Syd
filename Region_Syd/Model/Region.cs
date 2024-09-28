@@ -44,7 +44,5 @@ namespace Region_Syd.Model
 			DistanceSaved = distanceSaved;
 		}
 
-
-
 	}
 }
