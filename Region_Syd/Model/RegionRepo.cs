@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
@@ -41,8 +42,8 @@ namespace Region_Syd.Model
                     while (sqlite_datareader.Read())
                     {
                         string name = (string)sqlite_datareader["Region"];
-                        double distanceSaved = Convert.ToDouble(sqlite_datareader["DistanceSaved"]);
-                        double hoursSaved = Convert.ToDouble(sqlite_datareader["SavedHours"]);
+                        double distanceSaved = (sqlite_datareader["SavedDistance"] as double?)  ?? 0;
+                        double hoursSaved = (sqlite_datareader["SavedHours"] as double?)  ?? 0;
                         int regionId = Convert.ToInt32(sqlite_datareader["RegionId"]);
 
                         Region region = new Region(name, hoursSaved, distanceSaved, regionId);
@@ -62,7 +63,18 @@ namespace Region_Syd.Model
 
         public void Update(Region entity)
         {
-            throw new NotImplementedException();
+            string query = "UPDATE Regions SET SavedHours = @SavedHours, SavedDistance = @SavedDistance WHERE RegionId = @RegionId";
+
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
+            {
+                SQLiteCommand command = new SQLiteCommand(query, connection);
+                command.Parameters.AddWithValue("@RegionId", entity.RegionId);
+                command.Parameters.AddWithValue("@SavedHours", entity.HoursSaved);
+                command.Parameters.AddWithValue("@SavedDistance", entity.DistanceSaved);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+
         }
     }
 }
