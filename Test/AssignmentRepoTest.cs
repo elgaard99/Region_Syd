@@ -116,16 +116,17 @@ namespace Test
             StringAssert.Equals(AssignmentA.ToString(), found.ToString());
 
         }
-        /*
+        
         [TestMethod]
         public void GetAllAssignments()
         {
 
-            IEnumerable<Assignment> found = SQLRepo.GetAll();
-            Assert.IsTrue(found.Count<Assignment>() == 2);
+            IEnumerable<Assignment> found = SQLRepo2.GetAll();
+            Assert.IsTrue(found.Count<Assignment>() == 14);
 
         }
 
+        /*
         [TestMethod]
         public void GetRegion()
         {

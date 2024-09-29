@@ -53,12 +53,12 @@ namespace Region_Syd.Model
             var assignments = new List<Assignment>();
 
             string query = @"SELECT * FROM	
-                            (SELECT ASSIGNMENTS.RegionAssignmentId, ASSIGNMENTS.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
-	                            FROM ASSIGNMENTS_ADDRESS 
-	                            FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId
-	                            FULL OUTER JOIN AssignmentTypes ON AssignmentTypes.AssignmentTypeId=ASSIGNMENTS.AssignmentTypeId
-	                            FULL OUTER JOIN Addresses AS S ON S.AddressId=ASSIGNMENTS_ADDRESS.StartAddress
-	                            FULL OUTER JOIN Addresses AS E ON E.AddressId=ASSIGNMENTS_ADDRESS.EndAddress
+                            (SELECT Assignments.RegionAssignmentId, Assignments.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
+	                            FROM Assignments_Addresses 
+	                            FULL OUTER JOIN Assignments ON Assignments.RegionAssignmentId=Assignments_Addresses.RegionAssignmentId
+	                            FULL OUTER JOIN AssignmentTypes ON AssignmentTypes.AssignmentTypeId=Assignments.AssignmentTypeId
+	                            FULL OUTER JOIN Addresses AS S ON S.AddressId=Assignments_Addresses.StartAddress
+	                            FULL OUTER JOIN Addresses AS E ON E.AddressId=Assignments_Addresses.EndAddress
 	                            FULL OUTER JOIN ZipTowns AS SZT ON SZT.Zip=S.Zip
 	                            FULL OUTER JOIN ZipTowns AS EZT ON EZT.Zip=E.Zip) AS A
                             WHERE A.RegionAssignmentId IS NOT NULL";
@@ -90,7 +90,7 @@ namespace Region_Syd.Model
             Assignment assignment = null;
             string query = @"SELECT * FROM 
                                 (SELECT Assignments.RegionAssignmentId, Assignments.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
-	                            FROM Assignments_Addresses 
+	                            FROM Assignment_Addresses 
 	                            FULL OUTER JOIN Assignments ON Assignments.RegionAssignmentId=Assignments_Addresses.RegionAssignmentId
 	                            FULL OUTER JOIN AssignmentTypes ON AssignmentTypes.AssignmentTypeId=Assignments.AssignmentTypeId
 	                            FULL OUTER JOIN Addresses AS S ON S.AddressId=Assignments_Addresses.StartAddress
