@@ -49,7 +49,6 @@ namespace Test
             SQLRepo2 = new AssignmentRepo(connectionString2, regions);
             SQLRepo3 = new AssignmentRepo(connectionString3, regions);
 
-
             AssignmentA = new Assignment()
             {
                 RegionAssignmentId = "13-WX",
@@ -64,6 +63,11 @@ namespace Test
                 StartRegion = regions.Find(r => r.RegionId == 2),
                 EndRegion = regions.Find(r => r.RegionId == 1)
             };
+
+            // til update
+            AssignmentB = SQLRepo2.GetAll().ToList()[0];
+            AssignmentB.IsMatched = false;
+            SQLRepo2.Update(AssignmentB);
 
             /*
             for (int i = 0; i < 3; i++)
@@ -124,6 +128,20 @@ namespace Test
             IEnumerable<Assignment> found = SQLRepo2.GetAll();
             Assert.IsTrue(found.Count<Assignment>() == 14);
 
+        }
+
+        [TestMethod]
+        public void UpdateAssignment()
+        {
+            Assignment testAssignment = SQLRepo2.GetAll().ToList()[0];
+            Assert.IsFalse(testAssignment.IsMatched);
+
+            Assignment updatedAssignment = testAssignment;
+            updatedAssignment.IsMatched = true;
+            SQLRepo2.Update(updatedAssignment);
+
+            Assignment resultAssignment = SQLRepo2.GetAll().ToList()[0];
+            Assert.IsTrue(resultAssignment.IsMatched);
         }
 
         /*

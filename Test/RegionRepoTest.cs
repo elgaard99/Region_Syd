@@ -22,10 +22,12 @@ namespace Test
             SQLRepo2 = new RegionRepo(connectionString2);
             SQLRepo3 = new RegionRepo(connectionString3);
 
+            // til update
             Region testRegion = SQLRepo2.GetAll().ToList()[0];
             testRegion.HoursSaved = 0;
             SQLRepo2.Update(testRegion);
 
+            // til calculate total
             IEnumerable<Region> testRegions3 = SQLRepo3.GetAll();
             foreach (Region region in testRegions3)
             {
