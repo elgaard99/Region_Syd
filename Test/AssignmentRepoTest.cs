@@ -14,14 +14,16 @@ namespace Test
         string connectionString = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["DefaultConnection"];
         string connectionString2 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection2"];
         string connectionString3 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection3"];
+        string connectionString4 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection4"];
 
         AssignmentRepo SQLRepo, SQLRepo2, SQLRepo3;
         RegionRepo regionRepo;
 
         List<Region> regions;
 
-        /*
+        
         Assignment AssignmentA, AssignmentB, AssignmentC, AssignmentD;
+        /*
         int totalCountOfAssignments;
         //Leger her---------------------------------------------------------------
         public void CountNumberOfRowsInASSIGNMENTSTable()
@@ -46,6 +48,21 @@ namespace Test
             SQLRepo = new AssignmentRepo(connectionString, regions);
             SQLRepo2 = new AssignmentRepo(connectionString2, regions);
             SQLRepo3 = new AssignmentRepo(connectionString3, regions);
+
+            AssignmentA = new Assignment()
+            {
+                RegionAssignmentId = "13-WX",
+                AssignmentType = AssignmentTypeEnum.C,
+                Start = new DateTime(2024, 09, 12, 08, 30, 00),
+                Finish = new DateTime(2024, 09, 12, 10, 30, 00),
+                Description = "Kræver rolig transport",
+                IsMatched = false,
+                AmbulanceId = "AmMReg12",
+                StartAddress = "Søndergade 20, 8000 Aarhus",
+                EndAddress = "Amagerbrogade 12, 1000 Copenhagen",
+                StartRegion = regions.Find(r => r.RegionId == 2),
+                EndRegion = regions.Find(r => r.RegionId == 1)
+            };
 
             /*
             for (int i = 0; i < 3; i++)
@@ -89,16 +106,16 @@ namespace Test
             Assert.IsNull(found);
 
         }
-        /*
+        
         [TestMethod]
         public void GetById_ShouldFindAssignment()
         {
 
-            Assignment found = SQLRepo.GetById(AssignmentC.RegionAssignmentId);
-            StringAssert.Equals(AssignmentC.ToString(), found.ToString());
+            Assignment found = SQLRepo.GetById(AssignmentA.RegionAssignmentId);
+            StringAssert.Equals(AssignmentA.ToString(), found.ToString());
 
         }
-
+        /*
         [TestMethod]
         public void GetAllAssignments()
         {

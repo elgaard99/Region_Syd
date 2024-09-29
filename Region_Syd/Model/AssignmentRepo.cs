@@ -56,11 +56,11 @@ namespace Region_Syd.Model
                             (SELECT ASSIGNMENTS.RegionAssignmentId, ASSIGNMENTS.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
 	                            FROM ASSIGNMENTS_ADDRESS 
 	                            FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId
-	                            FULL OUTER JOIN ASSIGNMENT_TYPES ON ASSIGNMENT_TYPES.AssignmentTypeId=ASSIGNMENTS.AssignmentTypeId
-	                            FULL OUTER JOIN ADDRESS AS S ON S.AddressId=ASSIGNMENTS_ADDRESS.StartAddress
-	                            FULL OUTER JOIN ADDRESS AS E ON E.AddressId=ASSIGNMENTS_ADDRESS.EndAddress
-	                            FULL OUTER JOIN ZIPTOWNS AS SZT ON SZT.Zip=S.Zip
-	                            FULL OUTER JOIN ZIPTOWNS AS EZT ON EZT.Zip=E.Zip) AS A
+	                            FULL OUTER JOIN AssignmentTypes ON AssignmentTypes.AssignmentTypeId=ASSIGNMENTS.AssignmentTypeId
+	                            FULL OUTER JOIN Addresses AS S ON S.AddressId=ASSIGNMENTS_ADDRESS.StartAddress
+	                            FULL OUTER JOIN Addresses AS E ON E.AddressId=ASSIGNMENTS_ADDRESS.EndAddress
+	                            FULL OUTER JOIN ZipTowns AS SZT ON SZT.Zip=S.Zip
+	                            FULL OUTER JOIN ZipTowns AS EZT ON EZT.Zip=E.Zip) AS A
                             WHERE A.RegionAssignmentId IS NOT NULL";
 
             using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
@@ -89,27 +89,27 @@ namespace Region_Syd.Model
 
             Assignment assignment = null;
             string query = @"SELECT * FROM 
-                                (SELECT ASSIGNMENTS.RegionAssignmentId, ASSIGNMENTS.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
-	                            FROM ASSIGNMENTS_ADDRESS 
-	                            FULL OUTER JOIN ASSIGNMENTS ON ASSIGNMENTS.RegionAssignmentId=ASSIGNMENTS_ADDRESS.RegionAssignmentId
-	                            FULL OUTER JOIN ASSIGNMENT_TYPES ON ASSIGNMENT_TYPES.AssignmentTypeId=ASSIGNMENTS.AssignmentTypeId
-	                            FULL OUTER JOIN ADDRESS AS S ON S.AddressId=ASSIGNMENTS_ADDRESS.StartAddress
-	                            FULL OUTER JOIN ADDRESS AS E ON E.AddressId=ASSIGNMENTS_ADDRESS.EndAddress
-	                            FULL OUTER JOIN ZIPTOWNS AS SZT ON SZT.Zip=S.Zip
-	                            FULL OUTER JOIN ZIPTOWNS AS EZT ON EZT.Zip=E.Zip) AS A
+                                (SELECT Assignments.RegionAssignmentId, Assignments.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
+	                            FROM Assignments_Addresses 
+	                            FULL OUTER JOIN Assignments ON Assignments.RegionAssignmentId=Assignments_Addresses.RegionAssignmentId
+	                            FULL OUTER JOIN AssignmentTypes ON AssignmentTypes.AssignmentTypeId=Assignments.AssignmentTypeId
+	                            FULL OUTER JOIN Addresses AS S ON S.AddressId=Assignments_Addresses.StartAddress
+	                            FULL OUTER JOIN Addresses AS E ON E.AddressId=Assignments_Addresses.EndAddress
+	                            FULL OUTER JOIN ZipTowns AS SZT ON SZT.Zip=S.Zip
+	                            FULL OUTER JOIN ZipTowns AS EZT ON EZT.Zip=E.Zip) AS A
                             WHERE A.RegionAssignmentId = @RegionAssignmentId";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
+                SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.Parameters.AddWithValue("@RegionAssignmentId", regionalAssignmentId);
                 connection.Open();
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SQLiteDataReader reader = command.ExecuteReader())
                 {
                     if (reader.Read())
                     {
-                        //assignment = ReadAssignment(reader);                        
+                        assignment = ReadAssignment(reader);                        
                     }
                 }
             }
@@ -124,11 +124,11 @@ namespace Region_Syd.Model
 
         public void Update(Assignment entity)
         {
-            string query = "UPDATE ASSIGNMENTS SET IsMatched = @IsMatched, AmbulanceID = @AmbulanceId WHERE RegionAssignmentId = @RegionAssignmentId";
+            string query = "UPDATE Assignments SET IsMatched = @IsMatched, AmbulanceID = @AmbulanceId WHERE RegionAssignmentId = @RegionAssignmentId";
 
-            using (SqlConnection connection = new SqlConnection(_connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
-                SqlCommand command = new SqlCommand(query, connection);
+                SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.Parameters.AddWithValue("@RegionAssignmentId", entity.RegionAssignmentId);
                 command.Parameters.AddWithValue("@IsMatched", entity.IsMatched);
                 command.Parameters.AddWithValue("@AmbulanceId", entity.AmbulanceId);
@@ -170,29 +170,6 @@ namespace Region_Syd.Model
             );
 
             return assignment;
-
-        }
-
-        public string GetRegion()
-        {
-            string query = @"SELECT region FROM regions WHERE regionId = 1;";
-            string? region = null;
-
-            using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
-            {
-                SQLiteCommand sqlite_cmd = new SQLiteCommand(query, connection);
-                connection.Open();
-
-                using (SQLiteDataReader sqlite_datareader = sqlite_cmd.ExecuteReader())
-                {
-                    if (sqlite_datareader.Read())
-                    {
-                        region = (string)sqlite_datareader["region"];
-                    }
-                }
-
-                return region;
-            }
 
         }
     }
