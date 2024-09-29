@@ -49,6 +49,7 @@ namespace Test
             SQLRepo2 = new AssignmentRepo(connectionString2, regions);
             SQLRepo3 = new AssignmentRepo(connectionString3, regions);
 
+
             AssignmentA = new Assignment()
             {
                 RegionAssignmentId = "13-WX",

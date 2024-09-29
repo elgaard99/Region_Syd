@@ -160,13 +160,13 @@ namespace Region_Syd.Model
                 ambulanceId: (string)reader["AmbulanceId"],
                 startAddress: Address(StartStreet, StartZip, StartTown),
                 endAddress: Address(EndStreet, EndZip, EndTown),
-                start: (DateTime)reader["Start"],
-                finish: (DateTime)reader["Finish"],
+                start: DateTime.Parse( (string)reader["Start"] ),
+                finish: DateTime.Parse( (string)reader["Finish"] ),
                 description: (string)reader["Description"],
                 type: reader["AssignmentTypeId"].ToString().ToAssignmentTypeEnum(),
                 startRegion: _regions.Find(r => r.RegionId == Convert.ToInt32(reader["StartRegionId"])),
                 endRegion: _regions.Find(r => r.RegionId == Convert.ToInt32(reader["EndRegionId"])),
-                isMatched: (bool)reader["IsMatched"]
+                isMatched: Convert.ToBoolean(reader["IsMatched"])
             );
 
             return assignment;
