@@ -139,10 +139,9 @@
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
-                FontSize="20"
-                Text="TimeSavedSouth"
-                TextAlignment="Center"
-                TextWrapping="Wrap" />
+                FontSize="40"
+			    Text="{Binding TimeSavedSouth, StringFormat={}{0:F0} Timer}"
+                TextAlignment="Center"/>
         </Border>
         <Border
             Grid.Row="1"
@@ -155,7 +154,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="TimeSavedNorth"
+					   Text="{Binding TimeSavedNorth}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -170,7 +169,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="TimeSavedZealand"
+					   Text="{Binding TimeSavedZealand}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -185,7 +184,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="TimeSavedMid"
+					   Text="{Binding TimeSavedMid}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -200,7 +199,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="TimeSavedCapital"
+					   Text="{Binding TimeSavedCapital}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -215,7 +214,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="TimeSavedDenmark"
+					   Text="{Binding TimeSavedDenmark}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
 
@@ -231,7 +230,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="DistanceSavedSouth"
+					   Text="{Binding DistanceSavedSouth, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -246,7 +245,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="DistanceSavedNorth"
+					   Text="{Binding DistanceSavedNorth}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -261,7 +260,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="DistanceSavedZealand"
+					   Text="{Binding DistanceSavedZealand}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -276,7 +275,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="DistanceSavedMid"
+					   Text="{Binding DistanceSavedMid}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -291,7 +290,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="DistanceSavedCapital"
+					   Text="{Binding DistanceSavedCapital}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -306,7 +305,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-                Text="DistanceSavedDenmark"
+					   Text="{Binding DistanceSavedDenmark}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>

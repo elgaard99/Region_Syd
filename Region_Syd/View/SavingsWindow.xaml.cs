@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Region_Syd.ViewModel;
 
 namespace Region_Syd.View
 {
@@ -22,6 +23,7 @@ namespace Region_Syd.View
 		public SavingsWindow()
 		{
 			InitializeComponent();
+			DataContext = new SavingsViewModel();
 		}
 	}
 }
