@@ -1,16 +1,26 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data.SQLite;
+using System.Linq;
 
 namespace Region_Syd.Model
 {
     public class AssignmentRepo : IRepository<Assignment>
     {
         private readonly string _connectionString;
+        private readonly List<Region> _regions;
 
-        public AssignmentRepo(string connectionString)
+        public AssignmentRepo(string connectionString, List<Region> regions)
         {
             _connectionString = connectionString;
+            _regions = regions;
         }
+
+        public AssignmentRepo(string connectionString, IEnumerable<Region> regions)
+        {
+            _connectionString = connectionString;
+            _regions = _regions.ToList();
+        }
+
         public void ReassignAmbulance(Assignment a1, Assignment a2)
         {
 			if (DateTime.Compare(a1.Start, a2.Start) > 0) //assignment 1 skal have 2's ambulance
@@ -77,8 +87,6 @@ namespace Region_Syd.Model
         public Assignment GetById(string regionalAssignmentId)
         {
 
-            
-
             Assignment assignment = null;
             string query = @"SELECT * FROM 
                                 (SELECT ASSIGNMENTS.RegionAssignmentId, ASSIGNMENTS.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
@@ -135,7 +143,7 @@ namespace Region_Syd.Model
             throw new NotImplementedException();
         }
 
-        private Assignment ReadAssignment(SQLiteDataReader reader)
+        Assignment ReadAssignment(SQLiteDataReader reader)
         {
 
             Func<string, int, string, string> Address = (street, zip, town) => $"{street}, {zip} {town}";
@@ -147,20 +155,19 @@ namespace Region_Syd.Model
             int EndZip = Convert.ToInt16(reader["EndZip"]);
             string EndTown = (string)reader["EndTown"];
 
-            Assignment assignment = new Assignment
-            {
-                RegionAssignmentId = (string)reader["RegionAssignmentId"],
-                AmbulanceId = (string)reader["AmbulanceId"],
-                StartAddress = Address(StartStreet, StartZip, StartTown),
-                EndAddress = Address(EndStreet, EndZip, EndTown),
-                Start = (DateTime)reader["Start"],
-                Finish = (DateTime)reader["Finish"],
-                Description = (string)reader["Description"],
-                AssignmentType = reader["AssignmentTypeId"].ToString().ToAssignmentTypeEnum(),
-                //StartRegion = (RegionEnum)Convert.ToInt32(reader["StartRegionId"]),
-                //EndRegion = (RegionEnum)Convert.ToInt32(reader["EndRegionId"]),
-                IsMatched = (bool)reader["IsMatched"]
-            };
+            Assignment assignment = new Assignment(
+                id: (string)reader["RegionAssignmentId"],
+                ambulanceId: (string)reader["AmbulanceId"],
+                startAddress: Address(StartStreet, StartZip, StartTown),
+                endAddress: Address(EndStreet, EndZip, EndTown),
+                start: (DateTime)reader["Start"],
+                finish: (DateTime)reader["Finish"],
+                description: (string)reader["Description"],
+                type: reader["AssignmentTypeId"].ToString().ToAssignmentTypeEnum(),
+                startRegion: _regions.Find(r => r.RegionId == Convert.ToInt32(reader["StartRegionId"])),
+                endRegion: _regions.Find(r => r.RegionId == Convert.ToInt32(reader["EndRegionId"])),
+                isMatched: (bool)reader["IsMatched"]
+            );
 
             return assignment;
 
