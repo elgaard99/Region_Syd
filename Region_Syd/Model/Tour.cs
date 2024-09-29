@@ -107,15 +107,55 @@ namespace Region_Syd.Model
 
 
         public List<Assignment> CheckForPontialMatchesForTour()
-        { 
+        {
             // Ikke implementeret endnu
-            //List<Assignment> result = new List<Assignment>();
-            //
+            
             //Get all metode til at se alle opgaver for den givne dag
 
+            List<Assignment> assignments = AssignmentRepo.GetAllAssignments();
+            
+            var dayThenMostTrue = (List<Assignment>)assignments
+                .OrderBy(a => a.Start.Day)
+                .ThenByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));
+
+            AddToTourAssignments(dayThenMostTrue[0]);
+
+            var datePotentials = dayThenMostTrue.Where(a => a.Start.Day == dayThenMostTrue[0].Start.Day);
+            //var dateAndRoutePotentials = datePotentials.Where(a => a.RegionsPassed == FreeRegionsPassed);
+
+            List<Assignment> result = new List<Assignment>();
 
 
+            List<int> indices = new List<int>(); //Liste til at putte index tal ind på
+            for (int i = 0; i < FreeRegionsPassed.Length; ++i)
+            {
+                if (FreeRegionsPassed[i])
+                {
+                    indices.Add(i);
+                }
+            }
 
+            foreach (Assignment a in datePotentials) // for hver assignment på dagen
+            {
+                foreach (var index in indices) // for hver tilængelige plads i touren
+                {
+                    if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
+                    {
+                        if (regionsPassedArray[index]) 
+                        {
+                            result.Add(a);
+                        }
+                    
+
+                    }
+
+                    
+                    
+                }
+            }
+
+
+            
 
 
 
