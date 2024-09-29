@@ -101,6 +101,7 @@ namespace Region_Syd.Model
                 if (value is int singleIndex)
                 {
                     SetIndexToTrue(singleIndex);
+
                 }
                 // Check if the value is an array or list of integers
                 else if (value is IEnumerable<int> indices)
@@ -108,6 +109,7 @@ namespace Region_Syd.Model
                     foreach (var index in indices)
                     {
                         SetIndexToTrue(index); // Set each index to true
+                        
                     }
                 }
                 else
@@ -127,6 +129,18 @@ namespace Region_Syd.Model
             else
             {
                 throw new IndexOutOfRangeException($"Index {index} is out of bounds.");
+            }
+        }
+
+        private void SetIndexToFalse(int index2)
+        {
+            if (index2 >= 0 && index2 < _regionsPassed.Length)
+            {
+                _regionsPassed[index2] = false;
+            }
+            else
+            {
+                throw new IndexOutOfRangeException($"Index {index2} is out of bounds.");
             }
         }
 

@@ -25,7 +25,7 @@ namespace Region_Syd.Model
                 IsMatched = false,
 
 
-                RegionsPassed = new[] { 0, 2, 4, 6 } // This will set _regionsPassed[0], [2], [4], and [6] to true
+                RegionsPassed = new[] { 0, 2, 4, 6 } // Den vil sætte _regionsPassed[0], [2], [4], og [6] til true
                                                      // som altså vil svare til en tur fra region nord til region H
                                                      // (NorMid + MidSyd + SydSjl + SjlHov)
 ,
