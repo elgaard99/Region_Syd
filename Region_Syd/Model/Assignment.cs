@@ -87,6 +87,8 @@ namespace Region_Syd.Model
 			set { _isMatched = value; }
 		}
 
+		public Assignment() { }
+
 		public Assignment (string id, string startAddress, string endAddress, DateTime start, DateTime finish, string description, AssignmentTypeEnum type, Region startRegion, Region endRegion, bool isMatched, string ambulanceId)
 		{
 			RegionAssignmentId = id;

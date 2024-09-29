@@ -6,16 +6,19 @@ using System.Collections.ObjectModel;
 
 namespace Test
 {
+
     [TestClass]
     public class AssignmentRepoTest
     {
 
-        static string projectDirectory = Path.Combine(Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.Parent.FullName, @"Region_Syd"), "testDB.db");
+        string connectionString = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["DefaultConnection"];
+        string connectionString2 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection2"];
+        string connectionString3 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection3"];
 
-        static string pathToDB = Path.Combine(Path.GetDirectoryName(Environment.CurrentDirectory), "testDB.db");
-        string cs = $"Data Source={ projectDirectory }";
+        AssignmentRepo SQLRepo, SQLRepo2, SQLRepo3;
+        RegionRepo regionRepo;
 
-        AssignmentRepo SQLRepo;
+        List<Region> regions;
 
         /*
         Assignment AssignmentA, AssignmentB, AssignmentC, AssignmentD;
@@ -37,8 +40,12 @@ namespace Test
         [TestInitialize]
         public void Init()
         {
+            regionRepo = new RegionRepo(connectionString);
+            regions = regionRepo.GetAll().ToList();
 
-            SQLRepo = new AssignmentRepo(cs);
+            SQLRepo = new AssignmentRepo(connectionString, regions);
+            SQLRepo2 = new AssignmentRepo(connectionString2, regions);
+            SQLRepo3 = new AssignmentRepo(connectionString3, regions);
 
             /*
             for (int i = 0; i < 3; i++)
@@ -53,7 +60,7 @@ namespace Test
             */
 
         }
-        
+
         /*
         [TestMethod]
 
@@ -73,24 +80,24 @@ namespace Test
         }
         */
 
-        //[TestMethod]
-        //public void shouldFindNothing_WhenAssignmentDoesNotExist()
-        //{
+        [TestMethod]
+        public void GetById_ShouldFindNothing()
+        {
 
-        //    Assignment nonExistingAssignment = new Assignment() { RegionAssignmentId = "-1" };
-        //    var found = SQLRepo.GetById(nonExistingAssignment.RegionAssignmentId);
-        //    Assert.IsNull(found);
+            Assignment nonExistingAssignment = new Assignment() { RegionAssignmentId = "-1" };
+            var found = SQLRepo.GetById(nonExistingAssignment.RegionAssignmentId);
+            Assert.IsNull(found);
 
-        //}
+        }
+        /*
+        [TestMethod]
+        public void GetById_ShouldFindAssignment()
+        {
 
-        //[TestMethod]
-        //public void shouldFindAssignment_WhenAssignmentExist()
-        //{
+            Assignment found = SQLRepo.GetById(AssignmentC.RegionAssignmentId);
+            StringAssert.Equals(AssignmentC.ToString(), found.ToString());
 
-        //    Assignment found = SQLRepo.GetById(AssignmentC.RegionAssignmentId);
-        //    StringAssert.Equals(AssignmentC.ToString(), found.ToString());
-            
-        //}
+        }
 
         [TestMethod]
         public void GetAllAssignments()
@@ -120,5 +127,6 @@ namespace Test
         //    Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).IsMatched, true);
         //    Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).AmbulanceId, "changed");
         //}
+        */
     }
 }
