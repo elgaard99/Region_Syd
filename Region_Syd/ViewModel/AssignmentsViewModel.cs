@@ -126,7 +126,7 @@ namespace Region_Syd.ViewModel
         {
 
 			var sortedAssignments = AllAssignments
-                    .OrderBy(assignment => assignment.StartRegion)
+                    .OrderBy(assignment => assignment.StartRegion.Name)
                     .ThenBy(assignment => assignment.Start)
                     .ToList();
 			if (!AllAssignments.SequenceEqual(sortedAssignments))

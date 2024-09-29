@@ -18,7 +18,7 @@ namespace Region_Syd.Model
         public AssignmentRepo(string connectionString, IEnumerable<Region> regions)
         {
             _connectionString = connectionString;
-            _regions = _regions.ToList();
+            _regions = regions.ToList();
         }
 
         public void ReassignAmbulance(Assignment a1, Assignment a2)
