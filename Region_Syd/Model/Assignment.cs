@@ -111,9 +111,126 @@ namespace Region_Syd.Model
 
 
         // rene
+
         // RegionsPassed = new[] { 0, 2, 4, 6 } // Den vil sætte _regionsPassed[0], [2], [4], og [6] til true
         // som altså vil svare til en tur fra region nord til region H
         // (NorMid + MidSyd + SydSjl + SjlHov)
+
+
+        public List<int> FindRegionsPassed()
+        {
+            int start = StartRegion.RegionId;
+            int end = EndRegion.RegionId;
+
+            List<int> parsedRegions = new List<int>();
+
+            if (start == 1) // hovedstaden
+            {
+
+                parsedRegions.Add(7);
+
+                switch (end)
+                {
+                    case 2: // midt 
+                        parsedRegions.Add(5);
+                        parsedRegions.Add(3);
+                        break;
+                    case 3: // nord
+                        parsedRegions.Add(5);
+                        parsedRegions.Add(3);
+                        parsedRegions.Add(1);
+                        break;
+                    case 5: // syd
+                        parsedRegions.Add(5);
+                        break;
+                }
+
+            }
+            else if (start == 4) // sjælland
+            {
+                switch (end)
+                {
+                    case 1: // hoved
+                        parsedRegions.Add(6);
+                        break;
+                    case 2: // midt
+                        parsedRegions.Add(5);
+                        parsedRegions.Add(3);
+                        break;
+                    case 3: // nord
+                        parsedRegions.Add(5);
+                        parsedRegions.Add(3);
+                        parsedRegions.Add(1);
+                        break;
+                    case 5: // syd
+                        parsedRegions.Add(5);
+                        break;
+                }
+            }
+            else if (start == 5) // syd 
+            {
+                switch (end)
+                {
+                    case 1: // hoved
+                        parsedRegions.Add(4);
+                        parsedRegions.Add(6);
+                        break;
+                    case 2: // midt
+                        parsedRegions.Add(3);
+                        break;
+                    case 3: // nord
+                        parsedRegions.Add(3);
+                        parsedRegions.Add(1);
+                        break;
+                    case 4: // sjælland
+                        parsedRegions.Add(4);
+                        break;
+                }
+            }
+            else if (start == 2) // midt
+            {
+                switch (end)
+                {
+                    case 1: // hoved
+                        parsedRegions.Add(2);
+                        parsedRegions.Add(4);
+                        parsedRegions.Add(6);
+                        break;
+                    case 3: // nord
+                        parsedRegions.Add(1);
+                        break;
+                    case 4: // sjælland
+                        parsedRegions.Add(2);
+                        parsedRegions.Add(4);
+                        break;
+                    case 5: // syd
+                        parsedRegions.Add(2);
+                        break;
+                }
+            }
+            else if (start == 3) // nord
+            {
+                parsedRegions.Add(0);
+
+                switch (end)
+                {
+                    case 1: // hoved
+                        parsedRegions.Add(2);
+                        parsedRegions.Add(4);
+                        parsedRegions.Add(6);
+                        break;
+                    case 4: // sjælland
+                        parsedRegions.Add(2);
+                        parsedRegions.Add(4);
+                        break;
+                    case 5:
+                        parsedRegions.Add(2);
+                        break;
+                }
+            }
+
+            return parsedRegions;
+        }
 
 
         private bool[] _regionsPassed = new bool[8]; // Initialized with 8 elements

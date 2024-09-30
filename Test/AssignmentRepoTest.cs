@@ -120,13 +120,21 @@ namespace Test
             StringAssert.Equals(AssignmentA.ToString(), found.ToString());
 
         }
-        
+
         [TestMethod]
         public void GetAllAssignments()
         {
 
             IEnumerable<Assignment> found = SQLRepo2.GetAll();
-            Assert.IsTrue(found.Count<Assignment>() == 14);
+            Assert.IsTrue(found.Count<Assignment>() == 15);
+
+            Assignment foundAssignment = found.Last();
+            List<int> shouldParseRegions = new List<int> { 0, 2 };
+
+            List<int> result = foundAssignment.FindRegionsPassed();
+            result.Sort();
+
+            Assert.AreEqual(result, shouldParseRegions);
 
         }
 
@@ -143,27 +151,5 @@ namespace Test
             Assignment resultAssignment = SQLRepo2.GetAll().ToList()[0];
             Assert.IsTrue(resultAssignment.IsMatched);
         }
-
-        /*
-        [TestMethod]
-        public void GetRegion()
-        {
-
-            string found = SQLRepo.GetRegion();
-            StringAssert.Equals(found, "Hovedsatden");
-
-        }
-
-        //[TestMethod]
-        //public void UpdateAssignment()
-        //{
-        //    AssignmentC.AmbulanceId = "changed";
-        //    AssignmentC.IsMatched = true;
-        //    SQLRepo.Update(AssignmentC);
-        //    SQLRepo.GetById(AssignmentC.RegionAssignmentId);
-        //    Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).IsMatched, true);
-        //    Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).AmbulanceId, "changed");
-        //}
-        */
     }
 }

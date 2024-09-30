@@ -29,7 +29,7 @@ namespace Region_Syd.ViewModel
                 OnPropertyChanged(nameof(AllAssignments));
             }
         }
-
+        
         private Assignment _selectedAssignment;
         private Assignment _assignment1;
         private Assignment _assignment2;
@@ -141,7 +141,11 @@ namespace Region_Syd.ViewModel
             List<Assignment> _listOfAssignments = _assignmentRepo.GetAll().ToList();
             AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched && (assignment.AssignmentType == AssignmentTypeEnum.C || assignment.AssignmentType == AssignmentTypeEnum.D)));// !assignment betyder er false, uden ! finder den true. 
 
+        }
 
+        public ObservableCollection<Assignment> GetSuggestions()
+        {
+            return null;
         }
 
 
