@@ -32,7 +32,6 @@ namespace Test
             foreach (Region region in testRegions3)
             {
                 region.HoursSaved = 1;
-                region.DistanceSaved = 1.1;
                 SQLRepo3.Update(region);
             }
         }

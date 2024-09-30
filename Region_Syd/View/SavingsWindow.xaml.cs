@@ -22,8 +22,11 @@ namespace Region_Syd.View
 	{
 		public SavingsWindow()
 		{
+			var currentApp = Application.Current as App;
+			string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
+
 			InitializeComponent();
-			DataContext = new SavingsViewModel();
+			DataContext = new SavingsViewModel(connectionString);
 		}
 	}
 }
