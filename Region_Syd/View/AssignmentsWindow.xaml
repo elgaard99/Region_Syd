@@ -36,11 +36,11 @@
 
         <!--  Items i ListView  -->
         <Style TargetType="ListView">
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontSize" Value="20" />
         </Style>
 
         <Style TargetType="ListViewItem">
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="1,1,1,1" />
         </Style>
@@ -110,8 +110,8 @@
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}">
                     <GridViewColumn
                         Width="100"
-                        DisplayMemberBinding="{Binding StartRegion.Name}"
-                        Header="Fra Region" />
+						DisplayMemberBinding="{Binding StartRegion.Name, StringFormat={}{0.9}}"
+                        Header="Fra Region"/>
                     <GridViewColumn
                         Width="100"
                         DisplayMemberBinding="{Binding EndRegion.Name}"
