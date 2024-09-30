@@ -110,7 +110,7 @@ namespace Region_Syd.Model
         
 
 
-        public List<Assignment> CheckForPontialMatchesForTour()
+        public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment)
         {
             // Ikke implementeret endnu
             
@@ -118,16 +118,16 @@ namespace Region_Syd.Model
 
             List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
             
-            var dayThenMostTrue = (List<Assignment>)assignments //sorterer efter dag, og derefter hvilken på assignment der har flest trues 
-                .OrderBy(a => a.Start.Day)
-                .ThenByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));
+            //var dayThenMostTrue = (List<Assignment>)assignments //sorterer efter dag, og derefter hvilken på assignment der har flest trues 
+            //    .OrderBy(a => a.Start.Day)
+            //    .ThenByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));
 
-            AddToTourAssignments(dayThenMostTrue[0]); //Den første på den sorterede liste bliver den første assignment i Tour
+            AddToTourAssignments(assignment); //Den første på den sorterede liste bliver den første assignment i Tour
 
-            var datePotentials = dayThenMostTrue.Where(a => a.Start.Day == dayThenMostTrue[0].Start.Day);
+            var datePotentials = assignments.Where(a => a.Start.Day == assignment.Start.Day);
             //var dateAndRoutePotentials = datePotentials.Where(a => a.RegionsPassed == FreeRegionsPassed);
 
-            List<Assignment> result = new List<Assignment>();
+            List<Assignment> PotentialAssignments = new List<Assignment>();
 
 
             List<int> indices = new List<int>(); //Liste til at putte index tal ind på
@@ -147,7 +147,7 @@ namespace Region_Syd.Model
                     {
                         if (regionsPassedArray[index]) 
                         {
-                            result.Add(a); //adder til liste over potentielle assignments
+                            PotentialAssignments.Add(a); //adder til liste over potentielle assignments
                         }
                     
 
@@ -163,7 +163,7 @@ namespace Region_Syd.Model
 
 
 
-            return result; 
+            return PotentialAssignments; 
         }
 
     }
