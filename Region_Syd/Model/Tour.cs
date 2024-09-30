@@ -112,13 +112,13 @@ namespace Region_Syd.Model
             
             //Get all metode til at se alle opgaver for den givne dag
 
-            List<Assignment> assignments = AssignmentRepo.GetAllAssignments();
+            List<Assignment> assignments = AssignmentRepo.GetAllAssignments(); 
             
-            var dayThenMostTrue = (List<Assignment>)assignments
+            var dayThenMostTrue = (List<Assignment>)assignments //sorterer efter dag, og derefter hvilken på assignment der har flest trues 
                 .OrderBy(a => a.Start.Day)
                 .ThenByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));
 
-            AddToTourAssignments(dayThenMostTrue[0]);
+            AddToTourAssignments(dayThenMostTrue[0]); //Den første på den sorterede liste bliver den første assignment i Tour
 
             var datePotentials = dayThenMostTrue.Where(a => a.Start.Day == dayThenMostTrue[0].Start.Day);
             //var dateAndRoutePotentials = datePotentials.Where(a => a.RegionsPassed == FreeRegionsPassed);
