@@ -39,7 +39,7 @@ namespace Region_Syd.ViewModel
             _regionRepo = new RegionRepo(connectionString);
             _assignmentRepo = new AssignmentRepo(connectionString, _regionRepo.GetAll());
 
-            GetFilteredAssignmentsFromRepo();
+            SetAllAssignments();
             SortAssignmentsByStart();
         }
 
@@ -136,20 +136,14 @@ namespace Region_Syd.ViewModel
 
 		}
 
-        public ObservableCollection<Assignment> GetFilteredAssignmentsFromRepo(/*DateTime? pickUpTime = null, ClassOfAssignment? classOfAssignment = null, Region? fromRegion = null, *//*Region? toRegion = null*//* bool isMatched = false*/)
+        public void SetAllAssignments()
         {
             List<Assignment> _listOfAssignments = _assignmentRepo.GetAll().ToList();
 			AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched)); // !assignment betyder er false, uden ! finder den true. 
-            return AllAssignments; 
 
-            // vi skal kigge på dette \\
             
         }
 
-        public ObservableCollection<Ambulance> GetAmbulancesFromRepo()
-        {
-            throw new NotImplementedException();
-        }
 
         public void CombineAssignments()
         {
@@ -161,7 +155,7 @@ namespace Region_Syd.ViewModel
             Assignment2 = null;
 
             _assignmentRepo.ReassignAmbulance(a1, a2);            
-            GetFilteredAssignmentsFromRepo();
+            SetAllAssignments();
             SortAssignmentsByStart();
         }
         
