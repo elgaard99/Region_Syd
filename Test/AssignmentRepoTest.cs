@@ -125,17 +125,29 @@ namespace Test
         public void GetAllAssignments()
         {
 
-            IEnumerable<Assignment> found = SQLRepo2.GetAll();
-            Assert.IsTrue(found.Count<Assignment>() == 15);
+            var found = SQLRepo2.GetAll().ToList();
+            Assert.IsTrue(found.Count<Assignment>() == 17);
+            
 
-            Assignment foundAssignment = found.Last();
+                // skal nok være i en AssignmentTest.cs
             List<int> shouldParseRegions = new List<int> { 0, 2 };
+            List<int> b = new List<int> { 1, 3, 5, 7 };
+            List<int> c = new List<int> { 0, 2, 4, 6 };
+            string[] toTest = new string[] { "99-ZZ", "98-ZZ", "97-ZZ" };
 
-            List<int> result = foundAssignment.FindRegionsPassed();
-            result.Sort();
+            for(int i=0; i<3; i++)
+            {
+                List<int> result = found.Find(a => a.RegionAssignmentId == toTest[i]).FindRegionsPassed();
+                result.Sort();
 
-            Assert.AreEqual(result, shouldParseRegions);
+                CollectionAssert.AreEqual(shouldParseRegions, result);
 
+                if (i == 0)
+                    shouldParseRegions = b;
+                else
+                    shouldParseRegions = c;
+            }
+                // herned til
         }
 
         [TestMethod]
