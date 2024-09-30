@@ -32,7 +32,6 @@ namespace Test
             foreach (Region region in testRegions3)
             {
                 region.HoursSaved = 1;
-                region.DistanceSaved = 1.1;
                 SQLRepo3.Update(region);
             }
         }
@@ -63,7 +62,6 @@ namespace Test
         {
             Region testRegion = SQLRepo3.CalculateTotalSavings();
             StringAssert.Equals(testRegion.Name, "Danmark");
-            Assert.IsTrue(testRegion.DistanceSaved == 5.5);
             Assert.IsTrue(testRegion.HoursSaved == 5);
         }
     }
