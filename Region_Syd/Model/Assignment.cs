@@ -15,8 +15,8 @@ namespace Region_Syd.Model
         private DateTime _finish;
         private string _description;
         private AssignmentTypeEnum _assignmentType;
-        private RegionEnum _startRegion;
-        private RegionEnum _endRegion;
+        private Region _startRegion;
+        private Region _endRegion;
         private bool _isMatched;
 
 
@@ -69,13 +69,13 @@ namespace Region_Syd.Model
 			set { _assignmentType = value; }
 		}
 		
-		public RegionEnum StartRegion
+		public Region StartRegion
 		{
 			get { return _startRegion; }
 			set { _startRegion = value; }
 		}
 
-		public RegionEnum EndRegion
+		public Region EndRegion
 		{
 			get { return _endRegion; }
 			set { _endRegion = value; }
@@ -89,7 +89,7 @@ namespace Region_Syd.Model
 
 		public Assignment() { }
 
-		public Assignment (string id, string startAddress, string endAddress, DateTime start, DateTime finish, string description, AssignmentTypeEnum type, RegionEnum startRegion, RegionEnum endRegion, bool isMatched, string ambulanceId)
+		public Assignment (string id, string startAddress, string endAddress, DateTime start, DateTime finish, string description, AssignmentTypeEnum type, Region startRegion, Region endRegion, bool isMatched, string ambulanceId)
 		{
 			RegionAssignmentId = id;
 			StartAddress = startAddress;
@@ -106,7 +106,7 @@ namespace Region_Syd.Model
 
         public override string ToString()
         {
-			return $"{RegionAssignmentId}, {StartAddress}, {EndAddress}, {Start}, {Finish}, {Description}, {AssignmentType}, {StartRegion}, {EndRegion}, {IsMatched}, {AmbulanceId}";
+			return $"{RegionAssignmentId}, {StartAddress}, {EndAddress}, {Start}, {Finish}, {Description}, {AssignmentType}, {StartRegion.Name}, {EndRegion.Name}, {IsMatched}, {AmbulanceId}";
         }
     }
 }

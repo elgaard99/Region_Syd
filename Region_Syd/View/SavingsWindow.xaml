@@ -10,7 +10,80 @@
     Height="800"
     WindowState="Maximized"
     mc:Ignorable="d">
-    <Grid>
+	<Window.Resources>
+
+		<Style x:Key="ColumnHeaderTextStyle"
+			   TargetType="TextBlock">
+			<Setter Property="Foreground"
+					Value="Red" />
+			<Setter Property="FontSize"
+					Value="18" />
+			<Setter Property="TextAlignment"
+					Value="Center" />
+		</Style>
+
+		<Style x:Key="myControlTemplateStyle"
+			   TargetType="{x:Type GridViewColumnHeader}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+						<Grid>
+							<DockPanel HorizontalAlignment="Center"
+									   VerticalAlignment="Center">
+								<TextBlock Style="{StaticResource ColumnHeaderTextStyle}"
+										   Text="{TemplateBinding Content}" />
+							</DockPanel>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Margin"
+					Value="0,0,0,0" />
+		</Style>
+
+		<!--  Items i ListView  -->
+		<Style TargetType="ListView">
+			<Setter Property="FontSize"
+					Value="30" />
+		</Style>
+
+		<Style TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment"
+					Value="Center" />
+			<Setter Property="BorderBrush"
+					Value="Black" />
+			<Setter Property="BorderThickness"
+					Value="1,1,1,1" />
+		</Style>
+
+		<!--  Item Groups i ListView  -->
+		<Style x:Key="GroupFormatting"
+			   TargetType="{x:Type GroupItem}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate>
+						<Expander IsExpanded="True">
+							<Expander.Header>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock VerticalAlignment="Bottom"
+											   FontSize="22"
+											   FontWeight="Bold"
+											   Foreground="Gray"
+											   Text="{Binding Name}" />
+								</StackPanel>
+							</Expander.Header>
+							<ItemsPresenter />
+						</Expander>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+
+		</Style>
+
+	</Window.Resources>
+
+
+	<Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="20*" />
@@ -39,7 +112,49 @@
 
         <!--  Row 2  -->
         <Rectangle Grid.Row="2" Fill="DarkRed" />
-        <Label
+
+		<ListView x:Name="lvRegions"
+				  Grid.Row="1"
+				  Margin="40,0,40,0"
+				  ItemsSource="{Binding Regions}">
+			<ListView.View>
+				<GridView AllowsColumnReorder="False"
+						  ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}">
+					<GridViewColumn Width="200"
+						            Header="Region">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding DisplayName}"
+										   TextAlignment="Left" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+
+					<GridViewColumn Width="1200"
+									Header="Timer sparret">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding HoursSaved}"
+										   TextAlignment="Center" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+
+					<GridViewColumn 
+									Header="Kilometer sparret">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding DistanceSaved}"
+										   TextAlignment="Right" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</ListView.View>
+		</ListView>
+
+
+		<!--<Label
             Grid.Row="1"
             Width="264"
             Height="53"
@@ -154,7 +269,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedNorth}"
+					   Text="{Binding TimeSavedNorth, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -169,7 +284,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedZealand}"
+					   Text="{Binding TimeSavedZealand, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -184,7 +299,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedMid}"
+					   Text="{Binding TimeSavedMid, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -199,7 +314,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedCapital}"
+					   Text="{Binding TimeSavedCapital, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -214,7 +329,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedDenmark}"
+					   Text="{Binding TimeSavedDenmark, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
 
@@ -245,7 +360,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedNorth}"
+					   Text="{Binding DistanceSavedNorth, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -260,7 +375,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedZealand}"
+					   Text="{Binding DistanceSavedZealand, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -275,7 +390,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedMid}"
+					   Text="{Binding DistanceSavedMid, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -290,7 +405,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedCapital}"
+					   Text="{Binding DistanceSavedCapital, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -305,10 +420,10 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedDenmark}"
+					   Text="{Binding DistanceSavedDenmark, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
-        </Border>
+        </Border>-->
 
 
 

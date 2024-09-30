@@ -10,6 +10,7 @@ namespace Region_Syd.ViewModel
     {
         List<string> usernames = new List<string>();
 
+        int _loginCount;
         private string _enteredUsername;
 
         public string EnteredUsername
@@ -24,7 +25,9 @@ namespace Region_Syd.ViewModel
 
 
         public MainViewModel() 
-        { 
+        {
+            _loginCount = 0;
+
             usernames = new List<string>();
             usernames.Add("Sander");
             usernames.Add("Christian");
@@ -36,7 +39,7 @@ namespace Region_Syd.ViewModel
 
         public bool CanLogin()
         {
-            if (string.IsNullOrEmpty(_enteredUsername)) return false;
+            if (string.IsNullOrEmpty(_enteredUsername) || _loginCount > 2) return false;
 
             return true;
         }
@@ -52,6 +55,7 @@ namespace Region_Syd.ViewModel
             if (usernames.Exists(u => u == EnteredUsername))
             { return true; }
 
+            _loginCount++;
             return false;
 
         }

@@ -36,11 +36,11 @@
 
         <!--  Items i ListView  -->
         <Style TargetType="ListView">
-            <Setter Property="FontSize" Value="30" />
+            <Setter Property="FontSize" Value="20" />
         </Style>
 
         <Style TargetType="ListViewItem">
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="1,1,1,1" />
         </Style>
@@ -108,42 +108,97 @@
             SelectedItem="{Binding SelectedAssignment}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}">
-                    <GridViewColumn
-                        Width="100"
-                        DisplayMemberBinding="{Binding StartRegion}"
-                        Header="Fra Region" />
-                    <GridViewColumn
-                        Width="100"
-                        DisplayMemberBinding="{Binding EndRegion}"
-                        Header="Til Region" />
-                    <GridViewColumn
-                        Width="90"
-                        DisplayMemberBinding="{Binding RegionAssignmentId}"
-                        Header="Opgave ID" />
-                    <GridViewColumn
-                        Width="300"
-                        DisplayMemberBinding="{Binding StartAddress}"
-                        Header="Fra add." />
-                    <GridViewColumn
-                        Width="300"
-                        DisplayMemberBinding="{Binding EndAddress}"
-                        Header="Til add." />
-                    <GridViewColumn
-                        Width="210"
-                        DisplayMemberBinding="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}"
-                        Header="Afhentningstidspunkt" />
-                    <GridViewColumn
-                        Width="210"
-                        DisplayMemberBinding="{Binding Finish, StringFormat={}{0: HH:mm}}"
-                        Header="Ankomst" />
-                    <GridViewColumn
-                        Width="50"
-                        DisplayMemberBinding="{Binding AssignmentType}"
-                        Header="Type" />
-                    <GridViewColumn
-                        Width="450"
-                        DisplayMemberBinding="{Binding Description}"
-                        Header="Opg. Beskrivelse" />
+					<GridViewColumn Header="Fra Region"
+									Width="100">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding StartRegion.DisplayName}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding StartRegion.DisplayName}"/>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Til Region"
+									Width="100">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding EndRegion.DisplayName}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding EndRegion.DisplayName}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Opgave ID"
+									Width="90">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding RegionAssignmentId}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding RegionAssignmentId}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Fra add."
+									Width="300">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding StartAddress}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding StartAddress}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Til add."
+									Width="300">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding EndAddress}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding EndAddress}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Afhentningstidspunkt"
+									Width="210">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding Start}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Ankomst"
+									Width="210">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Finish, StringFormat={}{0:dd/MM/yy HH:mm}}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding Finish}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Type"
+									Width="50">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding AssignmentType}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding AssignmentType}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					<GridViewColumn Header="Opg. Beskrivelse"
+									Width="450">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding Description}"
+										   TextTrimming="CharacterEllipsis"
+										   ToolTip="{Binding Description}" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+
                 </GridView>
             </ListView.View>
             <!--<ListView.GroupStyle>
