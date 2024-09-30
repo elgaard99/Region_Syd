@@ -111,7 +111,9 @@ namespace Region_Syd.Model
 
 
         // rene
-
+        // RegionsPassed = new[] { 0, 2, 4, 6 } // Den vil sætte _regionsPassed[0], [2], [4], og [6] til true
+        // som altså vil svare til en tur fra region nord til region H
+        // (NorMid + MidSyd + SydSjl + SjlHov)
 
 
         private bool[] _regionsPassed = new bool[8]; // Initialized with 8 elements
