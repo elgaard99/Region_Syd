@@ -19,7 +19,7 @@ namespace Region_Syd.Model
 				SetIsMatchedTrue(a1, a2);
                 Update(a1);
                 Update(a2);
-
+                AssignmentSavings(a1);
 			}
 			else if (DateTime.Compare(a1.Start, a2.Start) < 0) //assignment 2 skal have 1's ambulance
 			{
@@ -27,6 +27,7 @@ namespace Region_Syd.Model
                 SetIsMatchedTrue(a1, a2);
                 Update(a1);
                 Update(a2);
+                AssignmentSavings(a2);
 			}
 		}
         
