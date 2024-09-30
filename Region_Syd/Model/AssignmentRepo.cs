@@ -91,7 +91,7 @@ namespace Region_Syd.Model
             Assignment assignment = null;
             string query = @"SELECT * FROM 
                                 (SELECT Assignments.RegionAssignmentId, Assignments.AssignmentTypeId, Type, Start, Finish, Description, IsMatched, AmbulanceId, S.Zip AS StartZip, SZT.Town AS StartTown, S.RegionId AS StartRegionId, S.Road AS StartAddress, E.Zip AS EndZip, EZT.Town AS EndTown, E.RegionId AS EndRegionId, E.Road AS EndAddress
-	                            FROM Assignment_Addresses 
+	                            FROM Assignments_Addresses 
 	                            FULL OUTER JOIN Assignments ON Assignments.RegionAssignmentId=Assignments_Addresses.RegionAssignmentId
 	                            FULL OUTER JOIN AssignmentTypes ON AssignmentTypes.AssignmentTypeId=Assignments.AssignmentTypeId
 	                            FULL OUTER JOIN Addresses AS S ON S.AddressId=Assignments_Addresses.StartAddress
