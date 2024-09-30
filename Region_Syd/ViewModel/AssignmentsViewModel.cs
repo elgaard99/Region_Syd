@@ -139,7 +139,7 @@ namespace Region_Syd.ViewModel
         public void SetAllAssignments()
         {
             List<Assignment> _listOfAssignments = _assignmentRepo.GetAll().ToList();
-            AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched && (assignment.AssignmentType == AssignmentTypeEnum.C || assignment.AssignmentType == AssignmentTypeEnum.D)));// !assignment betyder er false, uden ! finder den true. 
+            AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched && (assignment.AssignmentType == "C" || assignment.AssignmentType == "D")));// !assignment betyder er false, uden ! finder den true. 
 
 
         }

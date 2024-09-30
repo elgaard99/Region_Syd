@@ -164,7 +164,7 @@ namespace Region_Syd.Model
                 start: DateTime.Parse( (string)reader["Start"] ),
                 finish: DateTime.Parse( (string)reader["Finish"] ),
                 description: (string)reader["Description"],
-                type: reader["AssignmentTypeId"].ToString().ToAssignmentTypeEnum(),
+                type: (string)reader["AssignmentTypeId"],
                 startRegion: _regions.Find(r => r.RegionId == Convert.ToInt32(reader["StartRegionId"])),
                 endRegion: _regions.Find(r => r.RegionId == Convert.ToInt32(reader["EndRegionId"])),
                 isMatched: Convert.ToBoolean(reader["IsMatched"])
