@@ -112,25 +112,16 @@ namespace Region_Syd.Model
 
         public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment)
         {
-            // Ikke implementeret endnu
-            
-            //Get all metode til at se alle opgaver for den givne dag
-
             List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
+           
+            AddToTourAssignments(assignment); //assignment bliver sat ind som første element på Touren
+
+            var datePotentials = assignments.Where(a => a.Start.Day == assignment.Start.Day && a.Start > assignment.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
             
-            //var dayThenMostTrue = (List<Assignment>)assignments //sorterer efter dag, og derefter hvilken på assignment der har flest trues 
-            //    .OrderBy(a => a.Start.Day)
-            //    .ThenByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));
-
-            AddToTourAssignments(assignment); //Den første på den sorterede liste bliver den første assignment i Tour
-
-            var datePotentials = assignments.Where(a => a.Start.Day == assignment.Start.Day);
-            //var dateAndRoutePotentials = datePotentials.Where(a => a.RegionsPassed == FreeRegionsPassed);
-
             List<Assignment> PotentialAssignments = new List<Assignment>();
 
 
-            List<int> indices = new List<int>(); //Liste til at putte index tal ind på
+            List<int> indices = new List<int>(); //Liste til at putte index tal ind på, for at have en liste med tilgængeligheden som vi kan sammenligne med de potentielle assignments arrays
             for (int i = 0; i < FreeRegionsPassed.Length; ++i)
             {
                 if (FreeRegionsPassed[i]) //Hvis index i på arrayet er true...
@@ -149,21 +140,58 @@ namespace Region_Syd.Model
                         {
                             PotentialAssignments.Add(a); //adder til liste over potentielle assignments
                         }
-                    
-
-                    }
-
-                    
-                    
+                    }   
                 }
             }
 
-
-            
-
-
+            PotentialAssignments.OrderByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));//Sorterer listen efter dem med flest trues, altså de bedste matches i toppen
 
             return PotentialAssignments; 
+        }
+
+
+
+
+        public List<Assignment> FullAutoMatchesForTours()
+        {
+            List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
+
+            var dayThenMostTrue = (List<Assignment>)assignments //sorterer efter dag, og derefter hvilken på assignment der har flest trues 
+                .OrderBy(a => a.Start.Day)
+                .ThenByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));
+
+            AddToTourAssignments(dayThenMostTrue[0]); //Den første på den sorterede liste bliver den første assignment i Tour
+
+            var datePotentials = assignments.Where(a => a.Start.Day == dayThenMostTrue[0].Start.Day && a.Start > dayThenMostTrue[0].Finish);
+
+            List<Assignment> AutoPotentialAssignments = new List<Assignment>();
+
+
+            List<int> indices = new List<int>(); //Liste til at putte index tal ind på
+            for (int i = 0; i < FreeRegionsPassed.Length; ++i)
+            {
+                if (FreeRegionsPassed[i]) //Hvis index i på arrayet er true...
+                {
+                    indices.Add(i); //...add index i til indices listen
+                }
+            }
+
+            foreach (Assignment a in datePotentials) // for hver assignment på dagen
+            {
+                foreach (var index in indices) // for hver tilængelige plads i touren
+                {
+                    if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
+                    {
+                        if (regionsPassedArray[index])
+                        {
+                            AutoPotentialAssignments.Add(a); //adder til liste over potentielle assignments
+                        }
+                    }
+
+                }
+            }
+
+            return AutoPotentialAssignments;
         }
 
     }
