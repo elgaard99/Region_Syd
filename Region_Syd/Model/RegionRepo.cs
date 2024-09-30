@@ -42,11 +42,10 @@ namespace Region_Syd.Model
                     while (sqlite_datareader.Read())
                     {
                         string name = (string)sqlite_datareader["Region"];
-                        double distanceSaved = (sqlite_datareader["SavedDistance"] as double?)  ?? 0;
                         double hoursSaved = (sqlite_datareader["SavedHours"] as double?)  ?? 0;
                         int regionId = Convert.ToInt32(sqlite_datareader["RegionId"]);
 
-                        Region region = new Region(name, hoursSaved, distanceSaved, regionId);
+                        Region region = new Region(name, hoursSaved, regionId);
 
                         regions.Add(region);
                     }
@@ -63,14 +62,13 @@ namespace Region_Syd.Model
 
         public void Update(Region entity)
         {
-            string query = "UPDATE Regions SET SavedHours = @SavedHours, SavedDistance = @SavedDistance WHERE RegionId = @RegionId";
+            string query = "UPDATE Regions SET SavedHours = @SavedHours WHERE RegionId = @RegionId";
 
             using (SQLiteConnection connection = new SQLiteConnection(_connectionString))
             {
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 command.Parameters.AddWithValue("@RegionId", entity.RegionId);
                 command.Parameters.AddWithValue("@SavedHours", entity.HoursSaved);
-                command.Parameters.AddWithValue("@SavedDistance", entity.DistanceSaved);
                 connection.Open();
                 command.ExecuteNonQuery();
             }
@@ -79,14 +77,13 @@ namespace Region_Syd.Model
         public Region CalculateTotalSavings()
         {
             IEnumerable<Region> regions = GetAll();
-            double totalDistance = 0.0, totalHours = 0.0;
+            double totalHours = 0.0;
 
             foreach (Region region in regions)
             {
-                totalDistance += region.DistanceSaved;
                 totalHours += region.HoursSaved;
             }
-            Region totalRegion = new Region(name: "Danmark", hoursSaved: totalHours, distanceSaved: totalDistance, regionId: -1);
+            Region totalRegion = new Region(name: "Danmark", hoursSaved: totalHours, regionId: -1);
             return totalRegion;
         }
     }

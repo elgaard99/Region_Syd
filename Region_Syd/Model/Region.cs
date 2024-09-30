@@ -8,6 +8,7 @@ namespace Region_Syd.Model
 {
     public class Region
     {
+		private static int averageSpeed = 90;
 		private int _regionId;
 
 		public int RegionId
@@ -29,19 +30,16 @@ namespace Region_Syd.Model
 			get { return _hoursSaved; }
 			set { _hoursSaved = value; }
 		}
-		private double _distanceSaved;
 
 		public double DistanceSaved
 		{
-			get { return _distanceSaved; }
-			set { _distanceSaved = value; }
+			get { return HoursSaved * averageSpeed; }
 		}
-		public Region (string name, double hoursSaved, double distanceSaved, int regionId)
+		public Region (string name, double hoursSaved, int regionId)
 		{
 			RegionId = regionId;
 			Name = name;
 			HoursSaved = hoursSaved;
-			DistanceSaved = distanceSaved;
 		}
 
 	}
