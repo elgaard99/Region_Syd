@@ -124,7 +124,7 @@
 						            Header="Region">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding Name}"
+								<TextBlock Text="{Binding DisplayName}"
 										   TextAlignment="Left" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
