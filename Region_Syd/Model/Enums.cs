@@ -52,5 +52,4 @@ namespace Region_Syd.Model
             return (c.ToString()).ToAssignmentTypeEnum();
         }
     }
-
 }

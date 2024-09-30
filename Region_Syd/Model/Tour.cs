@@ -29,6 +29,10 @@ namespace Region_Syd.Model
 
         public List<Assignment> TourAssignments = new List<Assignment>();
 
+        AssignmentRepo _assignmentRepo;
+
+        public Tour(AssignmentRepo repo) { _assignmentRepo = repo; }
+
         public void AddToTourAssignments(Assignment assignment)
         {
             TourAssignments.Add(assignment);
@@ -112,7 +116,7 @@ namespace Region_Syd.Model
             
             //Get all metode til at se alle opgaver for den givne dag
 
-            List<Assignment> assignments = AssignmentRepo.GetAll(); //Dem der er isMatched false
+            List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
             
             var dayThenMostTrue = (List<Assignment>)assignments //sorterer efter dag, og derefter hvilken på assignment der har flest trues 
                 .OrderBy(a => a.Start.Day)

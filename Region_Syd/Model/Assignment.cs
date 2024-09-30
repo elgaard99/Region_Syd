@@ -27,11 +27,11 @@ namespace Region_Syd.Model
             set { _regionAssignmentId = value; }
         }
 
-        public string AmbulanceId
-        {
-            get { return _ambulanceId; }
-            set { _ambulanceId = value; }
-        }
+	public string AmbulanceId
+	{
+		get { return _ambulanceId; }
+		set { _ambulanceId = value; }
+	}
 
         public string StartAddress
         {
@@ -68,7 +68,7 @@ namespace Region_Syd.Model
             get { return _assignmentType; }
             set { _assignmentType = value; }
         }
-
+		
         public Region StartRegion
         {
             get { return _startRegion; }
@@ -106,7 +106,7 @@ namespace Region_Syd.Model
 
         public override string ToString()
         {
-            return $"{RegionAssignmentId}, {StartAddress}, {EndAddress}, {Start}, {Finish}, {Description}, {AssignmentType}, {StartRegion.Name}, {EndRegion.Name}, {IsMatched}, {AmbulanceId}";
+			return $"{RegionAssignmentId}, {StartAddress}, {EndAddress}, {Start}, {Finish}, {Description}, {AssignmentType}, {StartRegion.Name}, {EndRegion.Name}, {IsMatched}, {AmbulanceId}";
         }
 
 

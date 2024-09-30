@@ -1,18 +1,22 @@
-﻿<Window x:Class="Region_Syd.View.AssignmentsWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Region_Syd.View"
-        mc:Ignorable="d"
-        Title="AssignmentsView" Height="800" Width="1600" WindowState="Maximized">
+﻿<Window
+    x:Class="Region_Syd.View.AssignmentsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Region_Syd.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="AssignmentsView"
+    Width="1600"
+    Height="800"
+    WindowState="Maximized"
+    mc:Ignorable="d">
 
     <Window.Resources>
 
         <Style x:Key="ColumnHeaderTextStyle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="Red"/>
-            <Setter Property="FontSize" Value="18"/>
-            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Red" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="TextAlignment" Value="Center" />
         </Style>
 
         <Style x:Key="myControlTemplateStyle" TargetType="{x:Type GridViewColumnHeader}">
@@ -21,22 +25,27 @@
                     <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
                         <Grid>
                             <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <TextBlock Text="{TemplateBinding Content}" Style="{StaticResource ColumnHeaderTextStyle}"/>
+                                <TextBlock Style="{StaticResource ColumnHeaderTextStyle}" Text="{TemplateBinding Content}" />
                             </DockPanel>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Margin" Value="0,0,0,0" />
         </Style>
 
-        <!-- Items i ListView -->
+        <!--  Items i ListView  -->
         <Style TargetType="ListView">
-            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="FontSize" Value="20" />
         </Style>
 
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderThickness" Value="1,1,1,1" />
+        </Style>
 
-        <!-- Item Groups i ListView -->
+        <!--  Item Groups i ListView  -->
         <Style x:Key="GroupFormatting" TargetType="{x:Type GroupItem}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -44,7 +53,12 @@
                         <Expander IsExpanded="True">
                             <Expander.Header>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Gray" FontSize="22" VerticalAlignment="Bottom" />
+                                    <TextBlock
+                                        VerticalAlignment="Bottom"
+                                        FontSize="22"
+                                        FontWeight="Bold"
+                                        Foreground="Gray"
+                                        Text="{Binding Name}" />
                                 </StackPanel>
                             </Expander.Header>
                             <ItemsPresenter />
@@ -52,48 +66,213 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-            
+
         </Style>
 
     </Window.Resources>
-    
+
     <Grid>
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="20*" />
-            <RowDefinition Height="60*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="20*" />
         </Grid.RowDefinitions>
 
-        <!-- Row 0 -->
+        <!--  Row 0  -->
         <Rectangle Grid.Row="0" Fill="DarkRed" />
-        <TextBlock Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="40,0,0,0" Text="Region Syd" FontSize="40"/>
+        <TextBlock
+            Grid.Row="0"
+            Margin="40,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontSize="40"
+            Text="Region Syd" />
+        <Button
+            Grid.Row="0"
+            Width="150"
+            Height="100"
+            Margin="0,0,40,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Content="Besparelser"
+            FontSize="20" />
 
 
-        <!-- Row 1 -->
-        <ListView Grid.Row="1" x:Name="lvAssignments" Margin="40,0,40,0" ItemsSource="{Binding AllAssignments}">
+        <!--  Row 1  -->
+        <ListView
+            x:Name="lvAssignments"
+            Grid.Row="1"
+            Margin="40,0,40,0"
+            ItemsSource="{Binding AllAssignments}"
+            SelectedItem="{Binding SelectedAssignment}">
             <ListView.View>
-                <GridView ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}" AllowsColumnReorder="False">
-                    <GridViewColumn Header="Opgave ID" DisplayMemberBinding="{Binding RegionAssignmentId}"/>
-                    <GridViewColumn Header="Fra add." DisplayMemberBinding="{Binding StartAddress}" />
-                    <GridViewColumn Header="Til add." DisplayMemberBinding="{Binding EndAddress}" />
-                    <GridViewColumn Header="Afhentningstidspunkt" DisplayMemberBinding="{Binding Start}"/>
-                    <GridViewColumn Header="Ankomst" DisplayMemberBinding="{Binding Finish}" />
-                    <GridViewColumn Header="Opg. Beskrivelse" DisplayMemberBinding="{Binding Description}" />
-                    <GridViewColumn Header="Type" DisplayMemberBinding="{Binding AssignmentType}" />
-                    <GridViewColumn Header="Fra Region" DisplayMemberBinding="{Binding StartRegion}" />
-                    <GridViewColumn Header="Til Region" DisplayMemberBinding="{Binding EndRegion}" />
+                <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}">
+                    <GridViewColumn
+                        Width="100"
+						DisplayMemberBinding="{Binding StartRegion.Name, StringFormat={}{0.9}}"
+                        Header="Fra Region"/>
+                    <GridViewColumn
+                        Width="100"
+                        DisplayMemberBinding="{Binding EndRegion.Name}"
+                        Header="Til Region" />
+                    <GridViewColumn
+                        Width="90"
+                        DisplayMemberBinding="{Binding RegionAssignmentId}"
+                        Header="Opgave ID" />
+                    <GridViewColumn
+                        Width="300"
+                        DisplayMemberBinding="{Binding StartAddress}"
+                        Header="Fra add." />
+                    <GridViewColumn
+                        Width="300"
+                        DisplayMemberBinding="{Binding EndAddress}"
+                        Header="Til add." />
+                    <GridViewColumn
+                        Width="210"
+                        DisplayMemberBinding="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}"
+                        Header="Afhentningstidspunkt" />
+                    <GridViewColumn
+                        Width="210"
+                        DisplayMemberBinding="{Binding Finish, StringFormat={}{0: HH:mm}}"
+                        Header="Ankomst" />
+                    <GridViewColumn
+                        Width="50"
+                        DisplayMemberBinding="{Binding AssignmentType}"
+                        Header="Type" />
+                    <GridViewColumn
+                        Width="450"
+                        DisplayMemberBinding="{Binding Description}"
+                        Header="Opg. Beskrivelse" />
                 </GridView>
             </ListView.View>
-            <ListView.GroupStyle>
-                <GroupStyle ContainerStyle="{StaticResource GroupFormatting}"/>
-            </ListView.GroupStyle>
+            <!--<ListView.GroupStyle>
+				<GroupStyle ContainerStyle="{StaticResource GroupFormatting}" />
+			</ListView.GroupStyle>-->
         </ListView>
 
-            
-        <!-- Row 2 -->
+
+        <!--  Row 2  -->
         <Rectangle Grid.Row="2" Fill="DarkRed" />
-        
+
+        <TextBlock
+            Name="tbPick1"
+            Grid.Row="2"
+            Width="856"
+            Height="52"
+            Margin="248,27,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="White"
+            FontSize="24"
+            TextWrapping="Wrap">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="Assignment1.RegionAssignmentId" />
+                    <Binding Path="Assignment1.Start" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <Label
+            Grid.Row="2"
+            Width="84"
+            Height="52"
+            Margin="138,27,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            Background="White"
+            Content="1"
+            FontSize="24" />
+        <Button
+            Name="btnAdd1"
+            Grid.Row="2"
+            Width="83"
+            Height="52"
+            Margin="1179,27,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#FF65FF00"
+            Command="{Binding AddAssignment1Command}"
+            Content="Tilføj markeret" />
+        <Button
+            Name="btnRemove1"
+            Grid.Row="2"
+            Width="82"
+            Height="52"
+            Margin="1276,27,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#FFFF2F00"
+            Command="{Binding RemoveAssignment1Command}"
+            Content="Fjern" />
+
+        <TextBlock
+            Name="tbPick2"
+            Grid.Row="2"
+            Width="856"
+            Height="52"
+            Margin="248,95,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="White"
+            FontSize="24"
+            TextWrapping="Wrap">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} {1}">
+                    <Binding Path="Assignment2.RegionAssignmentId" />
+                    <Binding Path="Assignment2.Start" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <Label
+            Grid.Row="2"
+            Width="84"
+            Height="52"
+            Margin="138,95,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            Background="White"
+            Content="2"
+            FontSize="24" />
+        <Button
+            Name="btnAdd2"
+            Grid.Row="2"
+            Width="83"
+            Height="52"
+            Margin="1179,95,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#FF65FF00"
+            Command="{Binding AddAssignment2Command}"
+            Content="Tilføj markeret" />
+        <Button
+            Name="btnRemove2"
+            Grid.Row="2"
+            Width="82"
+            Height="52"
+            Margin="1276,95,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Red"
+            Command="{Binding RemoveAssignment2Command}"
+            Content="Fjern" />
+        <Button
+            Name="btnCombine"
+            Grid.Row="2"
+            Width="155"
+            Height="68"
+            Margin="1405,53,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="BurlyWood"
+            Command="{Binding CombineAssignmentsCommand}"
+            Content="Kombiner" />
+
+
     </Grid>
 </Window>
 
