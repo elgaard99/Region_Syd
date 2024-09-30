@@ -143,7 +143,7 @@ namespace Region_Syd.Model
                     {
                         if (regionsPassedArray[index]) 
                         {
-                            result.Add(a);
+                            result.Add(a); //adder til liste over potentielle assignments
                         }
                     
 
