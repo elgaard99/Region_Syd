@@ -111,10 +111,10 @@
 				<GridView ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}"
 						  AllowsColumnReorder="False">
 					<GridViewColumn Header="Fra Region"
-									DisplayMemberBinding="{Binding StartRegion}"
+									DisplayMemberBinding="{Binding StartRegion.Name}"
 									Width="100" />
 					<GridViewColumn Header="Til Region"
-									DisplayMemberBinding="{Binding EndRegion}"
+									DisplayMemberBinding="{Binding EndRegion.Name}"
 									Width="100" />
 					<GridViewColumn Header="Opgave ID"
 									DisplayMemberBinding="{Binding RegionAssignmentId}" 
