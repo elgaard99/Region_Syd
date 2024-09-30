@@ -129,9 +129,9 @@ namespace Region_Syd.Model
             List<int> indices = new List<int>(); //Liste til at putte index tal ind på
             for (int i = 0; i < FreeRegionsPassed.Length; ++i)
             {
-                if (FreeRegionsPassed[i])
+                if (FreeRegionsPassed[i]) //Hvis index i på arrayet er true...
                 {
-                    indices.Add(i);
+                    indices.Add(i); //...add index i til indices listen
                 }
             }
 
