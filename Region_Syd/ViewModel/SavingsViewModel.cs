@@ -28,7 +28,7 @@ namespace Region_Syd.ViewModel
         {
 			_regionRepo = new RegionRepo(connectionString);
 
-
+			Regions = new ObservableCollection<Region> (_regionRepo.GetAll());
 		}
 
 

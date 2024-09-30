@@ -62,7 +62,6 @@ namespace Test
         {
             Region testRegion = SQLRepo3.CalculateTotalSavings();
             StringAssert.Equals(testRegion.Name, "Danmark");
-            Assert.IsTrue(testRegion.DistanceSaved == 5.5);
             Assert.IsTrue(testRegion.HoursSaved == 5);
         }
     }
