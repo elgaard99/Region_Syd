@@ -154,7 +154,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedNorth}"
+					   Text="{Binding TimeSavedNorth, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -169,7 +169,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedZealand}"
+					   Text="{Binding TimeSavedZealand, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -184,7 +184,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedMid}"
+					   Text="{Binding TimeSavedMid, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -199,7 +199,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedCapital}"
+					   Text="{Binding TimeSavedCapital, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -214,7 +214,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding TimeSavedDenmark}"
+					   Text="{Binding TimeSavedDenmark, StringFormat={}{0:F0} Timer}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
 
@@ -245,7 +245,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedNorth}"
+					   Text="{Binding DistanceSavedNorth, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -260,7 +260,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedZealand}"
+					   Text="{Binding DistanceSavedZealand, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -275,7 +275,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedMid}"
+					   Text="{Binding DistanceSavedMid, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -290,7 +290,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedCapital}"
+					   Text="{Binding DistanceSavedCapital, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
@@ -305,7 +305,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 FontSize="20"
-					   Text="{Binding DistanceSavedDenmark}"
+					   Text="{Binding DistanceSavedDenmark, StringFormat={}{0:F2} Km}"
                 TextAlignment="Center"
                 TextWrapping="Wrap" />
         </Border>
