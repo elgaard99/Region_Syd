@@ -106,7 +106,7 @@ namespace Region_Syd.Model
 
         public override string ToString()
         {
-			return $"{RegionAssignmentId}, {StartAddress}, {EndAddress}, {Start}, {Finish}, {Description}, {AssignmentType}, {StartRegion}, {EndRegion}, {IsMatched}, {AmbulanceId}";
+			return $"{RegionAssignmentId}, {StartAddress}, {EndAddress}, {Start}, {Finish}, {Description}, {AssignmentType}, {StartRegion.Name}, {EndRegion.Name}, {IsMatched}, {AmbulanceId}";
         }
     }
 }

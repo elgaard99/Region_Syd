@@ -1,20 +1,19 @@
 ﻿using Region_Syd;
 using Region_Syd.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Test
 {
     [TestClass]
     public class RegionRepoTest
     {
-        string connectionString = @"Data Source=C:\Users\Bruger\Source\Repos\elgaard99\Region_Syd\Region_Syd\testDB.db";
-        string connectionString2 = @"Data Source=C:\Users\Bruger\Source\Repos\elgaard99\Region_Syd\Region_Syd\testDB2.db";
-        string connectionString3 = @"Data Source=C:\Users\Bruger\Source\Repos\elgaard99\Region_Syd\Region_Syd\testDB3.db";
+
+        string connectionString = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["DefaultConnection"];
+        string connectionString2 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection2"];
+        string connectionString3 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection3"];
+                
         RegionRepo SQLRepo, SQLRepo2, SQLRepo3;
+        
+
 
         [TestInitialize]
         public void Init()
@@ -23,10 +22,12 @@ namespace Test
             SQLRepo2 = new RegionRepo(connectionString2);
             SQLRepo3 = new RegionRepo(connectionString3);
 
+            // til update
             Region testRegion = SQLRepo2.GetAll().ToList()[0];
             testRegion.HoursSaved = 0;
             SQLRepo2.Update(testRegion);
 
+            // til calculate total
             IEnumerable<Region> testRegions3 = SQLRepo3.GetAll();
             foreach (Region region in testRegions3)
             {
@@ -65,26 +66,5 @@ namespace Test
             Assert.IsTrue(testRegion.DistanceSaved == 5.5);
             Assert.IsTrue(testRegion.HoursSaved == 5);
         }
-
-
-        /*[TestMethod]
-        public void GetRegion()
-        {
-
-            string found = SQLRepo.GetRegion();
-            StringAssert.Equals(found, "Hovedsatden");
-
-        }
-        */
-        //[TestMethod]
-        //public void UpdateAssignment()
-        //{
-        //    AssignmentC.AmbulanceId = "changed";
-        //    AssignmentC.IsMatched = true;
-        //    SQLRepo.Update(AssignmentC);
-        //    SQLRepo.GetById(AssignmentC.RegionAssignmentId);
-        //    Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).IsMatched, true);
-        //    Assert.AreEqual(SQLRepo.GetById(AssignmentC.RegionAssignmentId).AmbulanceId, "changed");
-        //}
     }
 }

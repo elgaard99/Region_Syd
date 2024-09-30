@@ -17,15 +17,15 @@ namespace Region_Syd.View
             var currentApp = Application.Current as App;
             string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 
-
-            InitializeComponent();
-
             AssignmentsViewModel tvm = new AssignmentsViewModel(connectionString);
             DataContext = tvm;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(tvm.AllAssignments);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("StartRegion");
             view.GroupDescriptions.Add(groupDescription);
+
+            InitializeComponent();
+
         }
 
         public void CantCombine()

@@ -10,19 +10,14 @@ using System.ComponentModel;
 
 namespace Region_Syd.ViewModel
 {
-    public class AssignmentsViewModel : ViewModelBase // skal den ikke være internal eller private??
+    public class AssignmentsViewModel : ViewModelBase
     {
 
-       /*string cs = @"Server=****;
-                    Database=****;
-                    Trusted_Connection=False;
-                    User Id=****;
-                    Password=****;";*/
-
         AssignmentRepo _assignmentRepo;
-        public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } set { _assignmentRepo = value; } }
+        public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } private set { _assignmentRepo = value; } }
 
-        AmbulanceRepo _ambulanceRepo;
+        RegionRepo _regionRepo;
+
         private ObservableCollection<Assignment> _allAssignments;
         public ObservableCollection<Assignment> AllAssignments 
         {
@@ -35,24 +30,17 @@ namespace Region_Syd.ViewModel
             }
         }
 
-        public ObservableCollection <Ambulance> AllAmbulances {  get; }
-
         private Assignment _selectedAssignment;
         private Assignment _assignment1;
         private Assignment _assignment2;
 
-        public AssignmentsViewModel(string connectionString = null) 
+        public AssignmentsViewModel(string connectionString) 
         {
-            _assignmentRepo = new AssignmentRepo(connectionString);
-            AmbulanceRepo ambulanceRepo = new AmbulanceRepo();
+            _regionRepo = new RegionRepo(connectionString);
+            _assignmentRepo = new AssignmentRepo(connectionString, _regionRepo.GetAll());
+
             GetFilteredAssignmentsFromRepo();
             SortAssignmentsByStart();
-
-
-            //AllAssignments = //Skal vise en sorteret ObservableCollection 
-            //AllAmbulances = new ObservableCollection<Ambulance>();
-
-
         }
 
         public bool CanAddAssignment(Assignment a)
@@ -138,7 +126,7 @@ namespace Region_Syd.ViewModel
         {
 
 			var sortedAssignments = AllAssignments
-                    .OrderBy(assignment => assignment.StartRegion)
+                    .OrderBy(assignment => assignment.StartRegion.Name)
                     .ThenBy(assignment => assignment.Start)
                     .ToList();
 			if (!AllAssignments.SequenceEqual(sortedAssignments))
@@ -152,7 +140,9 @@ namespace Region_Syd.ViewModel
         {
             List<Assignment> _listOfAssignments = _assignmentRepo.GetAll().ToList();
 			AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched)); // !assignment betyder er false, uden ! finder den true. 
-            return AllAssignments;
+            return AllAssignments; 
+
+            // vi skal kigge på dette \\
             
         }
 
@@ -174,12 +164,7 @@ namespace Region_Syd.ViewModel
             GetFilteredAssignmentsFromRepo();
             SortAssignmentsByStart();
         }
-        /*
-        public void CantCombine()
-        {
-            MessageBox.Show("Denne kombination er ikke mulig.", "Kombinationsfejl", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        */
+        
         private bool DoAssignmentsOverlap()
         {
             List<Assignment> sortedByDateTime = new List<Assignment>();
