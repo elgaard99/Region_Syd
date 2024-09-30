@@ -23,6 +23,13 @@ namespace Region_Syd.Model
 			get { return _name; }
 			set { _name = value; }
 		}
+
+
+		public string DisplayName
+		{
+			get { return Name.Substring(7); }
+		}
+
 		private double _hoursSaved;
 
 		public double HoursSaved
