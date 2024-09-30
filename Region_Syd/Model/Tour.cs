@@ -49,8 +49,8 @@ namespace Region_Syd.Model
                         FreeRegionsPassed[count] = false; //... sæt samme index i tour til false
 
                         if (0 == (count % 2)) //Hvis value er et lige tal (retning fra nord mod hovedstaden))
-                        { FreeRegionsPassed[count + 1] = false; } //retning fra nord mod hov
-                        else { FreeRegionsPassed[count - 1] = false; } //retning fra hov mod nord
+                        { FreeRegionsPassed[count + 1] = true; } //retning fra nord mod hov
+                        else { FreeRegionsPassed[count - 1] = true; } //retning fra hov mod nord
 
 
                     }
@@ -112,7 +112,7 @@ namespace Region_Syd.Model
             
             //Get all metode til at se alle opgaver for den givne dag
 
-            List<Assignment> assignments = AssignmentRepo.GetAllAssignments(); 
+            List<Assignment> assignments = AssignmentRepo.GetAll(); //Dem der er isMatched false
             
             var dayThenMostTrue = (List<Assignment>)assignments //sorterer efter dag, og derefter hvilken på assignment der har flest trues 
                 .OrderBy(a => a.Start.Day)
