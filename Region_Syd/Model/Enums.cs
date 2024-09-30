@@ -5,14 +5,6 @@ using System.Text;
 
 namespace Region_Syd.Model
 {
-    public enum RegionEnum
-    {
-		RH,
-		RM,
-		RN,
-		RSj,
-        RSy,
-    }
 
     public enum AssignmentTypeEnum
     {
