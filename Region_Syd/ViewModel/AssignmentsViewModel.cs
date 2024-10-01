@@ -29,8 +29,34 @@ namespace Region_Syd.ViewModel
                 OnPropertyChanged(nameof(AllAssignments));
             }
         }
-        
-        private Assignment _selectedAssignment;
+
+        Tour _potentialRepo;
+
+		private ObservableCollection<Assignment> _potentialAssignments;
+		public ObservableCollection<Assignment> PotentialAssignments
+		{
+			get { return _potentialAssignments; }
+
+			set
+			{
+				_potentialAssignments = value;
+				OnPropertyChanged(nameof(PotentialAssignments));
+			}
+		}
+
+		private ObservableCollection<Assignment> _currentAssignments;
+		public ObservableCollection<Assignment> CurrentAssignments
+		{
+			get => _currentAssignments;
+			set
+			{
+				_currentAssignments = value;
+				OnPropertyChanged(nameof(CurrentAssignments)); 
+			}
+		}
+
+
+		private Assignment _selectedAssignment;
         private Assignment _assignment1;
         private Assignment _assignment2;
 
@@ -38,9 +64,11 @@ namespace Region_Syd.ViewModel
         {
             _regionRepo = new RegionRepo(connectionString);
             _assignmentRepo = new AssignmentRepo(connectionString, _regionRepo.GetAll());
+            _potentialRepo = new Tour(_assignmentRepo);
 
             SetAllAssignments();
             SortAssignmentsByStart();
+            CurrentAssignments = AllAssignments;
         }
 
         public bool CanAddAssignment(Assignment a)
@@ -52,10 +80,14 @@ namespace Region_Syd.ViewModel
 
         public RelayCommand AddAssignment1Command => 
             new RelayCommand (
-                execute => Assignment1 = SelectedAssignment, 
+                execute => AddAssignment1(), 
                 canExecute => CanAddAssignment(Assignment1)
                 );
-
+        void AddAssignment1()
+        {
+            Assignment1 = SelectedAssignment;
+            CurrentAssignments = new ObservableCollection<Assignment> (_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
+        }
         public RelayCommand AddAssignment2Command =>
             new RelayCommand(
                 execute => Assignment2 = SelectedAssignment,

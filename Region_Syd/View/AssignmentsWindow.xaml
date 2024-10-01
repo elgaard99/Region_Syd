@@ -104,7 +104,7 @@
             x:Name="lvAssignments"
             Grid.Row="1"
             Margin="40,0,40,0"
-            ItemsSource="{Binding AllAssignments}"
+            ItemsSource="{Binding CurrentAssignments}"
             SelectedItem="{Binding SelectedAssignment}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}">

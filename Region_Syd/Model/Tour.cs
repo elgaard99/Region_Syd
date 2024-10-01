@@ -99,7 +99,7 @@ namespace Region_Syd.Model
                                                          //tilgængeligheden på en given del af turen. 
             {
                 if (i == true)
-                { FreeRegionsPassed[count] = true; }
+                { FreeRegionsPassed[count] = true; }    
 
                 count++;
             }
@@ -110,13 +110,13 @@ namespace Region_Syd.Model
         
 
 
-        public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment)
+        public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
         {
-            List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
+            //List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
            
             AddToTourAssignments(assignment); //assignment bliver sat ind som første element på Touren
 
-            var datePotentials = assignments.Where(a => a.Start.Day == assignment.Start.Day && a.Start > assignment.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
+            List<Assignment> datePotentials = assignments.FindAll(a => a.Start.Day == assignment.Start.Day && a.Start > assignment.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
             
             List<Assignment> PotentialAssignments = new List<Assignment>();
 
