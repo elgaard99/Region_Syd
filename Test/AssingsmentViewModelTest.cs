@@ -2,81 +2,63 @@
 using Region_Syd.ViewModel;
 using System;
 using System.Collections.ObjectModel;
+using System.Data.SQLite;
 
 namespace Test
 {
     [TestClass]
     public class AssingsmentViewModelTest
     {
+        string connectionString = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["DefaultConnection"];
+        string connectionString2 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection2"];
+        string connectionString3 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection3"];
+        string connectionString4 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection4"];
+
         Region_Syd.Model.Assignment AssignmentA, AssignmentB, AssignmentC;
         MainViewModel mvm;
         AssignmentsViewModel avm;
-        
+     
         [TestInitialize]
         public void Init()
         {
             //Arrange
             mvm = new MainViewModel();
-            avm = new AssignmentsViewModel();
-            AssignmentA = new Region_Syd.Model.Assignment() 
-            {                
-                RegionAssignmentId = "A",
-                Start = DateTime.Now,
-                IsMatched = true,
-                AmbulanceId = "4",
-            };
-            AssignmentB = new Region_Syd.Model.Assignment()
-            {
-                RegionAssignmentId = "B",
-                Start = DateTime.Now.AddHours(1),
-                IsMatched = false,
-                AmbulanceId = "5",
-            };
-            AssignmentC = new Region_Syd.Model.Assignment()
-            {
-                RegionAssignmentId = "C",
-                Start = DateTime.Now.AddHours(5),
-                IsMatched = false,
-                AmbulanceId = "6",
-            };
-            
-            //tror vi er nødt til enten at lave det public eller lave en setter. Alternativt lave et test objekt der er public eller har setter (fx. testAssignemntRepo)
-            //tvm._assignmentRepo = _assignmentRepo;
-            avm.TestAssignmentRepo.AddToAllAssignments(AssignmentA);
-            avm.TestAssignmentRepo.AddToAllAssignments(AssignmentB);
-            avm.TestAssignmentRepo.AddToAllAssignments(AssignmentC);
+            avm = new AssignmentsViewModel(connectionString2);
 
-            avm.GetFilteredAssignmentsFromRepo();
-            //sørger for at assignment A, B og C kommer videre fra _allAssignments i AssignmentRepo til
-            //AllAssignments i AssignmentsViewModel så countBefore bliver korrekt i CombineAssignmentsTest /cla
+            AssignmentA = avm.AllAssignments[1];
+            AssignmentB = avm.AllAssignments[2];
+            AssignmentC = avm.AllAssignments[3];
         }
         [TestMethod]
-        public void GetFilteredAssignmentsFromRepoWhenAssignmentsAreUnmatchedReturnsObservableCollection()
+        public void SetAllAssignments()
         {
             //Assert
-            //ObservableCollection<Assignment> testAssignment = avm.GetFilteredAssignmentsFromRepo();
-            //Assert.IsTrue(testAssignment.Count == 4);
+            foreach (Assignment assignment in avm.AllAssignments)
+            {
+                Assert.IsFalse(assignment.IsMatched);
+            }
         }
         [TestMethod]
-        public void AssignmentsViewModelAllAssignmentsIsSortedByDate()
+        public void SortByStart()
         {
             //Assert
-            //Assert.IsTrue(tvm.AllAssignments[0].PickUpTime.Date < tvm.AllAssignments[1].PickUpTime.Date); //Ved ikke om man faktisk kan sige det således, men det var mit bedste bud.
-            DateTime dateTimeA = AssignmentA.Start;
-            DateTime dateTimeB = AssignmentB.Start;
-            //Forslag til rettelse
-            int countOfAssignments = avm.AllAssignments.Count;
-            DateTime lastAssignmentStart = avm.AllAssignments[countOfAssignments - 1].Start; //sætter det til den sidste item i listen
-            DateTime secondLastStart = avm.AllAssignments[countOfAssignments - 2].Start; //sætter til ANDEN sidste item i listen
-            Assert.IsTrue(0 > DateTime.Compare(secondLastStart, lastAssignmentStart));
+            for (int i = 1; i < avm.AllAssignments.Count; i++)
+            {
+                if (avm.AllAssignments[i-1].StartRegion == avm.AllAssignments[i].StartRegion)
+                {
+                    Assert.IsTrue(DateTime.Compare(avm.AllAssignments[i - 1].Start, avm.AllAssignments[i].Start) > 0);
+                }
+                
+            }
         }
+
         [TestMethod]
         public void CombineAssignmentsTest()
         {
             //arrange
             int CountBefore = avm.AllAssignments.Count;
             
-            avm.Assignment1 = AssignmentC;
+            avm.Assignment1 = AssignmentA;
             avm.Assignment2 = AssignmentB;
                         
             avm.CombineAssignments();            
