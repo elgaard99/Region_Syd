@@ -1,8 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Windows;
+﻿using System.Windows;
 using Microsoft.Extensions.Configuration;
 
 namespace Region_Syd
@@ -12,24 +8,17 @@ namespace Region_Syd
     /// </summary>
     public partial class App : Application
     {
-        //public IConfiguration Configuration { get; private set; }
+        public IConfigurationRoot Configuration { get; private set; }
 
-        //protected override void OnStartup(StartupEventArgs e)
-        //{
-        //    var builder = new ConfigurationBuilder()
-        //        .SetBasePath(Directory.GetCurrentDirectory())
-        //        .AddJsonFile("appsettings.json");
+        public App()
+        {
 
-        //    Configuration = builder.Build();
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Environment.CurrentDirectory)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
-        //    string? ConnectionString = Configuration.GetConnectionString("DefaultConnection");
+            Configuration = builder.Build();
 
-        //}
-
-        //IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-
-        //string? ConnectionString = config.GetConnectionString("DefaultConnection");
-
+        }
     }
-
 }
