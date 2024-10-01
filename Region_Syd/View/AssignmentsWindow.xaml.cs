@@ -13,14 +13,24 @@ namespace Region_Syd.View
     {
         public AssignmentsWindow()
         {
-            InitializeComponent();
 
-            AssignmentsViewModel tvm = new AssignmentsViewModel();
+            var currentApp = Application.Current as App;
+            string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
+
+            AssignmentsViewModel tvm = new AssignmentsViewModel(connectionString);
             DataContext = tvm;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(tvm.AllAssignments);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("StartRegion");
             view.GroupDescriptions.Add(groupDescription);
+
+            InitializeComponent();
+
+        }
+
+        public void CantCombine()
+        {
+            MessageBox.Show("Denne kombination er ikke mulig.", "Kombinationsfejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 }

@@ -1,6 +1,5 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
+using Microsoft.Extensions.Configuration;
 
 namespace Region_Syd
 {
@@ -9,6 +8,17 @@ namespace Region_Syd
     /// </summary>
     public partial class App : Application
     {
-    }
+        public IConfigurationRoot Configuration { get; private set; }
 
+        public App()
+        {
+
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(Environment.CurrentDirectory)
+            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            Configuration = builder.Build();
+
+        }
+    }
 }

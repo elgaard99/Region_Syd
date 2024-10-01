@@ -1,0 +1,432 @@
+﻿<Window
+    x:Class="Region_Syd.View.SavingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Region_Syd.View"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="SavingsWindow"
+    Width="1600"
+    Height="800"
+    WindowState="Maximized"
+    mc:Ignorable="d">
+	<Window.Resources>
+
+		<Style x:Key="ColumnHeaderTextStyle"
+			   TargetType="TextBlock">
+			<Setter Property="Foreground"
+					Value="Red" />
+			<Setter Property="FontSize"
+					Value="18" />
+			<Setter Property="TextAlignment"
+					Value="Center" />
+		</Style>
+
+		<Style x:Key="myControlTemplateStyle"
+			   TargetType="{x:Type GridViewColumnHeader}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+						<Grid>
+							<DockPanel HorizontalAlignment="Center"
+									   VerticalAlignment="Center">
+								<TextBlock Style="{StaticResource ColumnHeaderTextStyle}"
+										   Text="{TemplateBinding Content}" />
+							</DockPanel>
+						</Grid>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Margin"
+					Value="0,0,0,0" />
+		</Style>
+
+		<!--  Items i ListView  -->
+		<Style TargetType="ListView">
+			<Setter Property="FontSize"
+					Value="30" />
+		</Style>
+
+		<Style TargetType="ListViewItem">
+			<Setter Property="HorizontalContentAlignment"
+					Value="Center" />
+			<Setter Property="BorderBrush"
+					Value="Black" />
+			<Setter Property="BorderThickness"
+					Value="1,1,1,1" />
+		</Style>
+
+		<!--  Item Groups i ListView  -->
+		<Style x:Key="GroupFormatting"
+			   TargetType="{x:Type GroupItem}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate>
+						<Expander IsExpanded="True">
+							<Expander.Header>
+								<StackPanel Orientation="Horizontal">
+									<TextBlock VerticalAlignment="Bottom"
+											   FontSize="22"
+											   FontWeight="Bold"
+											   Foreground="Gray"
+											   Text="{Binding Name}" />
+								</StackPanel>
+							</Expander.Header>
+							<ItemsPresenter />
+						</Expander>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+
+		</Style>
+
+	</Window.Resources>
+
+
+	<Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="60*" />
+            <RowDefinition Height="20*" />
+        </Grid.RowDefinitions>
+
+        <!--  Row 0  -->
+        <Rectangle Grid.Row="0" Fill="DarkRed" />
+        <TextBlock
+            Grid.Row="0"
+            Margin="40,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            FontSize="40"
+            Text="Region Syd" />
+        <Button
+            Grid.Row="0"
+            Width="150"
+            Height="100"
+            Margin="0,0,40,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Content="Opgavebanken"
+            FontSize="20" />
+
+        <!--  Row 2  -->
+        <Rectangle Grid.Row="2" Fill="DarkRed" />
+
+		<ListView x:Name="lvRegions"
+				  Grid.Row="1"
+				  Margin="40,0,40,0"
+				  ItemsSource="{Binding Regions}">
+			<ListView.View>
+				<GridView AllowsColumnReorder="False"
+						  ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}">
+					<GridViewColumn Width="200"
+						            Header="Region">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding DisplayName}"
+										   TextAlignment="Left" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+
+					<GridViewColumn Width="1200"
+									Header="Timer sparret">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding HoursSaved}"
+										   TextAlignment="Center" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+
+					<GridViewColumn 
+									Header="Kilometer sparret">
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding DistanceSaved}"
+										   TextAlignment="Right" />
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</ListView.View>
+		</ListView>
+
+
+		<!--<Label
+            Grid.Row="1"
+            Width="264"
+            Height="53"
+            Margin="122,86,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="2"
+            Content="Region Syddanmark"
+            FontSize="20" />
+        <Label
+            Grid.Row="1"
+            Width="264"
+            Height="53"
+            Margin="122,200,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="2"
+            Content="Region Midtjylland"
+            FontSize="20" />
+
+        <Label
+            Grid.Row="1"
+            Width="264"
+            Height="52"
+            Margin="122,142,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="2"
+            Content="Region Nordjylland"
+            FontSize="20" />
+        <Label
+            Grid.Row="1"
+            Width="264"
+            Height="53"
+            Margin="122,317,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="2"
+            Content="Region Hovedstaden"
+            FontSize="20" />
+        <Label
+            Grid.Row="1"
+            Width="264"
+            Height="53"
+            Margin="122,259,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="2"
+            Content="Region Sjælland"
+            FontSize="20" />
+        <Label
+            Grid.Row="1"
+            Width="264"
+            Height="53"
+            Margin="122,376,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="2"
+            Content="Danmark"
+            FontSize="20" />
+        <Label
+            Grid.Row="1"
+            Width="264"
+            Height="53"
+            Margin="471,31,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="2"
+            Content="Tid Sparet"
+            FontSize="20" />
+        <Label
+            Grid.Row="1"
+            Width="264"
+            Height="53"
+            Margin="800,31,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            BorderBrush="Black"
+            BorderThickness="2"
+            Content="Afstand sparet"
+            FontSize="20" />
+
+        <Border
+            Grid.Row="1"
+            Margin="471,89,865,331"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbTimeSavedSouth"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="40"
+			    Text="{Binding TimeSavedSouth, StringFormat={}{0:F0} Timer}"
+                TextAlignment="Center"/>
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="471,144,865,275"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbTimeSavedNorth"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding TimeSavedNorth, StringFormat={}{0:F0} Timer}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="471,259,865,158"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbTimeSavedZealand"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding TimeSavedZealand, StringFormat={}{0:F0} Timer}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="471,200,865,218"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbTimeSavedMid"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding TimeSavedMid, StringFormat={}{0:F0} Timer}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="471,317,865,99"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbTimeSavedCapital"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding TimeSavedCapital, StringFormat={}{0:F0} Timer}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="471,376,865,39"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbTimeSavedDenmark"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding TimeSavedDenmark, StringFormat={}{0:F0} Timer}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="799,88,537,331"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbDistanceSavedSouth"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding DistanceSavedSouth, StringFormat={}{0:F2} Km}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="799,143,537,275"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbDistanceSavedNorth"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding DistanceSavedNorth, StringFormat={}{0:F2} Km}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="799,258,537,158"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbDistanceSavedZealand"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding DistanceSavedZealand, StringFormat={}{0:F2} Km}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="799,199,537,218"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbDistanceSavedMid"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding DistanceSavedMid, StringFormat={}{0:F2} Km}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="799,316,537,99"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbDistanceSavedCapital"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding DistanceSavedCapital, StringFormat={}{0:F2} Km}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>
+        <Border
+            Grid.Row="1"
+            Margin="799,375,537,39"
+            BorderBrush="Black"
+            BorderThickness="2">
+            <TextBlock
+                x:Name="tbDistanceSavedDenmark"
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                FontSize="20"
+					   Text="{Binding DistanceSavedDenmark, StringFormat={}{0:F2} Km}"
+                TextAlignment="Center"
+                TextWrapping="Wrap" />
+        </Border>-->
+
+
+
+
+    </Grid>
+</Window>
