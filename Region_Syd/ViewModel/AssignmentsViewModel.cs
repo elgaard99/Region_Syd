@@ -96,9 +96,14 @@ namespace Region_Syd.ViewModel
 
         public RelayCommand RemoveAssignment1Command =>
            new RelayCommand(
-               execute => Assignment1 = null,
+               execute => RemoveAssignment1(),
                canExecute => Assignment1 != null
                );
+        void RemoveAssignment1()
+        {
+            Assignment1 = null;
+            CurrentAssignments = AllAssignments;
+		}
 
         public RelayCommand RemoveAssignment2Command =>
            new RelayCommand(
@@ -193,6 +198,7 @@ namespace Region_Syd.ViewModel
             _assignmentRepo.ReassignAmbulance(a1, a2);            
             SetAllAssignments();
             SortAssignmentsByStart();
+            CurrentAssignments = AllAssignments;
         }
         
         private bool DoAssignmentsOverlap()
