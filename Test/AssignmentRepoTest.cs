@@ -52,7 +52,7 @@ namespace Test
             AssignmentA = new Assignment()
             {
                 RegionAssignmentId = "13-WX",
-                AssignmentType = AssignmentTypeEnum.C,
+                AssignmentType = "C",
                 Start = new DateTime(2024, 09, 12, 08, 30, 00),
                 Finish = new DateTime(2024, 09, 12, 10, 30, 00),
                 Description = "Kræver rolig transport",

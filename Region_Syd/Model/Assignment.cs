@@ -14,7 +14,7 @@ namespace Region_Syd.Model
         private DateTime _start;
         private DateTime _finish;
         private string _description;
-        private AssignmentTypeEnum _assignmentType;
+        private string _assignmentType;
         private Region _startRegion;
         private Region _endRegion;
         private bool _isMatched;
@@ -63,11 +63,11 @@ namespace Region_Syd.Model
             set { _description = value; }
         }
 
-        public AssignmentTypeEnum AssignmentType
-        {
-            get { return _assignmentType; }
-            set { _assignmentType = value; }
-        }
+		public string AssignmentType
+		{
+			get { return _assignmentType; }
+			set { _assignmentType = value; }
+		}
 		
         public Region StartRegion
         {
@@ -89,24 +89,24 @@ namespace Region_Syd.Model
 
         public Assignment() { }
 
-        public Assignment(string id, string startAddress, string endAddress, DateTime start, DateTime finish, string description, AssignmentTypeEnum type, Region startRegion, Region endRegion, bool isMatched, string ambulanceId)
-        {
-            RegionAssignmentId = id;
-            StartAddress = startAddress;
-            EndAddress = endAddress;
-            Start = start;
-            Finish = finish;
-            Description = description;
-            AssignmentType = type;
-            StartRegion = startRegion;
-            EndRegion = endRegion;
-            IsMatched = isMatched;
-            AmbulanceId = ambulanceId;
-        }
+		public Assignment (string id, string startAddress, string endAddress, DateTime start, DateTime finish, string description, string type, Region startRegion, Region endRegion, bool isMatched, string ambulanceId)
+		{
+			RegionAssignmentId = id;
+			StartAddress = startAddress;
+			EndAddress = endAddress;
+			Start = start;
+			Finish = finish;
+			Description = description;
+			AssignmentType = type;
+			StartRegion = startRegion;
+			EndRegion = endRegion;
+			IsMatched = isMatched;
+			AmbulanceId = ambulanceId;
+		}
 
         public override string ToString()
         {
-			return $"{RegionAssignmentId}, {StartAddress}, {EndAddress}, {Start}, {Finish}, {Description}, {AssignmentType}, {StartRegion.Name}, {EndRegion.Name}, {IsMatched}, {AmbulanceId}";
+			return $"{RegionAssignmentId}, {StartAddress}, {EndAddress}, {Start}, {Finish}, {Description}, {AssignmentType}, {StartRegion.RegionId}, {EndRegion.RegionId}, {IsMatched}, {AmbulanceId}";
         }
 
 
