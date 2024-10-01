@@ -102,6 +102,7 @@ namespace Region_Syd.Model
 			EndRegion = endRegion;
 			IsMatched = isMatched;
 			AmbulanceId = ambulanceId;
+            RegionsPassed = FindRegionsPassed(endRegion, startRegion);
 		}
 
         public override string ToString()
@@ -117,10 +118,10 @@ namespace Region_Syd.Model
         // (NorMid + MidSyd + SydSjl + SjlHov)
 
 
-        public List<int> FindRegionsPassed()
+        public List<int> FindRegionsPassed(Region endRegion, Region startRegion)
         {
-            int start = StartRegion.RegionId;
-            int end = EndRegion.RegionId;
+            int start = startRegion.RegionId;
+            int end = endRegion.RegionId;
 
             List<int> parsedRegions = new List<int>();
 
@@ -247,7 +248,7 @@ namespace Region_Syd.Model
 
                 }
                 // Check if the value is an array or list of integers
-                else if (value is IEnumerable<int> indices)
+                else if (value is List<int> indices)
                 {
                     foreach (var index in indices)
                     {

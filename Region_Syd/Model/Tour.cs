@@ -39,9 +39,21 @@ namespace Region_Syd.Model
 
             bool[] regionsPassedArray = assignment.RegionsPassed as bool[]; //Caster RegionsPassed af object typen til en bool array type 
 
+            bool alleFalse = true; 
+            foreach (bool i in FreeRegionsPassed)  
+            {
+                if (i == true) //Hvis assignment arrayet-indexet er true...
+                {
+                    alleFalse = false;
+                    break;
+                }
+                
+            }
 
 
-            if (FreeRegionsPassed == null) //Tjekker om det er den første Assignment der bliver sat ind på touren
+
+
+            if (alleFalse) //Tjekker om det er den første Assignment der bliver sat ind på touren
             {
                 int count = 0; //Counter til at bestemme arraypladsen
                 foreach (bool i in regionsPassedArray) //Går igennem arrayen fra assimentment og tjekker hvilke regioner
@@ -136,7 +148,7 @@ namespace Region_Syd.Model
                 {
                     if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
                     {
-                        if (regionsPassedArray[index]) 
+                        if (regionsPassedArray[index] && !PotentialAssignments.Any(pa => pa.RegionAssignmentId == a.RegionAssignmentId)) 
                         {
                             PotentialAssignments.Add(a); //adder til liste over potentielle assignments
                         }
@@ -144,7 +156,7 @@ namespace Region_Syd.Model
                 }
             }
 
-            PotentialAssignments.OrderByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));//Sorterer listen efter dem med flest trues, altså de bedste matches i toppen
+            PotentialAssignments.OrderBy(a => ((bool[])a.RegionsPassed).Count(b => b));//Sorterer listen efter dem med flest trues, altså de bedste matches i toppen
 
             return PotentialAssignments; 
         }
