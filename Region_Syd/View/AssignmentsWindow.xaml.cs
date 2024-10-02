@@ -32,5 +32,12 @@ namespace Region_Syd.View
         {
             MessageBox.Show("Denne kombination er ikke mulig.", "Kombinationsfejl", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-    }
+
+		private void Button_btnSavingsClick(object sender, RoutedEventArgs e)
+		{
+			SavingsWindow savingsWindow= new SavingsWindow();
+			savingsWindow.Show();
+			this.Close();
+		}
+	}
 }

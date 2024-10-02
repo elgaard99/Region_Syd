@@ -89,6 +89,7 @@
             FontSize="40"
             Text="Region Syd" />
         <Button
+			x:Name="btnSavings"
             Grid.Row="0"
             Width="150"
             Height="100"
@@ -96,7 +97,8 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Content="Besparelser"
-            FontSize="20" />
+            FontSize="20"
+				Click="Button_btnSavingsClick" />
 
 
         <!--  Row 1  -->

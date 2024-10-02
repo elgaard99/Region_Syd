@@ -91,27 +91,34 @@ namespace Region_Syd.ViewModel
         public RelayCommand AddAssignment2Command =>
             new RelayCommand(
                 execute => Assignment2 = SelectedAssignment,
-                canExecute => CanAddAssignment(Assignment2)
-                );
+                canExecute => CanAddAssignment(Assignment2) && Assignment1 != null
+				);
 
         public RelayCommand RemoveAssignment1Command =>
            new RelayCommand(
                execute => RemoveAssignment1(),
-               canExecute => Assignment1 != null
+               canExecute => Assignment1 != null && Assignment2 == null
                );
         void RemoveAssignment1()
         {
             Assignment1 = null;
-            CurrentAssignments = AllAssignments;
+            SetAllAssignments ();
+			SortAssignmentsByStart();
+			CurrentAssignments = AllAssignments;
+
 		}
 
         public RelayCommand RemoveAssignment2Command =>
            new RelayCommand(
-               execute => Assignment2 = null,
+               execute => RemoveAssignment2(),
                canExecute => Assignment2 != null
                );
-
-        public RelayCommand CombineAssignmentsCommand =>
+        void RemoveAssignment2()
+        {
+            Assignment2 = null;
+			CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
+		}
+		public RelayCommand CombineAssignmentsCommand =>
            new RelayCommand(
                execute => CombineAssignments(),
                canExecute => Assignment1 != null && Assignment2 != null && DoAssignmentsOverlap() == true
@@ -130,9 +137,9 @@ namespace Region_Syd.ViewModel
         public void CheckIfAssigned(Assignment assignment, Assignment? newAssignment)
         {
             if (assignment == null) // hvis en opgave vælges, fjernes den fra listview
-            { AllAssignments.Remove(newAssignment); }
+            { CurrentAssignments.Remove(newAssignment); }
             
-            else { AllAssignments.Add(assignment); } // hvis den slettes, tilføjes den til listview
+            else { CurrentAssignments.Add(assignment); } // hvis den slettes, tilføjes den til listview
         }
 
         public Assignment Assignment1

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,8 +29,10 @@ namespace Region_Syd.Model
         }
 
         public List<Assignment> TourAssignments = new List<Assignment>();
+		List<Assignment> PotentialAssignments = new List<Assignment>();
 
-        AssignmentRepo _assignmentRepo;
+
+		AssignmentRepo _assignmentRepo;
 
         public Tour(AssignmentRepo repo) { _assignmentRepo = repo; }
 
@@ -119,10 +122,17 @@ namespace Region_Syd.Model
         }
 
 
-        
+		public List<Assignment> SortAssignmentsByPotential(List<Assignment> PA)
+		{
+			var result = PA
+                .OrderByDescending(a => ((bool[])a.RegionsPassed).Count(b => b == true)) //Sorterer listen efter dem med flest trues, altså de bedste matches i toppen
+                .ThenBy(a => a.Start);
+            return result.ToList();
+		}
 
 
-        public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
+
+		public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
         {
             //List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
            
@@ -130,7 +140,6 @@ namespace Region_Syd.Model
 
             List<Assignment> datePotentials = assignments.FindAll(a => a.Start.Day == assignment.Start.Day && a.Start > assignment.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
             
-            List<Assignment> PotentialAssignments = new List<Assignment>();
 
 
             List<int> indices = new List<int>(); //Liste til at putte index tal ind på, for at have en liste med tilgængeligheden som vi kan sammenligne med de potentielle assignments arrays
@@ -156,9 +165,9 @@ namespace Region_Syd.Model
                 }
             }
 
-            PotentialAssignments.OrderBy(a => ((bool[])a.RegionsPassed).Count(b => b));//Sorterer listen efter dem med flest trues, altså de bedste matches i toppen
+            return SortAssignmentsByPotential(PotentialAssignments);
 
-            return PotentialAssignments; 
+            // return PotentialAssignments; 
         }
 
 

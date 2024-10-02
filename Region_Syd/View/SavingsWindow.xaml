@@ -101,6 +101,7 @@
             FontSize="40"
             Text="Region Syd" />
         <Button
+			x:Name="btnAssignments"
             Grid.Row="0"
             Width="150"
             Height="100"
@@ -108,7 +109,8 @@
             HorizontalAlignment="Right"
             VerticalAlignment="Center"
             Content="Opgavebanken"
-            FontSize="20" />
+            FontSize="20"
+				Click="btnAssignments_Click" />
 
         <!--  Row 2  -->
         <Rectangle Grid.Row="2" Fill="DarkRed" />

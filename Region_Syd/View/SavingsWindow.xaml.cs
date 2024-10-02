@@ -31,5 +31,12 @@ namespace Region_Syd.View
 			InitializeComponent();
 
 		}
-	}
+
+		private void btnAssignments_Click(object sender, RoutedEventArgs e)
+		{
+			AssignmentsWindow assignmentsWindow = new AssignmentsWindow();
+			assignmentsWindow.Show();
+			this.Close();
+		}
+    }
 }
