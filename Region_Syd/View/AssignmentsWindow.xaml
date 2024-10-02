@@ -164,7 +164,7 @@
 							<DataTemplate>
 								<TextBlock Text="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}"
 										   TextTrimming="CharacterEllipsis"
-										   ToolTip="{Binding Start}" />
+										   ToolTip="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
@@ -174,7 +174,7 @@
 							<DataTemplate>
 								<TextBlock Text="{Binding Finish, StringFormat={}{0:dd/MM/yy HH:mm}}"
 										   TextTrimming="CharacterEllipsis"
-										   ToolTip="{Binding Finish}" />
+										   ToolTip="{Binding Finish, StringFormat={}{0:dd/MM/yy HH:mm}}" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
