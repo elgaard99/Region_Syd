@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace Region_Syd.Model
 {
@@ -139,29 +140,54 @@ namespace Region_Syd.Model
             AddToTourAssignments(assignment); //assignment bliver sat ind som første element på Touren
 
             List<Assignment> datePotentials = assignments.FindAll(a => a.Start.Day == assignment.Start.Day && a.Start > assignment.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
-            
 
 
-            List<int> indices = new List<int>(); //Liste til at putte index tal ind på, for at have en liste med tilgængeligheden som vi kan sammenligne med de potentielle assignments arrays
+            //(TourArray)Liste til at putte index tal ind på, for at have en liste med tilgængeligheden som vi kan sammenligne med de potentielle assignments arrays
+            List<int> tourIndices = new List<int>(); 
             for (int i = 0; i < FreeRegionsPassed.Length; ++i)
             {
                 if (FreeRegionsPassed[i]) //Hvis index i på arrayet er true...
                 {
-                    indices.Add(i); //...add index i til indices listen
+                    tourIndices.Add(i); //...add index i til indices listen
                 }
             }
 
+            //(AssignmentArray)Liste til at putte index tal ind på (bliver brugt i linje 172)
+            List<int> assignmentIndices = new List<int>();
+
+
+
+
             foreach (Assignment a in datePotentials) // for hver assignment på dagen
             {
-                foreach (var index in indices) // for hver tilængelige plads i touren
+                foreach (var index in tourIndices) // for hver tilængelige plads i touren
                 {
                     if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
                     {
-                        if (regionsPassedArray[index] && !PotentialAssignments.Any(pa => pa.RegionAssignmentId == a.RegionAssignmentId)) 
+                        //Herunder putter vi assignments true-placeringer ind på listen assignmentIndices
+                        for (int i = 0; i < regionsPassedArray.Length; ++i)
                         {
-                            PotentialAssignments.Add(a); //adder til liste over potentielle assignments
+                            if (regionsPassedArray[i]) //Hvis index i på arrayet er true...
+                            {
+                                assignmentIndices.Add(i); //...add index i til indices listen
+                            }
                         }
-                    }   
+
+                    }
+
+
+                    // Her sammenligner vi de to indices lister
+                    // Fra Christian: 
+                    // "Første tal samme lighed, første tal skal være større eller lig med, sum skal være mindre eller lig med"
+                    if ((tourIndices[0] % 2) == (assignmentIndices[0] % 2)) 
+                    {
+                        if (tourIndices[0] <= assignmentIndices[0])  
+                        {
+                                if (tourIndices.Sum() >= assignmentIndices.Sum() && !PotentialAssignments.Any(pa => pa.RegionAssignmentId == a.RegionAssignmentId)) //
+                                    { PotentialAssignments.Add(a); }
+                        }
+                    }
+
                 }
             }
 
