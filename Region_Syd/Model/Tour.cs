@@ -152,16 +152,17 @@ namespace Region_Syd.Model
                 }
             }
 
-            //(AssignmentArray)Liste til at putte index tal ind på (bliver brugt i linje 172)
-            List<int> assignmentIndices = new List<int>();
+            
 
 
 
 
             foreach (Assignment a in datePotentials) // for hver assignment på dagen
             {
-                foreach (var index in tourIndices) // for hver tilængelige plads i touren
-                {
+                
+                    //(AssignmentArray)Liste til at putte index tal ind på (bliver brugt i linje 172)
+                    List<int> assignmentIndices = new List<int>();
+
                     if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
                     {
                         //Herunder putter vi assignments true-placeringer ind på listen assignmentIndices
@@ -188,7 +189,7 @@ namespace Region_Syd.Model
                         }
                     }
 
-                }
+                
             }
 
             return SortAssignmentsByPotential(PotentialAssignments);
