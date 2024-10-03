@@ -202,7 +202,9 @@ namespace Region_Syd.ViewModel
             Assignment1 = null;
             Assignment2 = null;
 
-            _assignmentRepo.ReassignAmbulance(a1, a2);            
+            _assignmentRepo.ReassignAmbulance(a1, a2);
+            _regionRepo.Update(a1.StartRegion);
+            _regionRepo.Update(a2.StartRegion);
             SetAllAssignments();
             SortAssignmentsByStart();
             CurrentAssignments = AllAssignments;

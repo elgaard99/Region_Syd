@@ -83,7 +83,7 @@ namespace Region_Syd.Model
             {
                 totalHours += region.HoursSaved;
             }
-            Region totalRegion = new Region(name: "Danmark", hoursSaved: totalHours, regionId: -1);
+            Region totalRegion = new Region(name: "Region Danmark", hoursSaved: totalHours, regionId: -1);
             return totalRegion;
         }
     }

@@ -28,6 +28,7 @@ namespace Region_Syd.Model
             double hours = Duration.TotalHours * 2;
 
             assignment.StartRegion.HoursSaved += hours;
+
         }
 
         public void ReassignAmbulance(Assignment a1, Assignment a2)
@@ -46,7 +47,7 @@ namespace Region_Syd.Model
                 SetIsMatchedTrue(a1, a2);
                 Update(a1);
                 Update(a2);
-                AssignmentSavings(a2);
+                AssignmentSavings(a2); 
 			}
 		}
         
