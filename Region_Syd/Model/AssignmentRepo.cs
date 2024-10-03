@@ -21,6 +21,15 @@ namespace Region_Syd.Model
             _regions = regions.ToList();
         }
 
+        public void AssignmentSavings(Assignment assignment)
+        {
+            TimeSpan Duration = assignment.Finish - assignment.Start; // skal tilføje Duration til assignment.StartRegion instancen.
+            
+            double hours = Duration.TotalHours * 2;
+
+            assignment.StartRegion.HoursSaved += hours;
+        }
+
         public void ReassignAmbulance(Assignment a1, Assignment a2)
         {
 			if (DateTime.Compare(a1.Start, a2.Start) > 0) //assignment 1 skal have 2's ambulance
@@ -29,7 +38,7 @@ namespace Region_Syd.Model
                 SetIsMatchedTrue(a1, a2);
                 Update(a1);
                 Update(a2);
-                // AssignmentSavings(a1); IMPLEMENTER
+                AssignmentSavings(a1);
             }
             else if (DateTime.Compare(a1.Start, a2.Start) < 0) //assignment 2 skal have 1's ambulance
             {
@@ -37,7 +46,7 @@ namespace Region_Syd.Model
                 SetIsMatchedTrue(a1, a2);
                 Update(a1);
                 Update(a2);
-                // AssignmentSavings(a2); IMPLEMENTER;
+                AssignmentSavings(a2);
 			}
 		}
         
