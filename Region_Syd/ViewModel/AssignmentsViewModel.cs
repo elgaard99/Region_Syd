@@ -78,6 +78,48 @@ namespace Region_Syd.ViewModel
             return false;
         }
 
+        //FULL AUTO
+        public bool CanFullAuto(ObservableCollection<Assignment> aList)
+        {
+            if (aList != null) return true;
+
+            return false;
+        }
+
+
+        public RelayCommand FullAutoCommand =>
+        new RelayCommand(
+            execute => FullAuto1(),
+            canExecute => CanFullAuto(AllAssignments)
+            );
+        
+        void FullAuto1()
+        {
+            var twoAssignments = _potentialRepo.FullAutoMatchesForTours(AllAssignments.ToList());
+            FullAutoCombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
+
+
+
+        }
+
+        public void FullAutoCombineAssignments(Assignment a1, Assignment a2)
+        {
+
+            while (a1 != null && a2 != null)
+            {
+                _assignmentRepo.ReassignAmbulance(a1, a2);
+
+                SetAllAssignments();
+                SortAssignmentsByStart();
+            }
+
+;
+        }
+
+
+
+
+
         public RelayCommand AddAssignment1Command => 
             new RelayCommand (
                 execute => AddAssignment1(), 
