@@ -95,29 +95,33 @@ namespace Region_Syd.ViewModel
         
         void FullAuto1()
         {
-            var twoAssignments = _potentialRepo.FullAutoMatchesForTours(AllAssignments.ToList());
-            FullAutoCombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
+            
 
+            int countFAVM = 0;
+            while (countFAVM < AllAssignments.Count)
+            {
+                var twoAssignments = _potentialRepo.FullAutoMatchesForTours(AllAssignments.ToList());
+                FullAutoCombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
+                countFAVM++;
+            }
 
 
         }
 
         public void FullAutoCombineAssignments(Assignment a1, Assignment a2)
         {
-
-            while (a1 != null && a2 != null)
+            if (a1 != null && a2 != null) 
             {
-                _assignmentRepo.ReassignAmbulance(a1, a2);
+                
+                    _assignmentRepo.ReassignAmbulance(a1, a2);
 
-                SetAllAssignments();
-                SortAssignmentsByStart();
+                    SetAllAssignments();
+                    SortAssignmentsByStart();
+                
+
             }
-
-;
+            
         }
-
-
-
 
 
         public RelayCommand AddAssignment1Command => 

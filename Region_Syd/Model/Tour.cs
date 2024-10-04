@@ -204,20 +204,28 @@ namespace Region_Syd.Model
             Assignment mostTrue = null;
             Assignment bestMatch = null;
 
-            int count = 0;
-            while (count < assignments.Count)
+            //(TourArray)Liste til at putte index tal ind på, for at have en liste med tilgængeligheden som vi kan sammenligne med de potentielle assignments arrays
+            List<int> tourIndices = new List<int>();
+            
+            //sorterer efter dag, og derefter hvilken på assignments der har flest trues
+            List<Assignment> dayThenMostTrue = assignments.OrderByDescending(a => ((bool[])a.RegionsPassed).Count(b => b)).ToList();
+
+            int countTour = 0;
+            while (countTour < assignments.Count)
             {
-                //sorterer efter dag, og derefter hvilken på assignments der har flest trues
-                List<Assignment> dayThenMostTrue = assignments.OrderByDescending(a => ((bool[])a.RegionsPassed).Count(b => b)).ToList();
-                mostTrue = dayThenMostTrue[count];
+
+                mostTrue = dayThenMostTrue[countTour];
 
                 AddToTourAssignments(mostTrue); //Den første på den sorterede liste bliver den første assignment i Tour
 
                 List<Assignment> datePotentials = assignments.FindAll(a => a.Start.Day == mostTrue.Start.Day && a.Start > mostTrue.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
+                if (datePotentials.Count == 0)
+                {
+                    countTour++;
+                    continue;
+                }
 
 
-                //(TourArray)Liste til at putte index tal ind på, for at have en liste med tilgængeligheden som vi kan sammenligne med de potentielle assignments arrays
-                List<int> tourIndices = new List<int>();
                 for (int i = 0; i < FreeRegionsPassed.Length; ++i)
                 {
                     if (FreeRegionsPassed[i]) //Hvis index i på arrayet er true...
@@ -269,11 +277,23 @@ namespace Region_Syd.Model
                 //Hvis den ikke finder nogen matches til mostTrue, skal count +1 og while kører igen
                 if (PotentialAssignments.Count == 0)
                 {
-                    count++;
+                    countTour++;
+                    TourAssignments.Clear();
+                    tourIndices.Clear();
+                    datePotentials.Clear();
+                    FreeRegionsPassed = new bool[8];
+                 
                 }
                 else
                 {
                     bestMatch = SortAssignmentsByPotential(PotentialAssignments)[0];
+                    PotentialAssignments.Clear();
+                    TourAssignments.Clear();
+                    tourIndices.Clear();
+                    datePotentials.Clear();
+                    FreeRegionsPassed = new bool[8];
+
+
                     break;
                 }
                 
