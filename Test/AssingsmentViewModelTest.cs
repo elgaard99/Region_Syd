@@ -11,34 +11,18 @@ namespace Test
         Region_Syd.Model.Assignment AssignmentA, AssignmentB, AssignmentC;
         MainViewModel mvm;
         AssignmentsViewModel avm;
-        
+
+        string connectionString = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["DefaultConnection"];
+        string connectionString2 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection2"];
+        string connectionString3 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection3"];
+        string connectionString4 = BaseTest.InitConfiguration().GetSection("ConnectionStrings")["TestConnection4"];
+
         [TestInitialize]
         public void Init()
         {
             //Arrange
             mvm = new MainViewModel();
-            avm = new AssignmentsViewModel();
-            AssignmentA = new Region_Syd.Model.Assignment() 
-            {                
-                RegionAssignmentId = "A",
-                Start = DateTime.Now,
-                IsMatched = true,
-                AmbulanceId = "4",
-            };
-            AssignmentB = new Region_Syd.Model.Assignment()
-            {
-                RegionAssignmentId = "B",
-                Start = DateTime.Now.AddHours(1),
-                IsMatched = false,
-                AmbulanceId = "5",
-            };
-            AssignmentC = new Region_Syd.Model.Assignment()
-            {
-                RegionAssignmentId = "C",
-                Start = DateTime.Now.AddHours(5),
-                IsMatched = false,
-                AmbulanceId = "6",
-            };
+            avm = new AssignmentsViewModel(connectionString3);
             
             //tror vi er nødt til enten at lave det public eller lave en setter. Alternativt lave et test objekt der er public eller har setter (fx. testAssignemntRepo)
             //tvm._assignmentRepo = _assignmentRepo;
