@@ -135,8 +135,7 @@ namespace Region_Syd.Model
 
 		public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
         {
-            //List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
-           
+            
             AddToTourAssignments(assignment); //assignment bliver sat ind som første element på Touren
 
             List<Assignment> datePotentials = assignments.FindAll(a => a.Start.Day == assignment.Start.Day && a.Start > assignment.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
@@ -160,7 +159,7 @@ namespace Region_Syd.Model
             foreach (Assignment a in datePotentials) // for hver assignment på dagen
             {
                 
-                    //(AssignmentArray)Liste til at putte index tal ind på (bliver brugt i linje 172)
+                    //(AssignmentArray)Liste til at putte index tal ind på (bliver brugt ca 10 linjer herunder)
                     List<int> assignmentIndices = new List<int>();
 
                     if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
@@ -200,46 +199,72 @@ namespace Region_Syd.Model
 
 
 
-        public List<Assignment> FullAutoMatchesForTours()
+        public Assignment FullAutoMatchesForTours(List<Assignment> assignments)
         {
-            List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
+            //sorterer efter dag, og derefter hvilken på assignments der har flest trues
+            var dayThenMostTrue = (List<Assignment>)assignments.OrderBy(a => ((bool[])a.RegionsPassed).Count(b => b));
+            Assignment mostTrue = dayThenMostTrue[0];
 
-            var dayThenMostTrue = (List<Assignment>)assignments //sorterer efter dag, og derefter hvilken på assignment der har flest trues 
-                .OrderBy(a => a.Start.Day)
-                .ThenByDescending(a => ((bool[])a.RegionsPassed).Count(b => b));
+            AddToTourAssignments(mostTrue); //Den første på den sorterede liste bliver den første assignment i Tour
 
-            AddToTourAssignments(dayThenMostTrue[0]); //Den første på den sorterede liste bliver den første assignment i Tour
-
-            var datePotentials = assignments.Where(a => a.Start.Day == dayThenMostTrue[0].Start.Day && a.Start > dayThenMostTrue[0].Finish);
-
-            List<Assignment> AutoPotentialAssignments = new List<Assignment>();
+            List<Assignment> datePotentials = assignments.FindAll(a => a.Start.Day == mostTrue.Start.Day && a.Start > mostTrue.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
 
 
-            List<int> indices = new List<int>(); //Liste til at putte index tal ind på
+            //(TourArray)Liste til at putte index tal ind på, for at have en liste med tilgængeligheden som vi kan sammenligne med de potentielle assignments arrays
+            List<int> tourIndices = new List<int>();
             for (int i = 0; i < FreeRegionsPassed.Length; ++i)
             {
                 if (FreeRegionsPassed[i]) //Hvis index i på arrayet er true...
                 {
-                    indices.Add(i); //...add index i til indices listen
+                    tourIndices.Add(i); //...add index i til indices listen
                 }
             }
 
+
+
+
+
+
             foreach (Assignment a in datePotentials) // for hver assignment på dagen
             {
-                foreach (var index in indices) // for hver tilængelige plads i touren
+
+                //(AssignmentArray)Liste til at putte index tal ind på (bliver brugt i linje ca 10 linjer herunder)
+                List<int> assignmentIndices = new List<int>();
+
+                if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
                 {
-                    if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
+                    //Herunder putter vi assignments true-placeringer ind på listen assignmentIndices
+                    for (int i = 0; i < regionsPassedArray.Length; ++i)
                     {
-                        if (regionsPassedArray[index])
+                        if (regionsPassedArray[i]) //Hvis index i på arrayet er true...
                         {
-                            AutoPotentialAssignments.Add(a); //adder til liste over potentielle assignments
+                            assignmentIndices.Add(i); //...add index i til indices listen
                         }
                     }
 
                 }
+
+
+                // Her sammenligner vi de to indices lister
+                // Fra Christian: 
+                // "Første tal samme lighed, første tal skal være større eller lig med, sum skal være mindre eller lig med"
+                if ((tourIndices[0] % 2) == (assignmentIndices[0] % 2))
+                {
+                    if (tourIndices[0] <= assignmentIndices[0])
+                    {
+                        if (tourIndices.Sum() >= assignmentIndices.Sum() && !PotentialAssignments.Any(pa => pa.RegionAssignmentId == a.RegionAssignmentId)) //
+                        { PotentialAssignments.Add(a); }
+                    }
+                }
+
+
             }
 
-            return AutoPotentialAssignments;
+            return SortAssignmentsByPotential(PotentialAssignments)[0]; //Returnere den bedste assignment
+            //Denne metode skal så bruges på denne måde:
+            //1: Kald denne og Combine (Medmindre den retunere Null(Hvis der ikke er nogen matches))
+            //2: Kør 1 indtil der alle Assignments på AllAssignments er blevet tjekket
+
         }
 
     }
