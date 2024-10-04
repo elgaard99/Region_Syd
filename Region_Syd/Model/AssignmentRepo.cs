@@ -56,7 +56,7 @@ namespace Region_Syd.Model
             a1.IsMatched = true;
             a2.IsMatched = true;
         }
-        public void ResetRepo()
+        public void ResetDBToDummyData()
         {
             string dropTableQuery = "ALTER TABLE Assignments_Addresses DROP CONSTRAINT FK1_AssignmentsAddresses_Assignments; ALTER TABLE Assignments_Addresses DROP CONSTRAINT FK2_AssignmentsAddresses_Addresses; ALTER TABLE Assignments_Addresses DROP CONSTRAINT FK3_AssignmentsAddresses_Addresses; " +
                                     "ALTER TABLE Assignments DROP CONSTRAINT FK_Assignments_AssignmentTypes; " +

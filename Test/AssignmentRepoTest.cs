@@ -35,7 +35,7 @@ namespace Test
             regions = regionRepo.GetAll().ToList();
 
             assignmentRepo = new AssignmentRepo(connectionString3,regions);
-
+            assignmentRepo.ResetDBToDummyData();
 
             // til update
             /*AssignmentB = assignmentRepo2.GetAll().ToList()[0];
