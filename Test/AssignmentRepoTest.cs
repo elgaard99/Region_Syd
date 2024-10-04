@@ -135,7 +135,7 @@ namespace Test
         public void GetAllAssignments()
         {
 
-            IEnumerable<Assignment> found = (IEnumerable<Assignment>)assignmentRepo2.GetAll();
+            IEnumerable<Assignment> found = (IEnumerable<Assignment>)assignmentRepo.GetAll();
             Assert.IsTrue(found.Count<Assignment>() == totalCountOfAssignments);
 
         }
