@@ -136,7 +136,7 @@
 									Header="Timer sparret">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding HoursSaved}"
+								<TextBlock Text="{Binding HoursSaved, StringFormat={}{0:F1}}"
 										   TextAlignment="Center" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
@@ -146,7 +146,7 @@
 									Header="Kilometer sparret">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<TextBlock Text="{Binding DistanceSaved}"
+								<TextBlock Text="{Binding DistanceSaved, StringFormat={}{0:F0}}"
 										   TextAlignment="Right" />
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
