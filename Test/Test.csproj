@@ -10,11 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="AssignmentRepoTest.cs" />
-    <Compile Remove="AssingsmentViewModelTest.cs" />
-    <Compile Remove="BaseTest.cs" />
-    <Compile Remove="RegionRepoTest.cs" />
-    <Compile Remove="TourTest.cs" />
+
   </ItemGroup>
 
   <ItemGroup>
