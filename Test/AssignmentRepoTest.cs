@@ -48,6 +48,7 @@ namespace Test
             SQLRepo = new AssignmentRepo(connectionString, regions);
             SQLRepo2 = new AssignmentRepo(connectionString2, regions);
             SQLRepo3 = new AssignmentRepo(connectionString3, regions);
+            SQLRepo3.ResetRepo();
 
             AssignmentA = new Assignment()
             {
