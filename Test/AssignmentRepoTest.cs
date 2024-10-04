@@ -156,7 +156,7 @@ namespace Test
             {
                 AssignmentA.IsMatched = false;
             }
-            assignmentRepo2.Update(AssignmentA);
+            assignmentRepo.Update(AssignmentA);
             Assert.IsFalse(AssignmentAIsMatchedBefore == AssignmentA.IsMatched);
             /* Assignment resultAssignment = assignmentRepo2.GetAll().ToList()[0];*/
 
