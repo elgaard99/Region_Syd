@@ -144,7 +144,7 @@ namespace Test
         [TestMethod]
         public void UpdateAssignment()
         {
-            Assignment AssignmentABefore = AssignmentA;
+            bool AssignmentAIsMatchedBefore = AssignmentA.IsMatched;
             /*Assert.IsFalse(testAssignment.IsMatched);
 
             Assignment updatedAssignment = testAssignment;
@@ -158,7 +158,7 @@ namespace Test
                 AssignmentA.IsMatched = false;
             }
             assignmentRepo2.Update(AssignmentA);
-            Assert.IsFalse(AssignmentABefore.IsMatched == AssignmentA.IsMatched);
+            Assert.IsFalse(AssignmentAIsMatchedBefore == AssignmentA.IsMatched);
             /* Assignment resultAssignment = assignmentRepo2.GetAll().ToList()[0];*/
 
         }
