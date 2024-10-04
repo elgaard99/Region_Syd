@@ -220,5 +220,9 @@ namespace Region_Syd.ViewModel
             if (DateTime.Compare(sortedByDateTime[0].Finish, sortedByDateTime[1].Start) > 0) {  return false; }
             else { return true; }
         }
+        public void ResetDBToDummyData()
+        {
+            _assignmentRepo.ResetDBToDummyData();
+        }
     }
 }
