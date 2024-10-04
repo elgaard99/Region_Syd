@@ -35,8 +35,7 @@ namespace Test
             regions = regionRepo.GetAll().ToList();
 
             assignmentRepo = new AssignmentRepo(connectionString3,regions);
-            assignmentRepo2 = new AssignmentRepo(connectionString3, regions);
-            assignmentRepo3 = new AssignmentRepo(connectionString3,regions);
+
 
             // til update
             /*AssignmentB = assignmentRepo2.GetAll().ToList()[0];
@@ -55,8 +54,8 @@ namespace Test
 
             AssignmentA = assignments[0];
             AssignmentB = assignments[1];
-            //AssignmentC = assignments[2];
-            //AssignmentD = assignments[3];
+            AssignmentC = assignments[2];
+            AssignmentD = assignments[3];
 
 
         }
@@ -64,7 +63,7 @@ namespace Test
         {
             string query = @"SELECT COUNT(*) FROM Assignments";
 
-            using (SQLiteConnection connection = new SQLiteConnection(connectionString))
+            using (SQLiteConnection connection = new SQLiteConnection(connectionString3))
             {
                 SQLiteCommand command = new SQLiteCommand(query, connection);
                 connection.Open();
