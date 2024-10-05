@@ -35,6 +35,7 @@ namespace Region_Syd.Model
         public void ReassignAmbulance(Assignment a1, Assignment a2, Assignment a3)
         {
             a2.AmbulanceId = a1.AmbulanceId;
+            SetIsMatchedTrue(a1, a2, a3);
             Update(a1);
             Update(a2);
             AssignmentSavings(a2);
@@ -45,7 +46,7 @@ namespace Region_Syd.Model
                 AssignmentSavings(a3);
             }
                 
-            SetIsMatchedTrue(a1, a2, a3);
+            
 
 
 

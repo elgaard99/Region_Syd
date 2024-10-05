@@ -198,13 +198,9 @@ namespace Region_Syd.Model
 
         public List<Assignment> Add2Tour(Assignment assignment1, Assignment assignment2, List<Assignment> assignments)
         {
-            List<Assignment> potentialAssignments = assignments;
-            AddToTourAssignments(assignment1); //assignment1 bliver sat ind som første element på Touren
-            potentialAssignments.Remove(assignment1);
-            AddToTourAssignments(assignment2);
-            potentialAssignments.Remove(assignment2);
+            List<Assignment> potentialAssignments = assignments.FindAll(a => a.Start.Day == assignment2.Start.Day && a.Start > assignment2.Finish);
+             
             
-
             return potentialAssignments;
 
         }
