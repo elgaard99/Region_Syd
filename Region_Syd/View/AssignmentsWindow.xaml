@@ -122,96 +122,96 @@
             SelectedItem="{Binding SelectedAssignment}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}">
-					<GridViewColumn Header="Fra Region"
+                    <GridViewColumn Header="Fra Region"
 									Width="100">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding StartRegion.DisplayName}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StartRegion.DisplayName}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding StartRegion.DisplayName}"/>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Til Region"
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Til Region"
 									Width="100">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding EndRegion.DisplayName}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding EndRegion.DisplayName}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding EndRegion.DisplayName}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Opgave ID"
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Opgave ID"
 									Width="90">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding RegionAssignmentId}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding RegionAssignmentId}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding RegionAssignmentId}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Fra add."
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Fra add."
 									Width="300">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding StartAddress}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding StartAddress}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding StartAddress}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Til add."
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Til add."
 									Width="300">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding EndAddress}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding EndAddress}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding EndAddress}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Afhentningstidspunkt"
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Afhentningstidspunkt"
 									Width="210">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding Start, StringFormat={}{0:dd/MM/yy HH:mm}}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Ankomst"
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Ankomst"
 									Width="210">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Finish, StringFormat={}{0:dd/MM/yy HH:mm}}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Finish, StringFormat={}{0:dd/MM/yy HH:mm}}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding Finish, StringFormat={}{0:dd/MM/yy HH:mm}}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Type"
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Type"
 									Width="50">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding AssignmentType}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding AssignmentType}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding AssignmentType}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					<GridViewColumn Header="Opg. Beskrivelse"
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Opg. Beskrivelse"
 									Width="450">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding Description}"
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Description}"
 										   TextTrimming="CharacterEllipsis"
 										   ToolTip="{Binding Description}" />
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                 </GridView>
             </ListView.View>
@@ -236,13 +236,13 @@
             FontSize="22"
             TextWrapping="Wrap">
             <TextBlock.Text>
-				<MultiBinding StringFormat="{}({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
+                <MultiBinding StringFormat="{}({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
                     <Binding Path="Assignment1.RegionAssignmentId" />
-					<Binding Path="Assignment1.StartRegion.DisplayName" />
-					<Binding Path="Assignment1.Start" />
-					<Binding Path="Assignment1.EndRegion.DisplayName" />
-					<Binding Path="Assignment1.Finish" />
-				</MultiBinding>
+                    <Binding Path="Assignment1.StartRegion.DisplayName" />
+                    <Binding Path="Assignment1.Start" />
+                    <Binding Path="Assignment1.EndRegion.DisplayName" />
+                    <Binding Path="Assignment1.Finish" />
+                </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
 
@@ -283,7 +283,7 @@
         <TextBlock
             Name="tbPick2"
             Grid.Row="2"
-            Width="856"
+            Width="285"
             Height="52"
             Margin="248,95,0,0"
             HorizontalAlignment="Left"
@@ -292,13 +292,13 @@
             FontSize="22"
             TextWrapping="Wrap">
             <TextBlock.Text>
-				<MultiBinding StringFormat="{}({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
-					<Binding Path="Assignment2.RegionAssignmentId" />
-					<Binding Path="Assignment2.StartRegion.DisplayName" />
-					<Binding Path="Assignment2.Start" />
-					<Binding Path="Assignment2.EndRegion.DisplayName" />
-					<Binding Path="Assignment2.Finish" />
-				</MultiBinding>
+                <MultiBinding StringFormat="{}({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
+                    <Binding Path="Assignment2.RegionAssignmentId" />
+                    <Binding Path="Assignment2.StartRegion.DisplayName" />
+                    <Binding Path="Assignment2.Start" />
+                    <Binding Path="Assignment2.EndRegion.DisplayName" />
+                    <Binding Path="Assignment2.Finish" />
+                </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
 
@@ -317,8 +317,8 @@
             Name="btnAdd2"
             Grid.Row="2"
             Width="83"
-            Height="52"
-            Margin="1179,95,0,0"
+            Height="26"
+            Margin="538,95,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="#FF65FF00"
@@ -328,8 +328,8 @@
             Name="btnRemove2"
             Grid.Row="2"
             Width="82"
-            Height="52"
-            Margin="1276,95,0,0"
+            Height="21"
+            Margin="538,126,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="Red"
@@ -346,6 +346,60 @@
             Background="BurlyWood"
             Command="{Binding CombineAssignmentsCommand}"
             Content="Kombiner" />
+        <Label
+            Grid.Row="3"
+            Width="84"
+            Height="52"
+            Margin="634,95,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            HorizontalContentAlignment="Center"
+            Background="White"
+            Content="3"
+            FontSize="24" />
+        <TextBlock
+            x:Name="tbPick3"
+            Grid.Row="2"
+            Width="275"
+            Height="52"
+            Margin="742,95,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="White"
+            FontSize="22"
+            TextWrapping="Wrap">
+            <TextBlock.Text>
+                <MultiBinding StringFormat="({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
+                    <Binding Path="Assignment3.RegionAssignmentId" />
+                    <Binding Path="Assignment3.StartRegion.DisplayName" />
+                    <Binding Path="Assignment3.Start" />
+                    <Binding Path="Assignment3.EndRegion.DisplayName" />
+                    <Binding Path="Assignment3.Finish" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+        <Button
+            x:Name="btnAdd3"
+            Grid.Row="2"
+            Width="83"
+            Height="26"
+            Margin="1022,95,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="#FF65FF00"
+            Command="{Binding AddAssignment3Command}"
+            Content="Tilføj markeret" />
+        <Button
+            x:Name="btnRemove3"
+            Grid.Row="2"
+            Width="82"
+            Height="21"
+            Margin="1022,126,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="Red"
+            Command="{Binding RemoveAssignment3Command}"
+            Content="Fjern" />
 
 
     </Grid>

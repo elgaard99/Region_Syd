@@ -59,6 +59,7 @@ namespace Region_Syd.ViewModel
 		private Assignment _selectedAssignment;
         private Assignment _assignment1;
         private Assignment _assignment2;
+        private Assignment _assignment3;
 
         public AssignmentsViewModel(string connectionString) 
         {
@@ -113,10 +114,11 @@ namespace Region_Syd.ViewModel
 
         public void FullAutoCombineAssignments(Assignment a1, Assignment a2)
         {
+            Assignment a3 = null;
             if (a1 != null && a2 != null) 
             {
                 
-                _assignmentRepo.ReassignAmbulance(a1, a2);
+                _assignmentRepo.ReassignAmbulance(a1, a2, a3);
                 _regionRepo.Update(a1.StartRegion);
                 _regionRepo.Update(a2.StartRegion);
 
@@ -127,6 +129,7 @@ namespace Region_Syd.ViewModel
             }
             
         }
+
 
 
         public RelayCommand AddAssignment1Command => 
@@ -141,9 +144,23 @@ namespace Region_Syd.ViewModel
         }
         public RelayCommand AddAssignment2Command =>
             new RelayCommand(
-                execute => Assignment2 = SelectedAssignment,
+                execute => AddAssignment2(),
                 canExecute => CanAddAssignment(Assignment2) && Assignment1 != null
 				);
+        void AddAssignment2()
+        {
+            List<Assignment> a1Matches = CurrentAssignments.ToList();
+            Assignment2 = SelectedAssignment;
+            CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.Add2Tour(Assignment1, Assignment2, a1Matches));
+        }
+
+        public RelayCommand AddAssignment3Command =>
+            new RelayCommand(
+                execute => Assignment3 = SelectedAssignment,
+                canExecute => CanAddAssignment(Assignment3) && Assignment2 != null && Assignment1 != null
+                );
+
+
 
         public RelayCommand RemoveAssignment1Command =>
            new RelayCommand(
@@ -170,7 +187,20 @@ namespace Region_Syd.ViewModel
             Assignment2 = null;
 			CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
 		}
-		public RelayCommand CombineAssignmentsCommand =>
+
+        public RelayCommand RemoveAssignment3Command =>
+           new RelayCommand(
+               execute => RemoveAssignment3(),
+               canExecute => Assignment3 != null
+               );
+        void RemoveAssignment3()
+        {
+            Assignment3 = null;
+            CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.Add2Tour(Assignment1, Assignment2, AllAssignments.ToList()));
+        }
+
+
+        public RelayCommand CombineAssignmentsCommand =>
            new RelayCommand(
                execute => CombineAssignments(),
                canExecute => Assignment1 != null && Assignment2 != null && DoAssignmentsOverlap() == true
@@ -218,6 +248,18 @@ namespace Region_Syd.ViewModel
             }
         }
 
+        public Assignment Assignment3
+        {
+            get { return _assignment3; }
+            set
+            {
+                CheckIfAssigned(_assignment3, value);
+
+                _assignment3 = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void SortAssignmentsByStart()
         {
 
@@ -247,16 +289,19 @@ namespace Region_Syd.ViewModel
 
         public void CombineAssignments()
         {
-            Assignment a1, a2;
+            Assignment a1, a2, a3;
             a1 = Assignment1;
             a2 = Assignment2;
+            a3 = Assignment3;  
 
             Assignment1 = null;
             Assignment2 = null;
+            Assignment3 = null;
 
-            _assignmentRepo.ReassignAmbulance(a1, a2);
+            _assignmentRepo.ReassignAmbulance(a1, a2, a3);
             _regionRepo.Update(a1.StartRegion);
             _regionRepo.Update(a2.StartRegion);
+            _regionRepo.Update(a3.StartRegion);
             SetAllAssignments();
             SortAssignmentsByStart();
             CurrentAssignments = AllAssignments;

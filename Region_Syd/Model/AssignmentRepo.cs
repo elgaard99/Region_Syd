@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
+using System.Security.Cryptography;
 
 namespace Region_Syd.Model
 {
@@ -31,30 +32,57 @@ namespace Region_Syd.Model
 
         }
 
-        public void ReassignAmbulance(Assignment a1, Assignment a2)
+        public void ReassignAmbulance(Assignment a1, Assignment a2, Assignment a3)
         {
-			if (DateTime.Compare(a1.Start, a2.Start) > 0) //assignment 1 skal have 2's ambulance
-			{
-                a1.AmbulanceId = a2.AmbulanceId;
-                SetIsMatchedTrue(a1, a2);
-                Update(a1);
-                Update(a2);
-                AssignmentSavings(a1);
+            a2.AmbulanceId = a1.AmbulanceId;
+            Update(a1);
+            Update(a2);
+            AssignmentSavings(a2);
+            if (a3 != null) 
+            { 
+                a3.AmbulanceId = a1.AmbulanceId;
+                Update(a3);
+                AssignmentSavings(a3);
             }
-            else if (DateTime.Compare(a1.Start, a2.Start) < 0) //assignment 2 skal have 1's ambulance
-            {
-                a2.AmbulanceId = a1.AmbulanceId;
-                SetIsMatchedTrue(a1, a2);
-                Update(a1);
-                Update(a2);
-                AssignmentSavings(a2); 
-			}
+                
+            SetIsMatchedTrue(a1, a2, a3);
+
+
+
+   //         if (DateTime.Compare(a1.Start, a2.Start) > 0) //assignment 1 skal have 2's ambulance
+			//{
+   //             a1.AmbulanceId = a2.AmbulanceId;
+   //             SetIsMatchedTrue(a1, a2);
+   //             Update(a1);
+   //             Update(a2);
+   //             AssignmentSavings(a1);
+   //         }
+   //         else if (DateTime.Compare(a1.Start, a2.Start) < 0) //assignment 2 skal have 1's ambulance
+   //         {
+   //             a2.AmbulanceId = a1.AmbulanceId;
+   //             SetIsMatchedTrue(a1, a2);
+   //             Update(a1);
+   //             Update(a2);
+   //             AssignmentSavings(a2); 
+			//}
+
+
 		}
         
-        public void SetIsMatchedTrue (Assignment a1, Assignment a2)
+        public void SetIsMatchedTrue (Assignment a1, Assignment a2, Assignment a3)
         {
-            a1.IsMatched = true;
-            a2.IsMatched = true;
+            if (a3 == null)
+            {
+                a1.IsMatched = true;
+                a2.IsMatched = true;
+            }
+            else 
+            {
+                a1.IsMatched = true;
+                a2.IsMatched = true;
+                a3.IsMatched = true;
+            }
+            
         }
 
         // implementation af IRepository
