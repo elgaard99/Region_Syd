@@ -233,13 +233,16 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="White"
-            FontSize="24"
+            FontSize="22"
             TextWrapping="Wrap">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0} {1}">
+				<MultiBinding StringFormat="{}({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
                     <Binding Path="Assignment1.RegionAssignmentId" />
-                    <Binding Path="Assignment1.Start" />
-                </MultiBinding>
+					<Binding Path="Assignment1.StartRegion.DisplayName" />
+					<Binding Path="Assignment1.Start" />
+					<Binding Path="Assignment1.EndRegion.DisplayName" />
+					<Binding Path="Assignment1.Finish" />
+				</MultiBinding>
             </TextBlock.Text>
         </TextBlock>
 
@@ -286,13 +289,16 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="White"
-            FontSize="24"
+            FontSize="22"
             TextWrapping="Wrap">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0} {1}">
-                    <Binding Path="Assignment2.RegionAssignmentId" />
-                    <Binding Path="Assignment2.Start" />
-                </MultiBinding>
+				<MultiBinding StringFormat="{}({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
+					<Binding Path="Assignment2.RegionAssignmentId" />
+					<Binding Path="Assignment2.StartRegion.DisplayName" />
+					<Binding Path="Assignment2.Start" />
+					<Binding Path="Assignment2.EndRegion.DisplayName" />
+					<Binding Path="Assignment2.Finish" />
+				</MultiBinding>
             </TextBlock.Text>
         </TextBlock>
 
