@@ -27,6 +27,7 @@
             <Setter Property="FontSize" Value="30" />
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Text" 
         </Style>
 
         <Style x:Key="tbColumnHeader" TargetType="TextBlock" BasedOn="{StaticResource baseMargin}">
@@ -36,6 +37,16 @@
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
+
+        <DataTemplate x:Key="regionsTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=TaskName}" />
+                <TextBlock Text="{Binding Path=Description}"/>
+                <TextBlock Text="{Binding Path=Priority}"/>
+            </StackPanel>
+        </DataTemplate>
+
+
     </Window.Resources>
 
 
@@ -73,7 +84,7 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel>
                 <TextBlock Text="Region" Style="{StaticResource tbColumnHeader}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>
+                <TextBlock Text="{Binding north}" Style="{StaticResource tbRegionName}"/>
                 <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>
                 <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>
                 <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>

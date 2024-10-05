@@ -11,27 +11,27 @@ namespace Region_Syd.ViewModel
     
     public class SavingsViewModel : ViewModelBase
     {
-        RegionRepo _regionRepo;
-        private ObservableCollection<Region> _regions;
-
-        public ObservableCollection<Region> Regions
-        {
-            get { return _regions; }
-            set { 
-                _regions = value;
-				OnPropertyChanged(nameof(Regions));
-
-			}
-		}
 
         public SavingsViewModel(string connectionString)
         {
-			_regionRepo = new RegionRepo(connectionString);
+			RegionRepo regionRepo = new RegionRepo(connectionString);
 
-			Regions = new ObservableCollection<Region> (_regionRepo.GetAll());
-			Regions.Add(_regionRepo.CalculateTotalSavings());
+			List<Region> regions = regionRepo.GetAll().ToList();
+
+			south = regions.Find(r => r.Name == "Region Syddanmark");
+			north = regions.Find(r => r.Name == "Region Nordjylland");
+			central = regions.Find(r => r.Name == "Region Midtjylland");
+			capitol = regions.Find(r => r.Name == "Region Hovedstaden");
+			sealand = regions.Find(r => r.Name == "Region Sjælland");
+			denmark = regionRepo.CalculateTotalSavings();
 		}
 
+		public Region south;
+		public Region sealand;
+		public Region north;
+		public Region central;
+		public Region capitol;
+		public Region denmark;
 
 
 		//public double TimeSavedSouth => Savings.FirstOrDefault(s => s.Region == RegionEnum.RSy)?.SavedHours ?? 0;
