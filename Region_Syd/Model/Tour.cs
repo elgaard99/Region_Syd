@@ -222,6 +222,8 @@ namespace Region_Syd.Model
                 if (datePotentials.Count == 0)
                 {
                     countTour++;
+                    TourAssignments.Clear();
+                    FreeRegionsPassed = new bool[8];
                     continue;
                 }
 

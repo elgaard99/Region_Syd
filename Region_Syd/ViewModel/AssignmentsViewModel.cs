@@ -101,6 +101,9 @@ namespace Region_Syd.ViewModel
             while (countFAVM < AllAssignments.Count)
             {
                 var twoAssignments = _potentialRepo.FullAutoMatchesForTours(AllAssignments.ToList());
+                if (twoAssignments.bestMatch == null)
+                { break; } //Skal breake ud, fordi hvis bestMatch er returneret som null er listen gennemtjekket
+                
                 FullAutoCombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
                 countFAVM++;
             }
@@ -113,11 +116,13 @@ namespace Region_Syd.ViewModel
             if (a1 != null && a2 != null) 
             {
                 
-                    _assignmentRepo.ReassignAmbulance(a1, a2);
+                _assignmentRepo.ReassignAmbulance(a1, a2);
+                _regionRepo.Update(a1.StartRegion);
+                _regionRepo.Update(a2.StartRegion);
 
-                    SetAllAssignments();
-                    SortAssignmentsByStart();
-                
+                SetAllAssignments();
+                SortAssignmentsByStart();
+                CurrentAssignments = AllAssignments;
 
             }
             
@@ -148,6 +153,7 @@ namespace Region_Syd.ViewModel
         void RemoveAssignment1()
         {
             Assignment1 = null;
+
             SetAllAssignments ();
 			SortAssignmentsByStart();
 			CurrentAssignments = AllAssignments;
