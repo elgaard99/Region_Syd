@@ -11,9 +11,7 @@
             <TextBlock Text="Login" FontSize="25" TextDecorations="Underline" HorizontalAlignment="Center"/>
             <TextBlock Text="Bruger" Margin="0,40,0,0"/>
             <TextBox Width="100" Text="{Binding EnteredUsername, UpdateSourceTrigger=PropertyChanged}" />
-            <Button Content="Log Ind" Margin="0,10,0,0" Click="Button_Click" Command="{Binding LoginCommand}"
-                    
-                    />
+            <Button Content="Log Ind" Margin="0,10,0,0" Click="Button_Click" Command="{Binding LoginCommand}" />
         </StackPanel>
 
     </Grid>
