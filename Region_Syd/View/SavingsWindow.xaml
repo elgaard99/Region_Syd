@@ -5,48 +5,77 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Region_Syd.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="1600"
+    Width="1200"
     Height="800"
+    WindowStyle="None"
     WindowState="Normal"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <Window.Resources>
 
         <Style x:Key="baseMargin" TargetType="TextBlock">
-            <Setter Property="Margin" Value="50,5,50,0"/>
+            <Setter Property="Margin" Value="50,5,0,0"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="Black"/>
         </Style>
         
         <Style x:Key="tbData" TargetType="TextBlock" BasedOn="{StaticResource baseMargin}">
-            <Setter Property="Foreground" Value="Black" />
-            <Setter Property="FontSize" Value="30" />
             <Setter Property="TextAlignment" Value="Center" />
         </Style>
 
         <Style x:Key="tbRegionName" TargetType="TextBlock" BasedOn="{StaticResource baseMargin}">
-            <Setter Property="Foreground" Value="Black" />
-            <Setter Property="FontSize" Value="30" />
-            <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Text" 
         </Style>
 
         <Style x:Key="tbColumnHeader" TargetType="TextBlock" BasedOn="{StaticResource baseMargin}">
             <Setter Property="Foreground" Value="Maroon" />
             <Setter Property="FontSize" Value="40" />
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="TextAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
 
         <DataTemplate x:Key="regionsTemplate">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Path=TaskName}" />
-                <TextBlock Text="{Binding Path=Description}"/>
-                <TextBlock Text="{Binding Path=Priority}"/>
-            </StackPanel>
+            <Label>
+                <Label.Content>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                        <TextBlock Width="{Binding ActualWidth, ElementName=tbRegion}" Text="{Binding Path=Name}" Style="{StaticResource tbRegionName}"/>
+                        <TextBlock Width="{Binding ActualWidth, ElementName=tbSavedHours}" Text="{Binding Path=HoursSaved, StringFormat={}{0:F1}}" Style="{StaticResource tbData}"/>
+                        <TextBlock Width="{Binding ActualWidth, ElementName=tbSavedDistance}" Text="{Binding Path=DistanceSaved, StringFormat={}{0:F0}}" Style="{StaticResource tbData}"/>
+                    </StackPanel>
+                </Label.Content>
+            </Label>
         </DataTemplate>
 
-
+        <DataTemplate x:Key="myTemplate">
+            <StackPanel>
+                <Label Background="Purple" Foreground="White" BorderBrush="Red" BorderThickness="4">
+                    <Label.Content>
+                        <WrapPanel HorizontalAlignment="Stretch">
+                            <TextBlock>Emplyoee Name:</TextBlock>
+                            <TextBlock Text="{Binding Name}" />
+                        </WrapPanel>
+                    </Label.Content>
+                </Label>
+                <Label  BorderBrush="Black" HorizontalAlignment="Stretch" Background="Yellow" BorderThickness="3" Foreground="Blue">
+                    <Label.Content>
+                        <StackPanel>
+                            <WrapPanel>
+                                <TextBlock> Employee Nr.:</TextBlock>
+                                <TextBlock Text="{Binding EmployeeNr}"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock> Department:</TextBlock>
+                                <TextBlock Text="{Binding Dept}"/>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <TextBlock> Telephone:</TextBlock>
+                                <TextBlock Text="{Binding TelephoneNr}"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Label.Content>
+                </Label>
+            </StackPanel>
+        </DataTemplate>
     </Window.Resources>
 
 
@@ -81,39 +110,20 @@
 
 
         <!--  Row 1  -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <StackPanel>
-                <TextBlock Text="Region" Style="{StaticResource tbColumnHeader}"/>
-                <TextBlock Text="{Binding north}" Style="{StaticResource tbRegionName}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbRegionName}"/>
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="tbRegion" Width="300" Text="Region" Style="{StaticResource tbColumnHeader}"/>
+                <TextBlock x:Name="tbSavedHours" Text="Timer Sparet" Style="{StaticResource tbColumnHeader}"/>
+                <TextBlock x:Name="tbSavedDistance" Text="Kilometer Sparet" Style="{StaticResource tbColumnHeader}"/>
             </StackPanel>
-            <StackPanel>
-                <TextBlock Text="Timer Sparet" Style="{StaticResource tbColumnHeader}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-            </StackPanel>
-            <StackPanel>
-                <TextBlock Text="Kilometer Sparet" Style="{StaticResource tbColumnHeader}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-                <TextBlock Text="Region" Style="{StaticResource tbData}"/>
-            </StackPanel>
+            <ListBox 
+                ItemsSource="{Binding Regions}" 
+                ItemTemplate="{StaticResource regionsTemplate}"
+                BorderThickness="0"/>
+
         </StackPanel>
-       
-        
-        
-        
+
+
         <!--  Row 2  -->
         <Rectangle Grid.Row="2" Fill="DarkRed" />
 

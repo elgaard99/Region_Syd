@@ -12,40 +12,16 @@ namespace Region_Syd.ViewModel
     public class SavingsViewModel : ViewModelBase
     {
 
+		private ObservableCollection<Region> _regions;
+		public ObservableCollection<Region> Regions {  get { return _regions; } set { _regions = value; OnPropertyChanged(); } }
+
         public SavingsViewModel(string connectionString)
         {
 			RegionRepo regionRepo = new RegionRepo(connectionString);
 
-			List<Region> regions = regionRepo.GetAll().ToList();
+			Regions = new ObservableCollection<Region>(regionRepo.GetAll());
+			Regions.Add(regionRepo.CalculateTotalSavings());
 
-			south = regions.Find(r => r.Name == "Region Syddanmark");
-			north = regions.Find(r => r.Name == "Region Nordjylland");
-			central = regions.Find(r => r.Name == "Region Midtjylland");
-			capitol = regions.Find(r => r.Name == "Region Hovedstaden");
-			sealand = regions.Find(r => r.Name == "Region Sjælland");
-			denmark = regionRepo.CalculateTotalSavings();
 		}
-
-		public Region south;
-		public Region sealand;
-		public Region north;
-		public Region central;
-		public Region capitol;
-		public Region denmark;
-
-
-		//public double TimeSavedSouth => Savings.FirstOrDefault(s => s.Region == RegionEnum.RSy)?.SavedHours ?? 0;
-		//public double DistanceSavedSouth => TimeSavedSouth * 90;
-		//public double TimeSavedNorth => Savings.FirstOrDefault(s => s.Region == RegionEnum.RN)?.SavedHours ?? 0;
-		//public double DistanceSavedNorth => TimeSavedNorth * 90;
-		//public double TimeSavedZealand => Savings.FirstOrDefault(s => s.Region == RegionEnum.RSj)?.SavedHours ?? 0;
-		//public double DistanceSavedZealand => TimeSavedZealand * 90;
-		//public double TimeSavedMid => Savings.FirstOrDefault(s => s.Region == RegionEnum.RM)?.SavedHours ?? 0;
-		//public double DistanceSavedMid => TimeSavedMid * 90;
-		//public double TimeSavedCapital => Savings.FirstOrDefault(s => s.Region == RegionEnum.RH)?.SavedHours ?? 0;
-		//public double DistanceSavedCapital => TimeSavedCapital * 90;
-		//public double TimeSavedDenmark => TimeSavedSouth + TimeSavedNorth + TimeSavedZealand + TimeSavedMid + TimeSavedCapital;
-		//public double DistanceSavedDenmark => TimeSavedDenmark * 90;
 	}
-
 }
