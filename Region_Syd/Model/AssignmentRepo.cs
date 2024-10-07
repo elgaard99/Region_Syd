@@ -279,11 +279,6 @@ VALUES
             return assignment;
         }
 
-        public void Add(Assignment entity)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(Assignment entity)
         {
             string query = "UPDATE Assignments SET IsMatched = @IsMatched, AmbulanceID = @AmbulanceId WHERE RegionAssignmentId = @RegionAssignmentId";
@@ -298,11 +293,6 @@ VALUES
                 command.ExecuteNonQuery();
             }
 
-        }
-
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
         }
 
         Assignment ReadAssignment(SQLiteDataReader reader)

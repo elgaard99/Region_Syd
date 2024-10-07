@@ -16,15 +16,7 @@ namespace Region_Syd.Model
         {
             _connectionString = connectionString;
         }
-        public void Add(Region entity)
-        {
-            throw new NotImplementedException();
-        }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
 
         public IEnumerable<Region> GetAll()
         {

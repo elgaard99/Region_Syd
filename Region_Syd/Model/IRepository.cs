@@ -10,8 +10,6 @@ namespace Region_Syd.Model
     {
         IEnumerable<T> GetAll();
         T GetById(string id);
-        void Add(T entity);
         void Update(T entity);
-        void Delete(int id);
     }
 }
