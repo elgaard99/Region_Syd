@@ -105,34 +105,36 @@ namespace Region_Syd.ViewModel
                 if (twoAssignments.bestMatch == null)
                 { break; } //Skal breake ud, fordi hvis bestMatch er returneret som null er listen gennemtjekket
                 
-                FullAutoCombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
+                CombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
                 countFAVM++;
             }
 
 
         }
 
-        public void FullAutoCombineAssignments(Assignment a1, Assignment a2)
-        {
-            Assignment a3 = null;
-            if (a1 != null && a2 != null) 
-            {
-                
-                _assignmentRepo.ReassignAmbulance(a1, a2, a3);
-                _regionRepo.Update(a1.StartRegion);
-                _regionRepo.Update(a2.StartRegion);
+		// FullAutoCombineAssignments er nu lavet som en overload på CombineAssignments i stedet for.
 
-                SetAllAssignments();
-                SortAssignmentsByStart();
-                CurrentAssignments = AllAssignments;
+		//public void FullAutoCombineAssignments(Assignment a1, Assignment a2)
+		//{
+		//    Assignment a3 = null;
+		//    if (a1 != null && a2 != null) 
+		//    {
 
-            }
-            
-        }
+		//        _assignmentRepo.ReassignAmbulance(a1, a2, a3);
+		//        _regionRepo.Update(a1.StartRegion);
+		//        _regionRepo.Update(a2.StartRegion);
+
+		//        SetAllAssignments();
+		//        SortAssignmentsByStart();
+		//        CurrentAssignments = AllAssignments;
+
+		//    }
+
+		//}
 
 
 
-        public RelayCommand AddAssignment1Command => 
+		public RelayCommand AddAssignment1Command => 
             new RelayCommand (
                 execute => AddAssignment1(), 
                 canExecute => CanAddAssignment(Assignment1)
@@ -301,13 +303,35 @@ namespace Region_Syd.ViewModel
             _assignmentRepo.ReassignAmbulance(a1, a2, a3);
             _regionRepo.Update(a1.StartRegion);
             _regionRepo.Update(a2.StartRegion);
-            _regionRepo.Update(a3.StartRegion);
+
+            // For ikke at få fejl i kombineringen ved kun 2 valgte assignments, udføres nedenstående "if"
+            if (a3 != null)
+            {
+                _regionRepo.Update(a3.StartRegion);
+            }
             SetAllAssignments();
             SortAssignmentsByStart();
             CurrentAssignments = AllAssignments;
         }
-        
-        private bool DoAssignmentsOverlap()
+
+		public void CombineAssignments(Assignment a1, Assignment a2)
+		{
+			Assignment a3 = null;
+			if (a1 != null && a2 != null)
+			{
+
+				_assignmentRepo.ReassignAmbulance(a1, a2, a3);
+				_regionRepo.Update(a1.StartRegion);
+				_regionRepo.Update(a2.StartRegion);
+
+				SetAllAssignments();
+				SortAssignmentsByStart();
+				CurrentAssignments = AllAssignments;
+
+			}
+		}
+
+		private bool DoAssignmentsOverlap()
         {
             List<Assignment> sortedByDateTime = new List<Assignment>();
             sortedByDateTime.Add(Assignment1);
