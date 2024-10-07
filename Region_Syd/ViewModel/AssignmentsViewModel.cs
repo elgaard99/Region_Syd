@@ -14,7 +14,6 @@ namespace Region_Syd.ViewModel
     {
 
         AssignmentRepo _assignmentRepo;
-        public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } private set { _assignmentRepo = value; } }
 
         RegionRepo _regionRepo;
 
@@ -219,6 +218,10 @@ namespace Region_Syd.ViewModel
             /*hvis den tidligste er færdig før den sidste kan den tage turen,*/
             if (DateTime.Compare(sortedByDateTime[0].Finish, sortedByDateTime[1].Start) > 0) {  return false; }
             else { return true; }
+        }
+        public void ResetDBToDummyData()
+        {
+            _assignmentRepo.ResetDBToDummyData();
         }
     }
 }
