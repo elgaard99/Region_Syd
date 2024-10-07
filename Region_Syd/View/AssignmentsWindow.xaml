@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Region_Syd.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="AssignmentsView"
+    Title="Opgavebanken"
     Width="1600"
     Height="800"
     WindowState="Maximized"
@@ -107,7 +107,8 @@
             Grid.Row="1"
             Margin="40,0,40,0"
             ItemsSource="{Binding CurrentAssignments}"
-            SelectedItem="{Binding SelectedAssignment}">
+            SelectedItem="{Binding SelectedAssignment}"
+            SelectionMode="Single">
             <ListView.View>
                 <GridView AllowsColumnReorder="False" ColumnHeaderContainerStyle="{StaticResource myControlTemplateStyle}">
 					<GridViewColumn Header="Fra Region"
@@ -221,13 +222,16 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="White"
-            FontSize="24"
+            FontSize="22"
             TextWrapping="Wrap">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0} {1}">
-                    <Binding Path="Assignment1.RegionAssignmentId" />
-                    <Binding Path="Assignment1.Start" />
-                </MultiBinding>
+				<MultiBinding StringFormat="{}({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
+					<Binding Path="Assignment1.RegionAssignmentId" />
+					<Binding Path="Assignment1.StartRegion.DisplayName" />
+					<Binding Path="Assignment1.Start" />
+					<Binding Path="Assignment1.EndRegion.DisplayName" />
+					<Binding Path="Assignment1.Finish" />
+				</MultiBinding>
             </TextBlock.Text>
         </TextBlock>
 
@@ -274,13 +278,16 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
             Background="White"
-            FontSize="24"
+            FontSize="22"
             TextWrapping="Wrap">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}{0} {1}">
-                    <Binding Path="Assignment2.RegionAssignmentId" />
-                    <Binding Path="Assignment2.Start" />
-                </MultiBinding>
+				<MultiBinding StringFormat="{}({0}) Fra: {1}. Start: {2:dd/MM/yyyy HH:mm}. Til: {3}. Ankomst: {4:HH:mm}.">
+					<Binding Path="Assignment2.RegionAssignmentId" />
+					<Binding Path="Assignment2.StartRegion.DisplayName" />
+					<Binding Path="Assignment2.Start" />
+					<Binding Path="Assignment2.EndRegion.DisplayName" />
+					<Binding Path="Assignment2.Finish" />
+				</MultiBinding>
             </TextBlock.Text>
         </TextBlock>
 

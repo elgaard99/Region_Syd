@@ -15,7 +15,7 @@ namespace Region_Syd.View
         {
 
             var currentApp = Application.Current as App;
-            string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["TestConnection2"];
+            string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 
             AssignmentsViewModel tvm = new AssignmentsViewModel(connectionString);
             DataContext = tvm;
@@ -35,9 +35,10 @@ namespace Region_Syd.View
 
 		private void Button_btnSavingsClick(object sender, RoutedEventArgs e)
 		{
-			SavingsWindow savingsWindow= new SavingsWindow();
-			savingsWindow.Show();
-			this.Close();
-		}
+			SavingsWindow savingsWindow = new SavingsWindow(this);
+            Opacity = 0.4;
+            savingsWindow.ShowDialog();
+            Opacity = 1;
+        }
 	}
 }
