@@ -85,7 +85,7 @@ namespace Region_Syd.ViewModel
         void AddAssignment1()
         {
             Assignment1 = SelectedAssignment;
-            CurrentAssignments = new ObservableCollection<Assignment> (_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
+            CurrentAssignments = new ObservableCollection<Assignment> (_potentialRepo.CheckForPotentialMatchesForTour(Assignment1, AllAssignments.ToList()));
         }
         public RelayCommand AddAssignment2Command =>
             new RelayCommand(
@@ -115,7 +115,7 @@ namespace Region_Syd.ViewModel
         void RemoveAssignment2()
         {
             Assignment2 = null;
-			CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
+			CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.CheckForPotentialMatchesForTour(Assignment1, AllAssignments.ToList()));
 		}
 		public RelayCommand CombineAssignmentsCommand =>
            new RelayCommand(
@@ -185,12 +185,6 @@ namespace Region_Syd.ViewModel
             AllAssignments = new ObservableCollection<Region_Syd.Model.Assignment>(_listOfAssignments.Where(assignment => !assignment.IsMatched && (assignment.AssignmentType == "C" || assignment.AssignmentType == "D")));// !assignment betyder er false, uden ! finder den true. 
 
         }
-
-        public ObservableCollection<Assignment> GetSuggestions()
-        {
-            return null;
-        }
-
 
         public void CombineAssignments()
         {

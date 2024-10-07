@@ -10,13 +10,6 @@ namespace Region_Syd.Model
 {
     internal class Tour
     {
-        private string _tourId;
-
-        public string TourId
-        {
-            get { return _tourId; }
-            set { _tourId = value; }
-        }
 
         private bool[] _freeRegionsPassed = new bool[8];
         // En Tour med 1 assignmentment fra Nord til Syd vil være False på 0 og 2
@@ -133,7 +126,7 @@ namespace Region_Syd.Model
 
 
 
-		public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
+		public List<Assignment> CheckForPotentialMatchesForTour(Assignment assignment, List<Assignment> assignments)
         {
             //List<Assignment> assignments = _assignmentRepo.GetAll().ToList(); //Dem der er isMatched false
            
