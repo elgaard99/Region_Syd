@@ -104,8 +104,12 @@ namespace Region_Syd.ViewModel
                 var twoAssignments = _potentialRepo.FullAutoMatchesForTours(AllAssignments.ToList());
                 if (twoAssignments.bestMatch == null)
                 { break; } //Skal breake ud, fordi hvis bestMatch er returneret som null er listen gennemtjekket
-                
-                CombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
+
+                if (twoAssignments.bestMatch2 == null)
+                {
+                    CombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
+                }
+                else { CombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch, twoAssignments.bestMatch2); }
                 countFAVM++;
             }
 
@@ -361,7 +365,25 @@ namespace Region_Syd.ViewModel
 			}
 		}
 
-		private bool DoAssignmentsOverlap()
+        public void CombineAssignments(Assignment a1, Assignment a2, Assignment a3)
+        {
+            
+            if (a1 != null && a2 != null && a3 != null)
+            {
+
+                _assignmentRepo.ReassignAmbulance(a1, a2, a3);
+                _regionRepo.Update(a1.StartRegion);
+                _regionRepo.Update(a2.StartRegion);
+                _regionRepo.Update(a3.StartRegion);
+
+                SetAllAssignments();
+                SortAssignmentsByStart();
+                CurrentAssignments = AllAssignments;
+
+            }
+        }
+
+        private bool DoAssignmentsOverlap()
         {
             List<Assignment> sortedByDateTime = new List<Assignment>();
             sortedByDateTime.Add(Assignment1);
