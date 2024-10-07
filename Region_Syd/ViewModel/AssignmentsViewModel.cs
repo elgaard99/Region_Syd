@@ -151,7 +151,18 @@ namespace Region_Syd.ViewModel
         {
             List<Assignment> a1Matches = CurrentAssignments.ToList();
             Assignment2 = SelectedAssignment;
-            CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.Add2Tour(Assignment1, Assignment2, a1Matches));
+            _potentialRepo.AddToTourAssignments(Assignment2);
+            if (_potentialRepo.FreeRegionsPassed.Any(b => b is true)) //Er der mere kapasitet?
+            {
+                _potentialRepo.RemovePlannedAssignment(Assignment2);
+                _potentialRepo.PotentialAssignments.Clear();
+                CurrentAssignments = new ObservableCollection<Assignment> (_potentialRepo.CheckForPontialMatchesForTour(Assignment2, a1Matches));
+                
+            }
+            else { CurrentAssignments = null; }
+            
+            
+            //CurrentAssignments = //Add2Tour(Assignment1, Assignment2, a1Matches));
         }
 
         public RelayCommand AddAssignment3Command =>
@@ -171,6 +182,10 @@ namespace Region_Syd.ViewModel
         {
             Assignment1 = null;
 
+            _potentialRepo.PotentialAssignments.Clear();
+            _potentialRepo.TourAssignments.Clear(); //Ellers er der mange på lige pludselig
+            _potentialRepo.FreeRegionsPassed = new bool[8]; //Ellers kan der være trues tilbage fra tidligere
+
             SetAllAssignments ();
 			SortAssignmentsByStart();
 			CurrentAssignments = AllAssignments;
@@ -180,12 +195,17 @@ namespace Region_Syd.ViewModel
         public RelayCommand RemoveAssignment2Command =>
            new RelayCommand(
                execute => RemoveAssignment2(),
-               canExecute => Assignment2 != null
+               canExecute => Assignment2 != null && Assignment3 == null
                );
         void RemoveAssignment2()
         {
             Assignment2 = null;
-			CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
+
+            _potentialRepo.PotentialAssignments.Clear();
+            _potentialRepo.TourAssignments.Clear();
+            _potentialRepo.FreeRegionsPassed = new bool[8];
+
+            CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
 		}
 
         public RelayCommand RemoveAssignment3Command =>
@@ -196,6 +216,11 @@ namespace Region_Syd.ViewModel
         void RemoveAssignment3()
         {
             Assignment3 = null;
+
+            _potentialRepo.PotentialAssignments.Clear();
+            _potentialRepo.TourAssignments.Clear();
+            _potentialRepo.FreeRegionsPassed = new bool[8];
+
             CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.Add2Tour(Assignment1, Assignment2, AllAssignments.ToList()));
         }
 
@@ -220,9 +245,15 @@ namespace Region_Syd.ViewModel
         {
             if (assignment == null) // hvis en opgave vælges, fjernes den fra listview
             { CurrentAssignments.Remove(newAssignment); }
-            
-            else { CurrentAssignments.Add(assignment); } // hvis den slettes, tilføjes den til listview
+
+            else if (CurrentAssignments != null)
+            { CurrentAssignments.Add(assignment); } // hvis den slettes, tilføjes den til listview
+            else if (CurrentAssignments == null)
+            { CurrentAssignments = new ObservableCollection<Assignment>();
+                    CurrentAssignments.Add(assignment);
+            }
         }
+
 
         public Assignment Assignment1
         {
@@ -234,8 +265,7 @@ namespace Region_Syd.ViewModel
                 _assignment1 = value;
                 OnPropertyChanged();
             }
-        }
-
+        }                                                                                                                                                                                                                                                                                        
         public Assignment Assignment2
         {
             get { return _assignment2; }

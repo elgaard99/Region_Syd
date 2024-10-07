@@ -30,7 +30,7 @@ namespace Region_Syd.Model
         }
 
         public List<Assignment> TourAssignments = new List<Assignment>();
-		List<Assignment> PotentialAssignments = new List<Assignment>();
+		public List<Assignment> PotentialAssignments = new List<Assignment>();
 
 
 		AssignmentRepo _assignmentRepo;
@@ -133,10 +133,14 @@ namespace Region_Syd.Model
 
 
 
-		public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
+        public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
         {
-            
-            AddToTourAssignments(assignment); //assignment bliver sat ind som første element på Touren
+            if (TourAssignments == null) //Mulighgør at den kan bruges af AddAssignment 2 
+            {
+                AddToTourAssignments(assignment); //assignment bliver sat ind som første element på Touren
+            }
+            else if (TourAssignments.Find(a => a.Equals(assignment)) == null)
+            { AddToTourAssignments(assignment); }
 
             List<Assignment> datePotentials = assignments.FindAll(a => a.Start.Day == assignment.Start.Day && a.Start > assignment.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
 
