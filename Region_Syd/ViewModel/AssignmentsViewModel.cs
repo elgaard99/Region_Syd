@@ -101,7 +101,11 @@ namespace Region_Syd.ViewModel
         void RemoveAssignment1()
         {
             Assignment1 = null;
-            SetAllAssignments ();
+
+			_potentialRepo.PotentialAssignments.Clear(); //Ellers er der mange på lige pludselig
+			_potentialRepo.FreeRegionsPassed = new bool[8]; //Ellers kan der være trues tilbage fra tidligere
+
+			SetAllAssignments ();
 			SortAssignmentsByStart();
 			CurrentAssignments = AllAssignments;
 

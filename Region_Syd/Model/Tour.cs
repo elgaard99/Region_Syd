@@ -23,7 +23,7 @@ namespace Region_Syd.Model
         }
 
         public List<Assignment> TourAssignments = new List<Assignment>();
-		List<Assignment> PotentialAssignments = new List<Assignment>();
+		public List<Assignment> PotentialAssignments = new List<Assignment>();
 
 
 		AssignmentRepo _assignmentRepo;
