@@ -14,7 +14,6 @@ namespace Region_Syd.ViewModel
     {
 
         AssignmentRepo _assignmentRepo;
-        public AssignmentRepo TestAssignmentRepo { get { return _assignmentRepo; } private set { _assignmentRepo = value; } }
 
         RegionRepo _regionRepo;
 
