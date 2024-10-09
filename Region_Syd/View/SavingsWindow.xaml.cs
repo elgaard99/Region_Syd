@@ -23,7 +23,7 @@ namespace Region_Syd.View
 		public SavingsWindow()
 		{
 			var currentApp = Application.Current as App;
-			string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["TestConnection2"];
+			string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 
 			SavingsViewModel Svm = new SavingsViewModel(connectionString);
 			DataContext = Svm;
