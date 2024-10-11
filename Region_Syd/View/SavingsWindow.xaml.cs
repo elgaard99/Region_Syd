@@ -20,10 +20,12 @@ namespace Region_Syd.View
 	/// </summary>
 	public partial class SavingsWindow : Window
 	{
-		public SavingsWindow()
+		public SavingsWindow(AssignmentsWindow parent)
 		{
 			var currentApp = Application.Current as App;
 			string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["TestConnection2"];
+
+			Owner = parent;
 
 			SavingsViewModel Svm = new SavingsViewModel(connectionString);
 			DataContext = Svm;
@@ -34,8 +36,6 @@ namespace Region_Syd.View
 
 		private void btnAssignments_Click(object sender, RoutedEventArgs e)
 		{
-			AssignmentsWindow assignmentsWindow = new AssignmentsWindow();
-			assignmentsWindow.Show();
 			this.Close();
 		}
     }
