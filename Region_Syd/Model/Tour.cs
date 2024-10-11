@@ -30,7 +30,7 @@ namespace Region_Syd.Model
         }
 
         public List<Assignment> TourAssignments = new List<Assignment>();
-		List<Assignment> PotentialAssignments = new List<Assignment>();
+		public List<Assignment> PotentialAssignments = new List<Assignment>();
 
 
 		AssignmentRepo _assignmentRepo;
@@ -133,10 +133,14 @@ namespace Region_Syd.Model
 
 
 
-		public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
+        public List<Assignment> CheckForPontialMatchesForTour(Assignment assignment, List<Assignment> assignments)
         {
-            
-            AddToTourAssignments(assignment); //assignment bliver sat ind som første element på Touren
+            if (TourAssignments == null) //Mulighgør at den kan bruges af AddAssignment 2 
+            {
+                AddToTourAssignments(assignment); //assignment bliver sat ind som første element på Touren
+            }
+            else if (TourAssignments.Find(a => a.Equals(assignment)) == null)
+            { AddToTourAssignments(assignment); }
 
             List<Assignment> datePotentials = assignments.FindAll(a => a.Start.Day == assignment.Start.Day && a.Start > assignment.Finish); //Finder de assignments der er samme dag og Efter assignments sluttid.
 
@@ -206,10 +210,11 @@ namespace Region_Syd.Model
         }
 
 
-        public (Assignment mostTrue, Assignment bestMatch) FullAutoMatchesForTours(List<Assignment> assignments)
+        public (Assignment mostTrue, Assignment bestMatch, Assignment bestMatch2) FullAutoMatchesForTours(List<Assignment> assignments)
         {
             Assignment mostTrue = null;
             Assignment bestMatch = null;
+            Assignment bestMatch2 = null;
 
             //(TourArray)Liste til at putte index tal ind på, for at have en liste med tilgængeligheden som vi kan sammenligne med de potentielle assignments arrays
             List<int> tourIndices = new List<int>();
@@ -295,7 +300,65 @@ namespace Region_Syd.Model
                 }
                 else
                 {
+
                     bestMatch = SortAssignmentsByPotential(PotentialAssignments)[0];
+                    AddToTourAssignments(bestMatch);
+
+                    //Er der flere end 2 der kan kombineres?
+                    if (FreeRegionsPassed.Any(b => b is true))
+                    {
+                        List<Assignment> PotentialAssignments2 = new List<Assignment>();
+                        List<int> assignmentIndices2 = new List<int>();
+                        List<int> tourIndices2 = new List<int>();   
+
+                        for (int i = 0; i < FreeRegionsPassed.Length; ++i)
+                        {
+                            if (FreeRegionsPassed[i]) //Hvis index i på arrayet er true...
+                            {
+                                tourIndices2.Add(i); //...add index i til indices listen
+                            }
+                        }
+
+                        foreach (Assignment a in PotentialAssignments)
+                        {
+                            if (a.RegionsPassed is bool[] regionsPassedArray) // casting fra object til array
+                            {
+                                //Herunder putter vi assignments true-placeringer ind på listen assignmentIndices
+                                for (int i = 0; i < regionsPassedArray.Length; ++i)
+                                {
+                                    if (regionsPassedArray[i]) //Hvis index i på arrayet er true...
+                                    {
+                                        assignmentIndices2.Add(i); //...add index i til indices listen
+                                    }
+                                }
+
+                            }
+                            if ((tourIndices2[0] % 2) == (assignmentIndices2[0] % 2))
+                            {
+                                if (tourIndices2[0] <= assignmentIndices2[0])
+                                {
+                                    if (tourIndices2.Sum() >= assignmentIndices2.Sum()) //
+                                    { PotentialAssignments2.Add(a); }
+                                }
+                            }
+                            assignmentIndices2.Clear();
+                        }
+                        if (PotentialAssignments2.Count == 0)
+                        {
+                            PotentialAssignments.Clear();
+                            TourAssignments.Clear();
+                            tourIndices.Clear();
+                            datePotentials.Clear();
+                            FreeRegionsPassed = new bool[8];
+
+                        }
+                        else
+                        {
+                            bestMatch2 = SortAssignmentsByPotential(PotentialAssignments2)[0];
+                            break;
+                        }
+                    }
+
                     PotentialAssignments.Clear();
                     TourAssignments.Clear();
                     tourIndices.Clear();
@@ -305,10 +368,12 @@ namespace Region_Syd.Model
 
                     break;
                 }
+
                 
 
+
             }
-            return (mostTrue, bestMatch);
+            return (mostTrue, bestMatch, bestMatch2);
 
             //Returnere den med flest trues der har en match der er bedst
             //Denne metode skal så bruges på denne måde:

@@ -104,35 +104,41 @@ namespace Region_Syd.ViewModel
                 var twoAssignments = _potentialRepo.FullAutoMatchesForTours(AllAssignments.ToList());
                 if (twoAssignments.bestMatch == null)
                 { break; } //Skal breake ud, fordi hvis bestMatch er returneret som null er listen gennemtjekket
-                
-                FullAutoCombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
+
+                if (twoAssignments.bestMatch2 == null)
+                {
+                    CombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch);
+                }
+                else { CombineAssignments(twoAssignments.mostTrue, twoAssignments.bestMatch, twoAssignments.bestMatch2); }
                 countFAVM++;
             }
 
 
         }
 
-        public void FullAutoCombineAssignments(Assignment a1, Assignment a2)
-        {
-            Assignment a3 = null;
-            if (a1 != null && a2 != null) 
-            {
-                
-                _assignmentRepo.ReassignAmbulance(a1, a2, a3);
-                _regionRepo.Update(a1.StartRegion);
-                _regionRepo.Update(a2.StartRegion);
+		// FullAutoCombineAssignments er nu lavet som en overload på CombineAssignments i stedet for.
 
-                SetAllAssignments();
-                SortAssignmentsByStart();
-                CurrentAssignments = AllAssignments;
+		//public void FullAutoCombineAssignments(Assignment a1, Assignment a2)
+		//{
+		//    Assignment a3 = null;
+		//    if (a1 != null && a2 != null) 
+		//    {
 
-            }
-            
-        }
+		//        _assignmentRepo.ReassignAmbulance(a1, a2, a3);
+		//        _regionRepo.Update(a1.StartRegion);
+		//        _regionRepo.Update(a2.StartRegion);
+
+		//        SetAllAssignments();
+		//        SortAssignmentsByStart();
+		//        CurrentAssignments = AllAssignments;
+
+		//    }
+
+		//}
 
 
 
-        public RelayCommand AddAssignment1Command => 
+		public RelayCommand AddAssignment1Command => 
             new RelayCommand (
                 execute => AddAssignment1(), 
                 canExecute => CanAddAssignment(Assignment1)
@@ -151,7 +157,18 @@ namespace Region_Syd.ViewModel
         {
             List<Assignment> a1Matches = CurrentAssignments.ToList();
             Assignment2 = SelectedAssignment;
-            CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.Add2Tour(Assignment1, Assignment2, a1Matches));
+            _potentialRepo.AddToTourAssignments(Assignment2);
+            if (_potentialRepo.FreeRegionsPassed.Any(b => b is true)) //Er der mere kapasitet?
+            {
+                _potentialRepo.RemovePlannedAssignment(Assignment2);
+                _potentialRepo.PotentialAssignments.Clear();
+                CurrentAssignments = new ObservableCollection<Assignment> (_potentialRepo.CheckForPontialMatchesForTour(Assignment2, a1Matches));
+                
+            }
+            else { CurrentAssignments = null; }
+            
+            
+            //CurrentAssignments = //Add2Tour(Assignment1, Assignment2, a1Matches));
         }
 
         public RelayCommand AddAssignment3Command =>
@@ -171,6 +188,10 @@ namespace Region_Syd.ViewModel
         {
             Assignment1 = null;
 
+            _potentialRepo.PotentialAssignments.Clear();
+            _potentialRepo.TourAssignments.Clear(); //Ellers er der mange på lige pludselig
+            _potentialRepo.FreeRegionsPassed = new bool[8]; //Ellers kan der være trues tilbage fra tidligere
+
             SetAllAssignments ();
 			SortAssignmentsByStart();
 			CurrentAssignments = AllAssignments;
@@ -180,12 +201,17 @@ namespace Region_Syd.ViewModel
         public RelayCommand RemoveAssignment2Command =>
            new RelayCommand(
                execute => RemoveAssignment2(),
-               canExecute => Assignment2 != null
+               canExecute => Assignment2 != null && Assignment3 == null
                );
         void RemoveAssignment2()
         {
             Assignment2 = null;
-			CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
+
+            _potentialRepo.PotentialAssignments.Clear();
+            _potentialRepo.TourAssignments.Clear();
+            _potentialRepo.FreeRegionsPassed = new bool[8];
+
+            CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.CheckForPontialMatchesForTour(Assignment1, AllAssignments.ToList()));
 		}
 
         public RelayCommand RemoveAssignment3Command =>
@@ -196,6 +222,11 @@ namespace Region_Syd.ViewModel
         void RemoveAssignment3()
         {
             Assignment3 = null;
+
+            _potentialRepo.PotentialAssignments.Clear();
+            _potentialRepo.TourAssignments.Clear();
+            _potentialRepo.FreeRegionsPassed = new bool[8];
+
             CurrentAssignments = new ObservableCollection<Assignment>(_potentialRepo.Add2Tour(Assignment1, Assignment2, AllAssignments.ToList()));
         }
 
@@ -220,9 +251,15 @@ namespace Region_Syd.ViewModel
         {
             if (assignment == null) // hvis en opgave vælges, fjernes den fra listview
             { CurrentAssignments.Remove(newAssignment); }
-            
-            else { CurrentAssignments.Add(assignment); } // hvis den slettes, tilføjes den til listview
+
+            else if (CurrentAssignments != null)
+            { CurrentAssignments.Add(assignment); } // hvis den slettes, tilføjes den til listview
+            else if (CurrentAssignments == null)
+            { CurrentAssignments = new ObservableCollection<Assignment>();
+                    CurrentAssignments.Add(assignment);
+            }
         }
+
 
         public Assignment Assignment1
         {
@@ -234,8 +271,7 @@ namespace Region_Syd.ViewModel
                 _assignment1 = value;
                 OnPropertyChanged();
             }
-        }
-
+        }                                                                                                                                                                                                                                                                                        
         public Assignment Assignment2
         {
             get { return _assignment2; }
@@ -301,12 +337,52 @@ namespace Region_Syd.ViewModel
             _assignmentRepo.ReassignAmbulance(a1, a2, a3);
             _regionRepo.Update(a1.StartRegion);
             _regionRepo.Update(a2.StartRegion);
-            _regionRepo.Update(a3.StartRegion);
+
+            // For ikke at få fejl i kombineringen ved kun 2 valgte assignments, udføres nedenstående "if"
+            if (a3 != null)
+            {
+                _regionRepo.Update(a3.StartRegion);
+            }
             SetAllAssignments();
             SortAssignmentsByStart();
             CurrentAssignments = AllAssignments;
         }
-        
+
+		public void CombineAssignments(Assignment a1, Assignment a2)
+		{
+			Assignment a3 = null;
+			if (a1 != null && a2 != null)
+			{
+
+				_assignmentRepo.ReassignAmbulance(a1, a2, a3);
+				_regionRepo.Update(a1.StartRegion);
+				_regionRepo.Update(a2.StartRegion);
+
+				SetAllAssignments();
+				SortAssignmentsByStart();
+				CurrentAssignments = AllAssignments;
+
+			}
+		}
+
+        public void CombineAssignments(Assignment a1, Assignment a2, Assignment a3)
+        {
+            
+            if (a1 != null && a2 != null && a3 != null)
+            {
+
+                _assignmentRepo.ReassignAmbulance(a1, a2, a3);
+                _regionRepo.Update(a1.StartRegion);
+                _regionRepo.Update(a2.StartRegion);
+                _regionRepo.Update(a3.StartRegion);
+
+                SetAllAssignments();
+                SortAssignmentsByStart();
+                CurrentAssignments = AllAssignments;
+
+            }
+        }
+
         private bool DoAssignmentsOverlap()
         {
             List<Assignment> sortedByDateTime = new List<Assignment>();

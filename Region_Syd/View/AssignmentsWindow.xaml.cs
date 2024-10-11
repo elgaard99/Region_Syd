@@ -15,7 +15,7 @@ namespace Region_Syd.View
         {
 
             var currentApp = Application.Current as App;
-            string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["TestConnection2"];
+            string connectionString = currentApp.Configuration.GetSection("ConnectionStrings")["DefaultConnection"];
 
             AssignmentsViewModel tvm = new AssignmentsViewModel(connectionString);
             DataContext = tvm;
